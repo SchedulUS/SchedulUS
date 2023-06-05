@@ -3,12 +3,14 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
+import BasicModal from './components/BasicModal';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
+  <>
+      <nav><div className="nav-wrapper blue"></div></nav>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -34,7 +36,8 @@ function App() {
           <span></span>
         </div>
       </div>
-    </>
+      <BasicModal/>
+      </>
   )
 }
 
