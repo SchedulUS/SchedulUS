@@ -19,3 +19,13 @@ export function requestForStudent() {
     // @ts-ignore: Unreachable code error
     requestStudent();
 }
+export async function initKeyCloak()
+{
+    if (getKeyCloakObj().token == undefined)
+    {
+        while(getKeyCloakObj().token == undefined)
+        {
+            await new Promise(r => setTimeout(r, 5));
+        }
+    }
+}

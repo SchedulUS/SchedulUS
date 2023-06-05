@@ -1,4 +1,4 @@
-import { getKeyCloakObj } from "./keycloakUtils";
+import { getKeyCloakObj, initKeyCloak } from "./keycloakUtils";
 
 const { host } = window.location
 
@@ -77,6 +77,7 @@ export function createRequestOptions(method:Method,isAuth:boolean,data?:any){
 export async function APIRequest<T>(endURL:string,method:Method,isAuth:boolean,body?:any):Promise<APIResult<T>>{
     let data;
     let error;
+    await initKeyCloak();
     try{
         await fetch(APIURL+endURL,createRequestOptions(method,isAuth,body))
         .then(response => {
