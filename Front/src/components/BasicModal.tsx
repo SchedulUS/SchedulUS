@@ -35,7 +35,7 @@ export default function BasicModal() {
         <Box sx={style}>
           <p>Préférence du groupe de tutorat par défaut</p>
           
-          <p>Nombre d'échanges de groupe restant pour la session : 3</p>
+          <p>Nombre d'échanges de groupe restant pour la session : [BD]</p>
         </Box>
       </Modal>
     </div>

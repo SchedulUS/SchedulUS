@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
 import { APIRequest } from './utils/apiUtils.js';
+import BasicModal from './components/BasicModal.js';
 
 interface Preference{
   preference_id:number;
@@ -53,6 +54,7 @@ function App() {
         <div id="title">
           <span></span>
         </div>
+        <BasicModal/>
       </div>
     </>
   )
