@@ -1,11 +1,10 @@
 package ca.usherbrooke.gegi.server.business;
 
-public final class Preference {
-    public Int preference_id;
+public class Preference {
+    public Integer preference_id;
     public String nom;
-    
-    public String toString() 
-    {
+
+    public String toString() {
         return nom;
     }
 }
