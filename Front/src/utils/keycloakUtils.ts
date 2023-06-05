@@ -1,8 +1,10 @@
+import { KeyCloakObject } from "../types/keycloakTypes";
+
 export function logout() {
     const logoutURL = "http://localhost:8180//realms/usager/protocol/openid-connect/logout";
     window.location.href = logoutURL;
 }
-export function getKeyCloakObj() {
+export function getKeyCloakObj() : KeyCloakObject {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: Unreachable code error
     return keycloak;
