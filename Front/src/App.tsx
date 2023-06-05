@@ -2,12 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
+import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js'
+import Fuck_qui from './composants/Fuck_qui.tsx';
 
-function App() {
+function App()
+{
   const [count, setCount] = useState(0)
 
-  return (
+  return(
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
@@ -34,6 +36,9 @@ function App() {
           <span></span>
         </div>
       </div>
+        <div>
+            <Fuck_qui /> {/* Appel de Fuck_qui */}
+        </div>
     </>
   )
 }
