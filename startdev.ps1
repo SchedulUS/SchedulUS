@@ -7,5 +7,6 @@ Start-Process "http://localhost:8000/"
 
 #Démarrage du serveur dev
 Set-Location ..\Front
+npm install
 npm run dev
 Set-Location ..

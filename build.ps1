@@ -1,5 +1,6 @@
 #Contruction des fichiers du site
 Set-Location .\Front
+npm install
 npm run build
 Get-ChildItem "..\Docker\webserver\html" -Recurse| Remove-Item -Force -Recurse
 Copy-Item -Path ".\dist\*" -Destination "..\Docker\webserver\html" -Recurse
