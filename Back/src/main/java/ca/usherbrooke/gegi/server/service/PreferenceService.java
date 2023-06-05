@@ -1,7 +1,7 @@
-package ca.usherbrooke.fgen.api.service;
+package ca.usherbrooke.gegi.server.service;
 
-import ca.usherbrooke.fgen.api.business.Preference;
-import ca.usherbrooke.fgen.api.persistence.PreferenceMapper;
+import ca.usherbrooke.gegi.server.business.Preference;
+import ca.usherbrooke.gegi.server.persistence.PreferenceMapper;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;

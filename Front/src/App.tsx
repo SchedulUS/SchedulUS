@@ -1,16 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
-import BasicModal from './components/BasicModal';
+import { APIRequest } from './utils/apiUtils.js';
+
+interface Preference{
+  preference_id:number;
+  nom:string;
+}
 
 function App() {
   const [count, setCount] = useState(0)
+  
+  useEffect(() => {
+    // declare the data fetching function
+    const fetchData = async () => {
+      const result = await APIRequest<Preference>("/getPreferences","GET",true);
+      
+      console.log(result);
+    }
+  
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);
+  }, [])
 
   return (
-  <>
-      <nav><div className="nav-wrapper blue"></div></nav>
+    <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -36,8 +54,7 @@ function App() {
           <span></span>
         </div>
       </div>
-      <BasicModal/>
-      </>
+    </>
   )
 }
 

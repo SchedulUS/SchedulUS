@@ -1,4 +1,4 @@
-package ca.usherbrooke.fgen.api.persistence;
+package ca.usherbrooke.gegi.server.persistence;
 
 import ca.usherbrooke.gegi.server.business.Preference;
 import org.apache.ibatis.annotations.Mapper;
