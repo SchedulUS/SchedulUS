@@ -1,11 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
+import { APIRequest } from './utils/apiUtils.js';
+import BasicModal from './components/BasicModal.js';
+
+interface Preference{
+  preference_id:number;
+  nom:string;
+}
 
 function App() {
   const [count, setCount] = useState(0)
+  
+  useEffect(() => {
+    // declare the data fetching function
+    const fetchData = async () => {
+      const result = await APIRequest<Preference>("/getPreferences","GET",true);
+      
+      console.log(result);
+    }
+  
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);
+  }, [])
 
   return (
     <>
@@ -33,6 +54,7 @@ function App() {
         <div id="title">
           <span></span>
         </div>
+        <BasicModal/>
       </div>
     </>
   )
