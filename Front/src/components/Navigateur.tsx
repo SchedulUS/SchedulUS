@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {APIRequest} from "../utils/apiUtils.ts";
+import {IconButton} from "@mui/material";
 
 
 export default function Navigateur() {
 
- const [nomApp, getNomApp] = useState<number>(1);
+ const [nomApp, setNomApp] = useState<number>(0);
 
 
     useEffect(() => {
@@ -20,21 +21,22 @@ export default function Navigateur() {
     };
 
     const handleNextClick = () => {
-        getNomApp((prevApp) => prevApp + 1);
+        setNomApp((prevApp) => prevApp + 1);
+        console.log("Test")
     };
 
     const handlePreviousClick = () => {
         if (nomApp > 1) {
-            getNomApp((prevApp) => prevApp - 1);
+            setNomApp((prevApp) => prevApp - 1);
         }
     };
 
 
  return(
      <div>
-     <ArrowBackIos onClick={handleNextClick}></ArrowBackIos>
+     <IconButton onClick={handleNextClick}><ArrowForwardIosIcon/></IconButton>
          <p> <span>{nomApp}</span> </p>
-     <ArrowForwardIos onClick={handlePreviousClick}></ArrowForwardIos>
+     <IconButton onClick={handlePreviousClick}><ArrowBackIosIcon/></IconButton>
 
 
 
