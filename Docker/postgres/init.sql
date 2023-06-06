@@ -91,7 +91,7 @@ CREATE TABLE activite(
 
 CREATE TABLE activite_usager(
     activite_id SERIAL NOT NULL,
-    cip SERIAL NOT NULL,
+    cip CHAR(8) NOT NULL,
     PRIMARY KEY(activite_id, cip),
     FOREIGN KEY(activite_id) REFERENCES activite(activite_id),
     FOREIGN KEY(cip) REFERENCES usager(cip)
@@ -191,4 +191,4 @@ INSERT INTO activite(nom,nom_groupe,local,periode,app_id,type_id)VALUES
 ('APP 5 : Tutorat 2', 'T2', 'C1-5130', '[2023-07-24 10:00:00, 2023-07-24 11:30:00]', 5, 2),
 ('APP 5 : Tutorat 2', 'T3', 'C1-5130', '[2023-07-24 13:00:00, 2023-07-24 14:30:00]', 5, 2),
 ('APP 5 : Tutorat 2', 'T4', 'C1-5130', '[2023-07-24 14:30:00, 2023-07-24 16:00:00]', 5, 2),
-('APP 5 : Tutorat 2', 'T5', 'C1-5130', '[2023-07-24 16:00:00, 2023-07-24 17:30:00]', 5, 2),
+('APP 5 : Tutorat 2', 'T5', 'C1-5130', '[2023-07-24 16:00:00, 2023-07-24 17:30:00]', 5, 2);
