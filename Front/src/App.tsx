@@ -3,11 +3,13 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Fuck_qui from './composants/Fuck_qui.tsx'
+import PreferencesAPP from './components/PreferencesAPP.tsx';
 import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js'
 import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
 
-interface Preference{
+interface Preference
+{
   preference_id:number;
   nom:string;
 }
@@ -56,7 +58,8 @@ function App()
         <div id="title">
           <span></span>
         </div>
-        <BasicModal/>
+          <BasicModal/>
+          <PreferencesAPP/>
       </div>
         <div>
             <Fuck_qui /> {/* Appel de Fuck_qui */}
