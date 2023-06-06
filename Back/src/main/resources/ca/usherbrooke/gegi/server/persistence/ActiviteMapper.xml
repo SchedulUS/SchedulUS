@@ -4,88 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.gegi.server.persistence.ActiviteMapper">
 
-    <select id="getPreferences" resultType="ca.usherbrooke.gegi.server.business.Activite">
-        SELECT activite_id as  activiteId, nom as activiteNom,preriode as activitePeriode, app.app_id as appId, app.nom as appNom, app.cours as appCours, type_activite.type_id as typeId, type_activite.nom as typeNom FROM activite
-        INNER JOIN type_activite ON type_activite.type_id = type_id
-        INNER JOIN app ON app.app_id = app_id
-        GROUP BY preriode ASC;
+    <select id="getActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT activite.activite_id as  activiteId, activite.nom as activiteNom,activite.periode as activitePeriode, app.app_id as appId, app.nom as appNom, app.cours as appCours, type_activite.type_id as typeId, type_activite.nom as typeNom FROM activite
+        INNER JOIN type_activite ON type_activite.type_id = activite.type_id
+        INNER JOIN app ON app.app_id = activite.app_id
+        WHERE app.app_id = #{appID} and type_activite.type_id = #{typeID}
+        ORDER BY activiteNom,activite.periode ASC;
     </select>
-
-    <!--
-        <select id="select" resultType="ca.usherbrooke.fgen.api.business.Message">
-            select id,
-                   trimester_id,
-                   profile_id,
-                   unit,
-                   description,
-                   inscription,
-                   cip,
-                   inscriptor
-            from extern_php.message
-            where (trimester_id,
-                   profile_id,
-                   unit,
-                   id) =
-                  (coalesce(#{trimesterId}, trimester_id),
-                   coalesce(#{profileId}, profile_id),
-                   coalesce(#{unit}, unit),
-                   coalesce(#{message.id}, id))
-        </select>
-
-        <select id="selectOne" resultType="ca.usherbrooke.fgen.api.business.Message">
-            select id,
-                   trimester_id,
-                   profile_id,
-                   unit,
-                   description,
-                   inscription,
-                   cip,
-                   inscriptor
-            from extern_php.message
-            where id = #{id}
-        </select>
-
-
-        <select id="allMessages" resultType="ca.usherbrooke.fgen.api.business.Message">
-            select id,
-                   trimester_id,
-                   profile_id,
-                   unit,
-                   description,
-                   inscription,
-                   cip,
-                   inscriptor
-            from extern_php.message
-            order by inscription desc;
-
-        </select>
-
-        <delete id="deleteOne">
-            delete
-            from extern_php.message
-            where id = #{id}
-        </delete>
-
-        <select id="getNewId" resultType="Integer">
-            select nextval('extern_php.message_seq'::regclass)
-        </select>
-
-        <insert id="insertMessage">
-            insert into extern_php.message(id,
-                                           trimester_id,
-                                           profile_id,
-                                           unit,
-                                           description,
-                                           cip,
-                                           inscriptor)
-            values (#{message.id},
-                    #{message.trimesterId},
-                    #{message.profileId},
-                    #{message.unit},
-                    #{message.description},
-                    #{message.cip},
-                    #{message.inscriptor})
-            on conflict (id) do update set description = excluded.description;
-        </insert>
-    -->
 </mapper>

@@ -3,7 +3,7 @@ package ca.usherbrooke.gegi.server.business;
 public class Activite {
     public int activiteId;
     public String activiteNom;
-    public int activitePeriode;
+    public String activitePeriode;
     public int appId;
     public String appNom;
     public String appCours;
