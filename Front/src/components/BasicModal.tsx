@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SelectSmall from './Select';
+import { Preference } from './interfaces';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -18,7 +19,7 @@ const style = {
   color: 'black',
 };
 
-export default function BasicModal() {
+export default function BasicModal(props:{preferences:Preference[]}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -34,7 +35,7 @@ export default function BasicModal() {
       >
         <Box sx={style}>
           <p>Préférence du groupe de tutorat par défaut</p>
-          
+          <SelectSmall label={"Préférences"} options={props.preferences}/>          
           <p>Nombre d'échanges de groupe restant pour la session : [BD]</p>
         </Box>
       </Modal>
