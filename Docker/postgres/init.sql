@@ -29,11 +29,11 @@ CREATE TABLE usager (
     PRIMARY KEY (cip)
 );
 
-CREATE TABLE `session` (
+CREATE TABLE session (
     session_id SERIAL NOT NULL,
     identifiant varchar(20) NOT NULL,
     periode daterange NOT NULL,
-    PRIMARY KEY (`session`)
+    PRIMARY KEY (session_id)
 );
 
 CREATE TABLE usager_session(
@@ -42,7 +42,7 @@ CREATE TABLE usager_session(
     nbr_echange INT NOT NULL DEFAULT 3,
     PRIMARY KEY (cip, session_id)
     FOREIGN KEY (cip) REFERENCES usager(cip),
-    FOREIGN KEY (session_id) REFERENCES `session`(session_id)
+    FOREIGN KEY (session_id) REFERENCES session(session_id)
 );
 
 CREATE TABLE preference(
@@ -66,7 +66,7 @@ CREATE TABLE usager_preference(
     PRIMARY KEY (cip),
     FOREIGN KEY (app_id) REFERENCES app(app_id),
     FOREIGN KEY (cip) REFERENCES usager(cip),
-    FOREIGN KEY (preference_id) REFERENCES `session`(preference_id)
+    FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
 );
 
 CREATE TABLE type_activite(
