@@ -6,6 +6,7 @@ import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUt
 import { APIRequest } from './utils/apiUtils.js';
 import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
+import Navigateur from "./components/Navigateur.tsx";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -24,8 +25,7 @@ function App() {
       // make sure to catch any error
       .catch(console.error);
   }, [])
-
-  return (
+ return (
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
@@ -53,6 +53,9 @@ function App() {
         </div>
         <BasicModal preferences={preferences}/>
       </div>
+    <div>
+        <Navigateur/>
+    </div>
     </>
   )
 }
