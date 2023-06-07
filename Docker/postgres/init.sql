@@ -36,15 +36,6 @@ CREATE TABLE session (
     PRIMARY KEY (session_id)
 );
 
-CREATE TABLE usager_session(
-    cip CHAR(8) NOT NULL,
-    session_id SERIAL NOT NULL,
-    nbr_echange INT NOT NULL DEFAULT 3,
-    PRIMARY KEY (cip, session_id),
-    FOREIGN KEY (cip) REFERENCES usager(cip),
-    FOREIGN KEY (session_id) REFERENCES session(session_id)
-);
-
 CREATE TABLE preference(
     preference_id SERIAL NOT NULL,
     nom varchar(200) NOT NULL,
@@ -58,6 +49,14 @@ CREATE TABLE app(
     nom varchar(200) NOT NULL,
     cours varchar(100) NOT NULL,
     PRIMARY KEY (app_id)
+);
+
+CREATE TABLE app_usager(
+    app_id SERIAL NOT NULL,
+    cip CHAR(8) NOT NULL,
+    PRIMARY KEY (app_id, cip),
+    FOREIGN KEY (app_id) REFERENCES app(app_id),
+    FOREIGN KEY (cip) REFERENCES usager(cip)
 );
 
 CREATE TABLE usager_preference(
@@ -91,7 +90,7 @@ CREATE TABLE activite(
 
 CREATE TABLE activite_usager(
     activite_id SERIAL NOT NULL,
-    cip SERIAL NOT NULL,
+    cip CHAR(8) NOT NULL,
     PRIMARY KEY(activite_id, cip),
     FOREIGN KEY(activite_id) REFERENCES activite(activite_id),
     FOREIGN KEY(cip) REFERENCES usager(cip)
@@ -102,6 +101,14 @@ CREATE TABLE intendant(
     app_id SERIAL NOT NULL,
     PRIMARY KEY (cip,app_id),
     FOREIGN KEY (cip) REFERENCES usager(cip),
+    FOREIGN KEY (app_id) REFERENCES app(app_id)
+);
+
+CREATE TABLE session_app(
+    session_id SERIAL NOT NULL,
+    app_id SERIAL NOT NULL,
+    PRIMARY KEY (session_id,app_id),
+    FOREIGN KEY (session_id) REFERENCES session(session_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id)
 );
 
@@ -119,13 +126,6 @@ INSERT INTO usager(cip,prenom,nom) VALUES
 ('stds2101', 'Sébastien', 'St-Denis');
 INSERT INTO session(session_id,identifiant,periode) VALUES
 (1,'S3i','[2023-04-30 08:00:00, 2023-08-05]');
-INSERT INTO usager_session(cip, session_id) VALUES
-('aubj1202', 1),
-('laft1301', 1),
-('boie0601', 1),
-('sehk2201', 1),
-('sevm1802', 1),
-('stds2101', 1);
 INSERT INTO app(app_id,nom,cours) VALUES
 (1, 'APP 1', 'GEN230'),
 (2, 'APP 2', 'GEN230'),
@@ -191,4 +191,20 @@ INSERT INTO activite(nom,nom_groupe,local,periode,app_id,type_id)VALUES
 ('APP 5 : Tutorat 2', 'T2', 'C1-5130', '[2023-07-24 10:00:00, 2023-07-24 11:30:00]', 5, 2),
 ('APP 5 : Tutorat 2', 'T3', 'C1-5130', '[2023-07-24 13:00:00, 2023-07-24 14:30:00]', 5, 2),
 ('APP 5 : Tutorat 2', 'T4', 'C1-5130', '[2023-07-24 14:30:00, 2023-07-24 16:00:00]', 5, 2),
-('APP 5 : Tutorat 2', 'T5', 'C1-5130', '[2023-07-24 16:00:00, 2023-07-24 17:30:00]', 5, 2),
+('APP 5 : Tutorat 2', 'T5', 'C1-5130', '[2023-07-24 16:00:00, 2023-07-24 17:30:00]', 5, 2);
+
+INSERT INTO app_usager(app_id,cip) VALUES
+(1,'aubj1202'),
+(1,'laft1301'),
+(1,'boie0601'),
+(1,'sehk2201'),
+(1,'sevm1802'),
+(1,'stds2101'),
+(2,'laft1301'),
+(2,'sevm1802'),
+(2,'stds2101'),
+(3,'aubj1202'),
+(3,'sehk2201');
+
+INSERT INTO session_app (session_id,app_id) VALUES
+(1,1),(1,2),(1,3),(1,4),(1,5);
