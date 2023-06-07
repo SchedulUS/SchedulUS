@@ -18,16 +18,24 @@ SET client_min_messages = warning;
 SET row_security = off;
 set search_path to public;
 
-DROP SCHEMA IF EXISTS public;
+DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA public;
+
+CREATE TABLE preference(
+    preference_id SERIAL NOT NULL,
+    nom varchar(200) NOT NULL,
+    debut time NOT NULL,
+    fin time NOT NULL,
+    PRIMARY KEY (preference_id)
+);
 
 CREATE TABLE usager (
     cip CHAR(8) NOT NULL,
     prenom varchar(200) NOT NULL,
     nom varchar(200) NOT NULL,
     cote_preference float NOT NULL DEFAULT 0.0,
-	preference_id int DEFAULT 1 NOT NULL,
-    PRIMARY KEY (cip)
+	preference_id int NOT NULL DEFAULT 1,
+    PRIMARY KEY (cip),
 	FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
 );
 
@@ -36,14 +44,6 @@ CREATE TABLE session (
     identifiant varchar(20) NOT NULL,
     periode daterange NOT NULL,
     PRIMARY KEY (session_id)
-);
-
-CREATE TABLE preference(
-    preference_id SERIAL NOT NULL,
-    nom varchar(200) NOT NULL,
-    debut time NOT NULL,
-    fin time NOT NULL,
-    PRIMARY KEY (preference_id)
 );
 
 CREATE TABLE app(
@@ -65,7 +65,8 @@ CREATE TABLE usager_preference(
     cip CHAR(8) NOT NULL,
     preference_id SERIAL NOT NULL,
     app_id SERIAL,
-    PRIMARY KEY (cip,app_id),
+    intendant BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (cip, app_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id),
     FOREIGN KEY (cip) REFERENCES usager(cip),
     FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
