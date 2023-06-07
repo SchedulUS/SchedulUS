@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Docker/docker.iml" filepath="$PROJECT_DIR$/Docker/docker.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/schedulus-back.iml" filepath="$PROJECT_DIR$/.idea/schedulus-back.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service.iml" filepath="$PROJECT_DIR$/.idea/modules/service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/service.main.iml" />
     </modules>
   </component>
 </project>
