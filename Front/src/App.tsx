@@ -10,12 +10,13 @@ import { Preference } from './components/interfaces';
 function App()
 {
   const [preferences, setPreference] = useState<Preference[]>([])
-  
+  const [nom, setNom] = useState("")
+  const [cip ,setCip] = useState("")
+
   useEffect(() => {
     // declare the data fetching function
     const fetchData = async () => {
       const result = await APIRequest<[]>("/getPreferences","GET",true);
-      console.log(result);
       if (result.data)
       {
         result.data.forEach((element:Preference) => {
@@ -23,6 +24,9 @@ function App()
           setPreference(preferences => [...preferences, preference]);
         });
       }
+      
+      setNom(getKeyCloakObj().tokenParsed.name)
+      setCip(getKeyCloakObj().tokenParsed.preferred_username)
     }
   
     // call the function
@@ -31,7 +35,6 @@ function App()
       .catch(console.error);
   }, [])
 
-  const token = getKeyCloakObj().tokenParsed;
 
   return (
     <>
@@ -41,12 +44,11 @@ function App()
         </div>
         <h1>SchedulUS</h1>
         <div className='modules'>
-          <p>{token.name}</p>
+          <p>{nom}</p>
           <BasicModal preferences={preferences}/>
         </div>
       </nav>
       <div>
-          
           <PreferencesAPP/>
       </div>
         <div>
