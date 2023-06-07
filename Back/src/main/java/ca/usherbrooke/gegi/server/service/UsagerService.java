@@ -35,8 +35,9 @@ public class UsagerService {
 
 	@POST
 	@Path("/setPreference")
-	public void setPreference(@RequestBody Preference preference){
+	public Integer setPreference(@RequestBody Preference preference){
 		usagerMapper.setPreference(this.securityContext.getUserPrincipal().getName(), preference.preferenceId);
+		return 1;
 	}
 
 /*

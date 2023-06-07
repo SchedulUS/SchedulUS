@@ -9,6 +9,7 @@ import java.util.List;
 @Mapper
 public interface PreferenceMapper {
     List<Preference> getPreferences();
+    Integer getPreferenceUsager(String cip);
 /*
     List<Message> select(String trimesterId, String profileId, String unit, Integer id);
     Message selectOne(Integer id);

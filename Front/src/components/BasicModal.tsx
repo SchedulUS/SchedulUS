@@ -25,15 +25,9 @@ const style =
   export default function BasicModal(props:{preferences:Preference[]}) {
     const [open, setOpen] = React.useState(false);
     const [nbrEchange, setNbrEchange] = React.useState(0);
+    const [optionValue, setOptionValue] = React.useState("");
     
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-  
-    const handleOkButtonClick = () => {
-      setOpen(false);
-    };
-  
-    useEffect(() => {
+    const handleOpen = () => {
       // declare the data fetching function
       const fetchData = async () => {
         const result = await APIRequest<[]>("/getNbrEchange","GET",true);
@@ -51,11 +45,10 @@ const style =
 
        // declare the data fetching function
       const fetchData2 = async () => {
-        const result = await APIRequest<[]>("/getPreferenceGlobal","GET",true);
-        console.log(result)
+        const result = await APIRequest<string>("/getPreferenceUsager","GET",true);
         if (result.data)
         {
-          
+          setOptionValue(result.data);
         }
         
       }
@@ -63,7 +56,16 @@ const style =
       fetchData2()
         // make sure to catch any error
         .catch(console.error);
-    }, [])  
+
+        
+      setOpen(true)
+    };
+    const handleClose = () => setOpen(false);
+    
+  
+    const handleOkButtonClick = () => {
+      setOpen(false);
+    };
 
  
   return (
@@ -84,7 +86,9 @@ const style =
               
                 <SelectSmall
                   label="Sélectionnez une préférence"
-                 options={props.preferences}
+                  options={props.preferences}
+                  value={optionValue}
+                  setValue={setOptionValue}
                 />
               </div>
               

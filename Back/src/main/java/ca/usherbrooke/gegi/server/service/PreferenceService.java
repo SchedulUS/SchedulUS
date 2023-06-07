@@ -6,7 +6,9 @@ import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +19,8 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PreferenceService {
-
+	@Context
+	SecurityContext securityContext;
 
 	@Inject
 	PreferenceMapper preferenceMapper;
@@ -26,6 +29,12 @@ public class PreferenceService {
 	@Path("getPreferences")
 	public List<Preference> getPreferences(){
 		return preferenceMapper.getPreferences();
+	}
+
+	@GET
+	@Path("getPreferenceUsager")
+	public Integer getPreferenceUsager(){
+		return preferenceMapper.getPreferenceUsager(this.securityContext.getUserPrincipal().getName());
 	}
 
 /*

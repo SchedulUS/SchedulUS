@@ -8,6 +8,11 @@
     SELECT preference_id, nom FROM public.preference
 </select>
 
+<select id="getPreferenceUsager" resultType="Integer">
+    SELECT preference_id FROM public.usager
+    WHERE cip = #{cip}
+</select>
+
 <!--
     <select id="select" resultType="ca.usherbrooke.fgen.api.business.Message">
         select id,

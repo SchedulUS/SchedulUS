@@ -7,12 +7,12 @@ import { Preference } from './interfaces';
 import { getKeyCloakObj } from '../utils/keycloakUtils';
 import { APIRequest } from '../utils/apiUtils';
 
-export default function SelectSmall(props:{label:string,options:Preference[]}) {
-  const [index, setIndex] = React.useState('');
+export default function SelectSmall(props:{label:string,options:Preference[],value:string,setValue:(string)=>void}) {
+
 
   const handleChange = (event: SelectChangeEvent) =>
   {
-    setIndex(event.target.value);
+    props.setValue(event.target.value);
     const fetchData = async () => {
       await APIRequest<[]>("/setPreference","POST",true,{ preferenceId: event.target.value});
     }
@@ -34,7 +34,7 @@ export default function SelectSmall(props:{label:string,options:Preference[]}) {
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
-        value={index}
+        value={props.value}
         onChange={handleChange}
         label={props.label}
       >
