@@ -11,8 +11,8 @@
     WHERE s.periode @> CURRENT_DATE AND us.cip =  #{cip}; 
 </select>
 <update id="setPreference">
-    update usager
-    set preference_id = #{preference_id}
+    update public.usager
+    set preference_id = #{preferenceId}
     WHERE cip = #{cip}
 </update>
 

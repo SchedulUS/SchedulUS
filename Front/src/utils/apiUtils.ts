@@ -95,6 +95,8 @@ export async function APIRequest<T>(endURL:string,method:Method,isAuth:boolean,b
         })
     }
     catch(e){
+        console.log("ERREUR")
+        console.log(e);
         error = "The connection to the server failed.";
     }
 

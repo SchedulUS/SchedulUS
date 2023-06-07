@@ -36,9 +36,7 @@ const style =
     useEffect(() => {
       // declare the data fetching function
       const fetchData = async () => {
-        const cip = getKeyCloakObj().tokenParsed.preferred_username
-        
-        const result = await APIRequest<[]>("/getNbrEchange/","GET",true);
+        const result = await APIRequest<[]>("/getNbrEchange","GET",true);
         console.log(result)
         if (result.data)
         {
@@ -48,6 +46,21 @@ const style =
       }
       // call the function
       fetchData()
+        // make sure to catch any error
+        .catch(console.error);
+
+       // declare the data fetching function
+      const fetchData2 = async () => {
+        const result = await APIRequest<[]>("/getPreferenceGlobal","GET",true);
+        console.log(result)
+        if (result.data)
+        {
+          
+        }
+        
+      }
+      // call the function
+      fetchData2()
         // make sure to catch any error
         .catch(console.error);
     }, [])  

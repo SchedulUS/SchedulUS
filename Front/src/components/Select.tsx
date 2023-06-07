@@ -14,10 +14,7 @@ export default function SelectSmall(props:{label:string,options:Preference[]}) {
   {
     setIndex(event.target.value);
     const fetchData = async () => {
-      const cip = getKeyCloakObj().tokenParsed.preferred_username
-      
-      const result = await APIRequest<[]>("/setPreference/","POST",true,{preference_id:event.target.value});
-      console.log(result)
+      await APIRequest<[]>("/setPreference","POST",true,{ preferenceId: event.target.value});
     }
     // call the function
     fetchData()
@@ -26,7 +23,7 @@ export default function SelectSmall(props:{label:string,options:Preference[]}) {
   };
 
   
-  const elements : JSX.Element[] = props.options.map(e=>
+  let elements : JSX.Element[] = props.options.map(e=>
   {
     return <MenuItem key={e.preferenceId} value={e.preferenceId}>{e.nom}</MenuItem>
   });

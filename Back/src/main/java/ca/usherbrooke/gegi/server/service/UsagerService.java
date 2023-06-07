@@ -1,7 +1,9 @@
 package ca.usherbrooke.gegi.server.service;
 
 import ca.usherbrooke.gegi.server.business.Person;
+import ca.usherbrooke.gegi.server.business.Preference;
 import ca.usherbrooke.gegi.server.persistence.UsagerMapper;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
@@ -32,9 +34,9 @@ public class UsagerService {
 	}
 
 	@POST
-	@Path("setPreference")
-	public void setPreference(@PathParam("preference_id") String preference_id){
-		return usagerMapper.setPreference(this.securityContext.getUserPrincipal().getName(), preference_id);
+	@Path("/setPreference")
+	public void setPreference(@RequestBody Preference preference){
+		usagerMapper.setPreference(this.securityContext.getUserPrincipal().getName(), preference.preferenceId);
 	}
 
 /*
