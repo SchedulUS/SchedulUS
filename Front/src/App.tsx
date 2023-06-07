@@ -4,7 +4,7 @@ import PreferencesAPP from './components/PreferencesAPP.tsx';
 import { getKeyCloakObj } from './utils/keycloakUtils.js'
 import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
-import { Preference } from './components/interfaces';
+import { CalendrierVue } from './views/CalendrierVue/CalendrierVue.js';
 
 function App()
 {
@@ -45,7 +45,8 @@ function App()
         </div>
       </nav>
       <div>
-          <PreferencesAPP preferences={preferences}/>
+        <PreferencesAPP preferences={preferences}/>
+        <CalendrierVue/>
       </div>
     </>
   )
