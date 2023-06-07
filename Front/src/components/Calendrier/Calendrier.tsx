@@ -43,7 +43,9 @@ const Appointment = ({
   <Appointments.Appointment
     {...restProps}
     style={{
-      ...style
+      ...style,
+//      backgroundColor: '#FFC107',
+//      borderRadius: '8px',
     }}
   >
     {children}
