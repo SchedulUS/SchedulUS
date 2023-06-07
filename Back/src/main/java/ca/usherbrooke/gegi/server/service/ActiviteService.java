@@ -25,7 +25,7 @@ public class ActiviteService {
 
     @GET
     @Path("getActivite")
-    public List<Activite> getPreferences(){
+    public List<Activite> getActivite(){
         return ActiviteMapper.getActivite();
     }
 
