@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
+import { getKeyCloakObj, logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
 import { APIRequest } from './utils/apiUtils.js';
 import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
@@ -18,15 +16,10 @@ function App() {
       if (result.data)
       {
         result.data.forEach((element:Preference) => {
-          console.log(element);
-          let preference = {preference_id: element.preference_id, nom: element.nom}
-          console.log(preference)
-  
-          setPreference([...preferences, preference]);
+          let preference = {preferenceId: element.preferenceId, nom: element.nom}
+          setPreference(preferences => [...preferences, preference]);
         });
       }
-      
-      console.log(preferences);
     }
   
     // call the function
@@ -35,6 +28,8 @@ function App() {
       .catch(console.error);
   }, [])
 
+  const token = getKeyCloakObj().tokenParsed;
+  console.log(token)
   return (
     <>
       <nav>
@@ -43,7 +38,7 @@ function App() {
         </div>
         <h1>SchedulUS</h1>
         <div className='modules'>
-          <p>Kenza</p>
+          <p>{token.name}</p>
           <BasicModal preferences={preferences}/>
         </div>
       </nav>

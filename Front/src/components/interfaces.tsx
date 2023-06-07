@@ -1,4 +1,4 @@
 export interface Preference{
-    preference_id:number;
+    preferenceId:number;
     nom:string;
 }

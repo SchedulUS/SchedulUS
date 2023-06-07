@@ -5,7 +5,7 @@
 <mapper namespace="ca.usherbrooke.gegi.server.persistence.PreferenceMapper">
 
 <select id="getPreferences" resultType="ca.usherbrooke.gegi.server.business.Preference">
-    SELECT preference_id, nom FROM preference
+    SELECT preference_id, nom FROM public.preference
 </select>
 
 <!--
