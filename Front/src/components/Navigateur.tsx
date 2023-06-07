@@ -54,8 +54,8 @@ export default function Navigateur() {
  return(
      <div         className= "Navigateur-containeur">
          <div>
-             <IconButton>
-                 <ArrowBackIos onClick={handlePreviousClick}></ArrowBackIos>
+             <IconButton onClick={handlePreviousClick}>
+                 <ArrowBackIos ></ArrowBackIos>
              </IconButton>
          </div>
 
@@ -64,8 +64,8 @@ export default function Navigateur() {
          </div>
 
          <div>
-             <IconButton>
-                 <ArrowForwardIos onClick={handleNextClick}></ArrowForwardIos>
+             <IconButton  onClick={handleNextClick}>
+                 <ArrowForwardIos></ArrowForwardIos>
              </IconButton>
          </div>
 
