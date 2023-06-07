@@ -10,15 +10,19 @@ export default function SelectSmall(props:{label:string,options:Preference[]}) {
 
   const handleChange = (event: SelectChangeEvent) => {
     setIndex(event.target.value);
+  const handleChange = (event: SelectChangeEvent) =>
+  {
+    setIndex(event.target.value);
   };
+
   
-  const elements : JSX.Element[] = props.options.map(e=>{
-    
+  const elements : JSX.Element[] = props.options.map(e=>
+  {
     return <MenuItem key={e.preferenceId} value={e.preferenceId}>{e.nom}</MenuItem>
   });
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+    <FormControl sx={{ m: 1, width:'100%'}} size="small">
       <InputLabel id="demo-select-small-label">{props.label}</InputLabel>
       <Select
         labelId="demo-select-small-label"
@@ -26,6 +30,7 @@ export default function SelectSmall(props:{label:string,options:Preference[]}) {
         value={index}
         label="index"
         onChange={handleChange}
+        label={props.label}
       >
         {elements}
       </Select>
