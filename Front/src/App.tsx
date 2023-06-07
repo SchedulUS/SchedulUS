@@ -5,13 +5,19 @@ import './App.css'
 import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
 import { APIRequest } from './utils/apiUtils.js';
 import BasicModal from './components/BasicModal.js';
-import { Preference } from './components/interfaces';
+
+interface Preference{
+  preference_id:number;
+  nom:string;
+}
 
 function App() {
   const [preferences, setPreference] = useState<Preference[]>([])
   
   useEffect(() => {
+
     // declare the data fetching function
+
     const fetchData = async () => {
       const result = await APIRequest<[]>("/getPreferences","GET",true);
       console.log(result);
@@ -28,11 +34,17 @@ function App() {
       
       console.log(preferences);
     }
-  
+
+ 
+
     // call the function
+
     fetchData()
+
       // make sure to catch any error
+
       .catch(console.error);
+
   }, [])
 
   return (
