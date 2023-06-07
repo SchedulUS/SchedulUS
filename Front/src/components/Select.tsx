@@ -4,6 +4,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Preference } from './interfaces';
+import { getKeyCloakObj } from '../utils/keycloakUtils';
+import { APIRequest } from '../utils/apiUtils';
 
 export default function SelectSmall(props:{label:string,options:Preference[]}) {
   const [index, setIndex] = React.useState('');
@@ -11,6 +13,16 @@ export default function SelectSmall(props:{label:string,options:Preference[]}) {
   const handleChange = (event: SelectChangeEvent) =>
   {
     setIndex(event.target.value);
+    const fetchData = async () => {
+      const cip = getKeyCloakObj().tokenParsed.preferred_username
+      
+      const result = await APIRequest<[]>("/setPreference/","POST",true,{preference_id:event.target.value});
+      console.log(result)
+    }
+    // call the function
+    fetchData()
+      // make sure to catch any error
+      .catch(console.error);
   };
 
   
