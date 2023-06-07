@@ -52,7 +52,7 @@ const Appointment = ({
   );
   }
 const TooltipContent = (({
-    children, appointmentData, ...restProps
+    appointmentData, ...restProps
   }) => (
     <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
       <Grid container alignItems="center">
