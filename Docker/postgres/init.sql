@@ -26,7 +26,9 @@ CREATE TABLE usager (
     prenom varchar(200) NOT NULL,
     nom varchar(200) NOT NULL,
     cote_preference float NOT NULL DEFAULT 0.0,
+	prefrence_id int NOT NULL DEFAULT 1,
     PRIMARY KEY (cip)
+	FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
 );
 
 CREATE TABLE session (
@@ -63,7 +65,7 @@ CREATE TABLE usager_preference(
     cip CHAR(8) NOT NULL,
     preference_id SERIAL NOT NULL,
     app_id SERIAL,
-    PRIMARY KEY (cip),
+    PRIMARY KEY (cip,app_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id),
     FOREIGN KEY (cip) REFERENCES usager(cip),
     FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
@@ -208,3 +210,16 @@ INSERT INTO app_usager(app_id,cip) VALUES
 
 INSERT INTO session_app (session_id,app_id) VALUES
 (1,1),(1,2),(1,3),(1,4),(1,5);
+
+INSERT INTO intendant(cip, app_id) VALUES
+('laft1301',1),
+('sevm1802',1),
+('stds2101',2),
+('aubj1202',3),
+('sehk2201',3);
+
+INSERT INTO usager_preference(cip, preference_id, app_id) VALUES
+('laft1301',1,1),
+('laft1301',1,2),
+('sevm1802',2,1),
+('sevm1802',1,2);
