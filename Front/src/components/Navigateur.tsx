@@ -3,18 +3,32 @@ import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 import {APIRequest} from "../utils/apiUtils.ts";
 import "./Navigateur.css";
+import {IconButton} from "@mui/material";
 
+interface Activite{
+    activiteNom: string
+}
+
+function RemoveRedundants(activites:Activite[])
+{
+    var seen = {};
+    return activites.filter(function(item) {
+        return seen.hasOwnProperty(item.activiteNom) ? false : (seen[item.activiteNom] = true);
+    });
+}
 
 export default function Navigateur() {
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<Activite[]>([]);
     useEffect(() => {
         const fetchData = async () => {
-            try{
-                const result = await APIRequest<[]>("/getActivite","GET",true);
-                const listNom = result.data;
-                setData(listNom);
-                console.log(result);
-                setNomApp(data[0]);
+            try {
+                const result = await APIRequest<Activite[]>("/getActivite","GET",true);
+                if(result.data) {
+                    console.log()
+                    setData(RemoveRedundants(result.data));
+                    setPrevious(0);
+                    console.log(result.data)
+                }
             }
             catch (error){
                 console.error('Error fetching data:', error);
@@ -23,19 +37,15 @@ export default function Navigateur() {
         fetchData();
     },[])
 
-
- const [nomApp, setNomApp] = useState<string>(null);
-
- const [previousData, setPrevious] = useState<number>(0);
+ const [previousData, setPrevious] = useState<number>();
 
     const handleNextClick = () => {
-        setNomApp(data[previousData + 1]);
+        if (previousData >= data.length - 1) return;
         setPrevious(previousData + 1);
     };
 
     const handlePreviousClick = () => {
-        if (previousData > 1) {
-            setNomApp(data[previousData - 1]);
+        if (previousData >= 1) {
             setPrevious(previousData - 1);
         }
     };
@@ -44,15 +54,19 @@ export default function Navigateur() {
  return(
      <div         className= "Navigateur-containeur">
          <div>
-             <ArrowBackIos onClick={handlePreviousClick}></ArrowBackIos>
+             <IconButton>
+                 <ArrowBackIos onClick={handlePreviousClick}></ArrowBackIos>
+             </IconButton>
          </div>
 
          <div >
-             <p> <span>{nomApp}</span> </p>
+             <p> <span>{data.length == 0 ? "" : data[previousData].activiteNom}</span> </p>
          </div>
 
          <div>
-             <ArrowForwardIos onClick={handleNextClick}></ArrowForwardIos>
+             <IconButton>
+                 <ArrowForwardIos onClick={handleNextClick}></ArrowForwardIos>
+             </IconButton>
          </div>
 
 

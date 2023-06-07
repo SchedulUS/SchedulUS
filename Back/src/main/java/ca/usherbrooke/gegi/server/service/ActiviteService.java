@@ -13,7 +13,6 @@ import java.util.List;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed({"etudiant"})
 public class ActiviteService {
     @Context
     SecurityContext securityContext;
@@ -28,5 +27,7 @@ public class ActiviteService {
 
     @GET
     @Path("getActivite")
-    public List<Activite> getNomActivite(){ return activiteMapper.getNomActivite();}
+    public List<Activite> getNomActivite(){
+        return activiteMapper.getNomActivite();
+    }
 }

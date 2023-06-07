@@ -14,7 +14,7 @@
     </select>
 
     <select id="getNomActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">
-        SELECT activite.nomActivite
+        SELECT activite.nom as activiteNom, activite.activite_id as activiteId, activite.type_id as typeId
         FROM activite
     </select>
 
