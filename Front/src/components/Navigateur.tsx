@@ -7,7 +7,7 @@ import "./Navigateur.css";
 
 export default function Navigateur() {
 
- const [nomApp, getNomApp] = useState<number>(0);
+ const [nomApp, getNomApp] = useState<string>("first");
 
 
     useEffect(() => {
@@ -15,18 +15,18 @@ export default function Navigateur() {
     }, [nomApp]);
 
     const fetchData = async () => {
-        const result = await APIRequest<string>("/getPreferences","GET",true);
+        const result = await APIRequest<string>("/getActivite","GET",true);
 
         console.log(result);
     };
 
     const handleNextClick = () => {
-        getNomApp((prevApp) => prevApp + 1);
+        getNomApp("next");
     };
 
     const handlePreviousClick = () => {
-        if (nomApp > 0) {
-            getNomApp((prevApp) => prevApp - 1);
+        if (nomApp != "first") {
+            getNomApp("previous");
         }
     };
 
