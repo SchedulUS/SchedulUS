@@ -25,7 +25,8 @@ function App() {
       // make sure to catch any error
       .catch(console.error);
   }, [])
- return (
+
+  return (
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
@@ -53,9 +54,9 @@ function App() {
         </div>
         <BasicModal preferences={preferences}/>
       </div>
-    <div>
-        <Navigateur/>
-    </div>
+        <div>
+            <Navigateur/>
+        </div>
     </>
   )
 }
