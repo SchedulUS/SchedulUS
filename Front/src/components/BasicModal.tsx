@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import SelectSmall from './Select';
 import { Preference } from './interfaces';
 
+
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -19,14 +20,30 @@ const style = {
   color: 'black',
 };
 
-export default function BasicModal(props:{preferences:Preference[]}) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
+  
+  
+  export default function BasicModal(props:{preferences:Preference[]}) {
+    const [open, setOpen] = React.useState(false);
+    
+ 
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+  
+    
+  
+    const handleOkButtonClick = () => {
+      setOpen(false);
+    };
+  
+    
 
+ 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={handleOpen} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+        <span style={{ fontSize: '1.2em' }}>&#9881;</span>
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -34,9 +51,24 @@ export default function BasicModal(props:{preferences:Preference[]}) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <p>Préférence du groupe de tutorat par défaut</p>
-          <SelectSmall label={"Préférences"} options={props.preferences}/>          
+          <div>
+            <p>Préférence du groupe de tutorat par défaut</p>
+            <div>
+              
+                <SelectSmall
+                  label="Sélectionnez une préférence"
+                 options={props.preferences}
+                />
+              </div>
+              
+            </div>
+          
           <p>Nombre d'échanges de groupe restant pour la session : [BD]</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px' }}>
+            <Button onClick={handleOkButtonClick} variant="contained" color="primary">
+              OK
+            </Button>
+          </div>
         </Box>
       </Modal>
     </div>
