@@ -26,7 +26,7 @@ CREATE TABLE usager (
     prenom varchar(200) NOT NULL,
     nom varchar(200) NOT NULL,
     cote_preference float NOT NULL DEFAULT 0.0,
-	prefrence_id int NOT NULL DEFAULT 1,
+	preference_id int DEFAULT 1 NOT NULL,
     PRIMARY KEY (cip)
 	FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
 );
