@@ -115,6 +115,15 @@ CREATE TABLE session_app(
     FOREIGN KEY (app_id) REFERENCES app(app_id)
 );
 
+CREATE TABLE usager_session(
+	session_id SERIAL NOT NULL,
+	cip CHAR(8) NOT NULL,
+	nbr_echange int NOT NULL DEFAULT 3,
+	PRIMARY KEY (session_id,cip),
+    FOREIGN KEY (session_id) REFERENCES session(session_id),
+    FOREIGN KEY (cip) REFERENCES usager(cip)
+);
+
 INSERT INTO type_activite(nom) VALUES 
 ('Tutorat d''ouverture'),('Tutorat de fermeture');
 INSERT INTO preference(nom,debut,fin) VALUES
