@@ -6,7 +6,6 @@ import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUt
 import { APIRequest } from './utils/apiUtils.js';
 import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
-import { Tableau } from './components/tableau.js';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -53,7 +52,6 @@ function App() {
           <span></span>
         </div>
         <BasicModal preferences={preferences}/>
-        <Tableau text='SALUT' title='sss' ></Tableau>
       </div>
     </>
   )
