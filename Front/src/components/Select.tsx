@@ -8,8 +8,6 @@ import { Preference } from './interfaces';
 export default function SelectSmall(props:{label:string,options:Preference[]}) {
   const [index, setIndex] = React.useState('');
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setIndex(event.target.value);
   const handleChange = (event: SelectChangeEvent) =>
   {
     setIndex(event.target.value);
@@ -28,7 +26,6 @@ export default function SelectSmall(props:{label:string,options:Preference[]}) {
         labelId="demo-select-small-label"
         id="demo-select-small"
         value={index}
-        label="index"
         onChange={handleChange}
         label={props.label}
       >
