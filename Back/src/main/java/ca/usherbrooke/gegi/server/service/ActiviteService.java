@@ -23,7 +23,6 @@ public class ActiviteService {
     @GET
     @Path("getActivite/{appID}/{typeID}")
     public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
-        String cip = this.securityContext.getUserPrincipal().getName();
-        return activiteMapper.getActivite(appID,typeID, cip);
+        return activiteMapper.getActivite(appID,typeID, this.securityContext.getUserPrincipal().getName());
     }
 }
