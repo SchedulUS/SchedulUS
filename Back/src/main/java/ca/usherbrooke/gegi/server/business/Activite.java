@@ -15,5 +15,7 @@ public class Activite {
     public int typeId;
     public String typeNom;
 
-            return  this.activiteNom;
+    public String toString() {
+        return  this.activiteNom;
+    }
 }

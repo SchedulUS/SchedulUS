@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 import {APIRequest} from "../utils/apiUtils.ts";
@@ -6,27 +6,37 @@ import "./Navigateur.css";
 
 
 export default function Navigateur() {
-
- const [nomApp, getNomApp] = useState<string>("first");
-
-
+    const [data, setData] = useState<any>(null);
     useEffect(() => {
+        const fetchData = async () => {
+            try{
+                const result = await APIRequest<[]>("/getActivite","GET",true);
+                const listNom = result.data;
+                setData(listNom);
+                console.log(result);
+                setNomApp(data[0]);
+            }
+            catch (error){
+                console.error('Error fetching data:', error);
+            }
+        };
         fetchData();
-    }, [nomApp]);
+    },[])
 
-    const fetchData = async () => {
-        const result = await APIRequest<string>("/getActivite","GET",true);
 
-        console.log(result);
-    };
+ const [nomApp, setNomApp] = useState<string>(null);
+
+ const [previousData, setPrevious] = useState<number>(0);
 
     const handleNextClick = () => {
-        getNomApp("next");
+        setNomApp(data[previousData + 1]);
+        setPrevious(previousData + 1);
     };
 
     const handlePreviousClick = () => {
-        if (nomApp != "first") {
-            getNomApp("previous");
+        if (previousData > 1) {
+            setNomApp(data[previousData - 1]);
+            setPrevious(previousData - 1);
         }
     };
 

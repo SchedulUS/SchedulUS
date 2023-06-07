@@ -25,4 +25,8 @@ public class ActiviteService {
     public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
         return activiteMapper.getActivite(appID,typeID, this.securityContext.getUserPrincipal().getName());
     }
+
+    @GET
+    @Path("getActivite")
+    public List<Activite> getNomActivite(){ return activiteMapper.getNomActivite();}
 }

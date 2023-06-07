@@ -12,4 +12,10 @@
         WHERE app.app_id = 2 AND type_activite.type_id = 1 AND app_usager.cip = 'laft1301'
         ORDER BY activiteNom,activite.periode ASC;
     </select>
+
+    <select id="getNomActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT activite.nomActivite
+        FROM activite
+    </select>
+
 </mapper>

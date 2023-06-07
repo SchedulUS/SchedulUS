@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
 import { APIRequest } from './utils/apiUtils.js';
-import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
 import Navigateur from "./components/Navigateur.tsx";
 import { CalendrierVue } from './views/CalendrierVue/CalendrierVue.js';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [preferences, setPreferences] = useState<Preference[]>()
   
   useEffect(() => {
     // declare the data fetching function
@@ -34,7 +31,6 @@ function App() {
         <div id="title">
           <span></span>
         </div>
-        <BasicModal/>
         <CalendrierVue/>
       </div>
         <div>
