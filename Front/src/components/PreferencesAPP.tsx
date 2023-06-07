@@ -1,10 +1,11 @@
-import './PreferencesApp.css'
+import './PreferencesAPP.css'
 import HelpIcon from '@mui/icons-material/Help';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import Checkbox from './Checkbox.tsx';
 import SelectSmall from "./Select.tsx";
+import { Preference } from './interfaces';
 
-export default function PreferencesAPP()
+export default function PreferencesAPP(props:{preferences:Preference[]})
 {
     return (
         <div className="boite">
@@ -15,7 +16,7 @@ export default function PreferencesAPP()
                 <div className="article">
                     <EventNoteIcon sx={{ fontSize: 18 }}/>
                 </div>
-                <SelectSmall label="Plage horaire" options={[]}/>
+                <SelectSmall label="Plage horaire" options={props.preferences}/>
             </div>
             <div className="ligne">
                 <div className="article">

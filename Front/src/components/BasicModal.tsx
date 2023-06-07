@@ -23,7 +23,8 @@ const style =
   
   
   
-  export default function BasicModal(props:{preferences:Preference[]}) {
+  export default function BasicModal(props:{preferences:Preference[]})
+  {
     const [open, setOpen] = React.useState(false);
     
  
