@@ -1,32 +1,28 @@
 package ca.usherbrooke.gegi.server.service;
 
 import ca.usherbrooke.gegi.server.business.Activite;
-import ca.usherbrooke.gegi.server.business.Preference;
 import ca.usherbrooke.gegi.server.persistence.ActiviteMapper;
-import ca.usherbrooke.gegi.server.persistence.PreferenceMapper;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+import java.util.List;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed({"etudiant"})
 public class ActiviteService {
-
+    @Context
+    SecurityContext securityContext;
     @Inject
-    ActiviteMapper ActiviteMapper;
+    ActiviteMapper activiteMapper;
 
     @GET
-    @Path("getActivite")
-    public List<Activite> getActivite(){
-        return ActiviteMapper.getActivite();
+    @Path("getActivite/{appID}/{typeID}")
+    public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
+        return activiteMapper.getActivite(appID,typeID, this.securityContext.getUserPrincipal().getName());
     }
-
 }
