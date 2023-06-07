@@ -5,11 +5,11 @@
 <mapper namespace="ca.usherbrooke.gegi.server.persistence.ActiviteMapper">
 
     <select id="getActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">
-        SELECT activite.activite_id as activiteId, activite.nom as activiteNom,lower(activite.periode) as debut, upper(activite.periode) as fin, app.app_id as appId, app.nom as appNom, app.cours as appCours, type_activite.type_id as typeId, type_activite.nom as typeNom FROM activite
+        SELECT activite.activite_id as activiteId, activite.local, activite.nom as activiteNom,lower(activite.periode) as debut, upper(activite.periode) as fin, app.app_id as appId, app.nom as appNom, app.cours as appCours, type_activite.type_id as typeId, type_activite.nom as typeNom FROM activite
         INNER JOIN type_activite ON type_activite.type_id = activite.type_id
         INNER JOIN app ON app.app_id = activite.app_id
         INNER JOIN app_usager ON app_usager.app_id = activite.app_id
-        WHERE app.app_id = #{appID} AND type_activite.type_id = #{typeID} AND app_usager.cip = #{cip}
+        WHERE app.app_id = 2 AND type_activite.type_id = 1 AND app_usager.cip = 'laft1301'
         ORDER BY activiteNom,activite.periode ASC;
     </select>
 </mapper>
