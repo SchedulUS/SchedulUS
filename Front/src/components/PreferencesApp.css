@@ -9,7 +9,7 @@
     text-align: left;
     line-height: 1.5;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-    font-weight: normal;
+    font-weight: 300;
     color: rgba(0,0,0,0.87);
 
     padding: 15px 24px 24px;
@@ -20,6 +20,23 @@
     padding-bottom: 8px;
     line-height: 32px;
     font-size: 24px;
-    font-weight: 300;
     border-bottom: 1px solid black;
+}
+
+.ligne
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.article
+{
+    display: flex;
+    align-items: center;
+}
+
+.texte
+{
+    margin-left: 15px;
 }

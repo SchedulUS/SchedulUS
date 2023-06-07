@@ -1,5 +1,8 @@
 import './PreferencesApp.css'
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import HelpIcon from '@mui/icons-material/Help';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import Checkbox from './Checkbox.tsx';
+import SelectSmall from "./Select.tsx";
 
 export default function PreferencesAPP()
 {
@@ -8,15 +11,18 @@ export default function PreferencesAPP()
             <div className="titre">
                 <span>Préférences pour cet APP</span>
             </div>
-            <div>
-                <span>Plage horaire</span>
+            <div className="ligne">
+                <div className="article">
+                    <EventNoteIcon sx={{ fontSize: 18 }}/>
+                </div>
+                <SelectSmall label="Plage horaire" options={[]}/>
             </div>
-            <div>
-                <HelpOutlineOutlinedIcon/>
-                <span>Intention d'intendance</span>
-            </div>
-            <div>
-                <span>ssss</span>
+            <div className="ligne">
+                <div className="article">
+                    <HelpIcon sx={{ fontSize: 18 }}/>
+                    <span className="texte">Intention d'intendance</span>
+                </div>
+                <Checkbox/>
             </div>
         </div>
     );
