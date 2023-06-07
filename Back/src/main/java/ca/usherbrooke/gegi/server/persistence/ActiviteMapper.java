@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 @Mapper
 public interface ActiviteMapper {
-    List<Activite> getActivite(@Param("appID") int appID, @Param("typeID") int typeID);
+    List<Activite> getActivite(@Param("appID") int appID, @Param("typeID") int typeID, String cip);
 }
