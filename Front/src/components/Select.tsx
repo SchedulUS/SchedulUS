@@ -3,13 +3,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Preference } from './interfaces';
 
-interface Items{
-    value:number;
-    text:string;
-}
-
-export default function SelectSmall(props:{label:string,options:Items[]}) {
+export default function SelectSmall(props:{label:string,options:Preference[]}) {
   const [age, setAge] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -17,7 +13,7 @@ export default function SelectSmall(props:{label:string,options:Items[]}) {
   };
   
   const elements : JSX.Element[] = props.options.map(e=>{
-    return <MenuItem value={e.value}>e.text</MenuItem>
+    return <MenuItem value={e.preference_id}>{e.nom}</MenuItem>
   });
 
   return (

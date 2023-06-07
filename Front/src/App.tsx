@@ -5,14 +5,12 @@ import './App.css'
 import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
 import { APIRequest } from './utils/apiUtils.js';
 import BasicModal from './components/BasicModal.js';
-
-interface Preference{
-  preference_id:number;
-  nom:string;
-}
+import { Preference } from './components/interfaces';
+import { Tableau } from './components/tableau.js';
 
 function App() {
   const [count, setCount] = useState(0)
+  const [preferences, setPreferences] = useState<Preference[]>()
   
   useEffect(() => {
     // declare the data fetching function
@@ -54,7 +52,8 @@ function App() {
         <div id="title">
           <span></span>
         </div>
-        <BasicModal/>
+        <BasicModal preferences={preferences}/>
+        <Tableau text='SALUT' title='sss' ></Tableau>
       </div>
     </>
   )
