@@ -11,6 +11,7 @@
         JOIN session as s on s.session_id = sa.session_id
         JOIN app_usager as au ON au.app_id = ap.app_id
         WHERE s.periode @> CURRENT_DATE AND au.cip = #{cip}
+        ORDER BY activiteNom, a.type_id;
     </select>
 
     <select id="getActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">

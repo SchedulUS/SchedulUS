@@ -10,6 +10,14 @@ interface Activite{
     appId: number,
     typeId: number
 }
+function RemoveRedundants(activites:Activite[])
+{
+    const seen = {};
+    return activites.filter(function(item) {
+        // eslint-disable-next-line no-prototype-builtins
+        return seen.hasOwnProperty(item.activiteNom) ? false : (seen[item.activiteNom] = true);
+    });
+}
 
 export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeActiviteCourant:(number)=>void}) {
     const [data, setData] = useState<Activite[]>([]);
@@ -20,7 +28,7 @@ export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeAc
             try {
                 const result = await APIRequest<Activite[]>("/getActivites","GET",true);
                 if(result.data) {
-                    setData(result.data);
+                    setData(RemoveRedundants(result.data));
                     setPrevious(0);
                     if(result.data.length > 0){
                         props.setAppCourant(result.data[0].appId);
