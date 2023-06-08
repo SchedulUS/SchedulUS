@@ -137,7 +137,8 @@ INSERT INTO usager(cip,prenom,nom) VALUES
                                        ('sevm1802', 'Mathieu', 'Sévégny'),
                                        ('stds2101', 'Sébastien', 'St-Denis');
 INSERT INTO session(session_id,identifiant,periode) VALUES
-    (1,'S3i','[2023-04-30 08:00:00, 2023-08-05]');
+(1,'S3i','[2023-04-30 08:00:00, 2023-08-05]'),
+(2,'S4i','[2023-08-30 08:00:00, 2023-12-24]');
 INSERT INTO app(app_id,nom,cours) VALUES
                                       (1, 'APP 1', 'GEN230'),
                                       (2, 'APP 2', 'GEN230'),
@@ -219,7 +220,7 @@ INSERT INTO app_usager(app_id,cip) VALUES
                                        (3,'sehk2201');
 
 INSERT INTO session_app (session_id,app_id) VALUES
-                                                (1,1),(1,2),(1,3),(1,4),(1,5);
+(1,1),(1,2),(1,3),(1,4),(1,5),(2,1),(2,2);
 
 INSERT INTO intendant(cip, app_id) VALUES
                                        ('laft1301',1),
@@ -231,6 +232,7 @@ INSERT INTO intendant(cip, app_id) VALUES
 INSERT INTO usager_preference(cip, preference_id, app_id) VALUES
 ('laft1301',1,1),
 ('laft1301',1,2),
+('stds2101',2,3),
 ('sevm1802',2,1),
 ('sevm1802',1,2);
 

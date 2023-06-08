@@ -47,15 +47,15 @@ export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeAc
     const handleNextClick = () => {
         if (previousData >= data.length - 1) return;
         setPrevious(previousData + 1);
-        props.setAppCourant(data[previousData].appId)
-        props.setTypeActiviteCourant(data[previousData].typeId)
+        props.setAppCourant(data[previousData + 1].appId)
+        props.setTypeActiviteCourant(data[previousData + 1].typeId)
     };
 
     const handlePreviousClick = () => {
         if (previousData >= 1) {
             setPrevious(previousData - 1);
-            props.setAppCourant(data[previousData].appId)
-            props.setTypeActiviteCourant(data[previousData].typeId)
+            props.setAppCourant(data[previousData + 1].appId)
+            props.setTypeActiviteCourant(data[previousData + 1].typeId)
         }
     };
 

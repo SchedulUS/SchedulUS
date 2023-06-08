@@ -28,9 +28,6 @@ export default function SelectSmall(props:{label:string,options:Preference[],val
   {
     return <MenuItem key={e.preferenceId} value={e.preferenceId}>{e.nom}</MenuItem>
   });
-  console.log("Select")
-  console.log(props.value)
-  console.log(props.options)
   return (
     <FormControl sx={{ m: 1, width:'100%'}} size="small">
       <InputLabel id="demo-select-small-label">{props.label}</InputLabel>
