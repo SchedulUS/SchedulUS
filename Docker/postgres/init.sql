@@ -127,7 +127,7 @@ CREATE TABLE usager_session(
 INSERT INTO type_activite(nom) VALUES 
 ('Tutorat d''ouverture'),('Tutorat de fermeture');
 INSERT INTO preference(nom,debut,fin) VALUES
-('Avant-midi','08:00:00', '11:59:59'),
+('Avant-midi','08:00:00', '12:00:00'),
 ('Après-midi', '12:00:00', '18:00:00');
 INSERT INTO usager(cip,prenom,nom) VALUES
 ('aubj1202', 'Joséanne', 'Aubut'),
