@@ -1,5 +1,9 @@
 package ca.usherbrooke.gegi.server.service;
 
+import ca.usherbrooke.gegi.server.assignation.algorithm.ActivitiesAssigner;
+import ca.usherbrooke.gegi.server.assignation.models.PeopleInActivity;
+import ca.usherbrooke.gegi.server.assignation.models.PersonWithWeights;
+import ca.usherbrooke.gegi.server.assignation.models.PreferenceEnum;
 import ca.usherbrooke.gegi.server.business.*;
 import ca.usherbrooke.gegi.server.persistence.ActiviteMapper;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
@@ -55,14 +59,46 @@ public class ActiviteService {
     }
 
     @GET
-    @Path("getPreferencePoids/{appID}/{typeID}")
-    public List<PreferencePoids> getPreferencePoid(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
+    @Path("getPossibleGroupsForAnAPP/{appID}/{typeID}")
+    public List<PeopleInActivity> getPossibleGroupsForAnAPP(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
         String cip = this.securityContext.getUserPrincipal().getName();
         List<Poids> poids = activiteMapper.getPoids(appID);
         List<EtudiantPreference> etudiantPreferences = activiteMapper.getEtudiantPreference(appID);
         List<Preference> preferences = activiteMapper.getPreference();
         List<Activite> activites = activiteMapper.getActivite(appID,typeID,cip);
-        return getPreferencePoids(poids,etudiantPreferences,preferences);
+        List<PreferencePoids> preferencePoids = getPreferencePoids(poids,etudiantPreferences,preferences);
+        //Using algorithm
+        List<PeopleInActivity> activitiesToFill = new ArrayList<>(activites.size());
+        for (Activite activite:
+             activites) {
+            activitiesToFill.add(new PeopleInActivity(activite.activiteId,Preference.getPreferenceEnum(activite.debut)));
+        }
+        List<PersonWithWeights> people = new ArrayList<>(preferencePoids.size());
+        for (PreferencePoids person:
+             preferencePoids) {
+            PreferenceEnum preferenceEnum = getPreferenceByPersonPreferences(person.preferenceapp,person.preferenceglobal);
+
+            if (person.intendant == null)
+            {
+                person.intendant = false;
+            }
+
+            people.add(new PersonWithWeights(person.cip,preferenceEnum, person.poids,person.intendant));
+        }
+        ActivitiesAssigner assigner = new ActivitiesAssigner(activitiesToFill,people);
+        assigner.createGroupsForActivities();
+        return assigner.getActivities();
+    }
+
+    private PreferenceEnum getPreferenceByPersonPreferences(int appPreferenceId, int globalPreferenceId)
+    {
+        int preferenceId = appPreferenceId;
+        if (appPreferenceId == 0)
+        {
+            preferenceId = globalPreferenceId;
+        }
+        if (preferenceId == 1) return PreferenceEnum.AM;
+        else return PreferenceEnum.PM;
     }
 
     public List<PreferencePoids> getPreferencePoids(List<Poids> poids,List<EtudiantPreference> etudiantPreferences, List<Preference> preferences){
