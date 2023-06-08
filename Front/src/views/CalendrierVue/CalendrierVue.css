@@ -1,0 +1,9 @@
+#calendriervue{
+    display: inline-grid;
+    grid-template-columns: 30vw auto 30vw;
+    text-align: center;
+    align-items: stretch;
+}
+#preferenceAPPDiv{
+    margin: auto;
+}

@@ -1,0 +1,43 @@
+.boite
+{
+    /*Conteneur*/
+    background-color: #fff59d !important;
+    box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14),0 9px 46px 8px rgba(0,0,0,0.12),0 11px 15px -7px rgba(0,0,0,0.2);
+    border-radius: 2px;
+    width: 260px;
+
+    /*Texte*/
+    text-align: left;
+    line-height: 1.5;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-weight: 300;
+    color: rgba(0,0,0,0.87);
+
+    padding: 15px 24px 24px;
+}
+
+.titre
+{
+    padding-bottom: 8px;
+    line-height: 32px;
+    font-size: 24px;
+    border-bottom: 1px solid black;
+}
+
+.ligne
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.article
+{
+    display: flex;
+    align-items: center;
+}
+
+.texte
+{
+    margin-left: 15px;
+}

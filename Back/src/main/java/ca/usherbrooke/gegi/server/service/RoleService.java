@@ -70,7 +70,7 @@ public class RoleService {
         Map realmAccess = (Map)this.jwt.getClaim("realm_access");
         if (realmAccess != null && realmAccess.containsKey("roles")) {
             p.roles = (List)realmAccess.get("roles");
-        }
+        }   
 
         System.out.println(p);
         return p;

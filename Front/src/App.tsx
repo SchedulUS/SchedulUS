@@ -1,60 +1,80 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js';
-import { APIRequest } from './utils/apiUtils.js';
+import PreferencesAPP from './components/PreferencesAPP/PreferencesAPP.tsx';
+import { getKeyCloakObj } from './utils/keycloakUtils.js'
+import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
+import { Preference } from './components/interfaces';
+import Navigateur from "./components/Navigateur.tsx";
+import { CalendrierVue } from './views/CalendrierVue/CalendrierVue';
 
-interface Preference{
-  preference_id:number;
-  nom:string;
-}
+function App()
+{
+  const [preferences, setPreference] = useState<Preference[]>([]);
+  const [nom, setNom] = useState("");
+  const [cip ,setCip] = useState("");
+  const [appCourant, setAppCourant] = useState(0);
+  const [typeActiviteCourant, setTypeActiviteCourant] = useState(0);
+  const [optionValue, setOptionValue] = useState<number>(0);
+  const [optionValueApp, setOptionValueApp] = useState<number>(0);
 
-function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() =>
+  {
+    const fetchData = async () =>
+    {
+      const result = await APIRequest<[]>("/getPreferences","GET",true);
+      if (result.data)
+      {
+        result.data.forEach((element:Preference) => {
+          const preference = {preferenceId: element.preferenceId, nom: element.nom}
+          setPreference(preferences => [...preferences, preference]);
+        });
+      }
+      
+      setNom(getKeyCloakObj().tokenParsed.name)
+      setCip(getKeyCloakObj().tokenParsed.preferred_username)
+    }
+
+    fetchData().catch(console.error);
+  }, [])
+
   
   useEffect(() => {
-    // declare the data fetching function
-    const fetchData = async () => {
-      const result = await APIRequest<Preference>("/getPreferences","GET",true);
+    if(appCourant != 0){
+      const fetchData = async () => {
+        const result = await APIRequest<Preference>(`/getPreferenceUsagerApp/${appCourant}`,"GET",true);
+        if (result.data)
+        {
+          if(result.data !== undefined){
+            setOptionValueApp(result.data.preferenceId);
+          }else{
+            const result = await APIRequest<Preference>(`/getPreferenceUsager/`,"GET",true);
+            if(result.data){
+              setOptionValueApp(result.data.preferenceId);
+            }
+          }
+        }
+    
+      }
       
-      console.log(result);
+      fetchData().catch(console.error);
     }
-  
-    // call the function
-    fetchData()
-      // make sure to catch any error
-      .catch(console.error);
-  }, [])
+  }, [appCourant]);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <button onClick={() => logout()}>Déconnexion</button>
-      <div>
-        <button onClick={() => requestForStudent()}>Étudiant?</button>
-        <button onClick={() => requestForTeacher()}>Enseignant?</button>
-        <div id="title">
-          <span></span>
+      <nav>
+        <div className='modules'>
+          <Navigateur setAppCourant={setAppCourant} setTypeActiviteCourant={setTypeActiviteCourant}/>
         </div>
-        <BasicModal/>
+        <h1>SchedulUS</h1>
+        <div className='modules'>
+          <p>{nom}</p>
+          <BasicModal preferences={preferences} optionValue={optionValue} setOptionValue={setOptionValue}/>
+        </div>
+      </nav>
+      <div>
+        <CalendrierVue preferences={preferences} appCourant={appCourant} typeActiviteCourant={typeActiviteCourant} optionValue={optionValueApp} setOptionValue={setOptionValueApp}/>
       </div>
     </>
   )

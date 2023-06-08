@@ -1,0 +1,8 @@
+.Navigateur-containeur {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+.Navigateur-containeur span{
+    font-size:18px;
+}

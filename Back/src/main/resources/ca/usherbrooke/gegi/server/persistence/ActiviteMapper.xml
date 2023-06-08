@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.gegi.server.persistence.ActiviteMapper">
+
+    <select id="getActivites" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT a.activite_id, a.nom as activiteNom, a.app_id, a.type_id
+        FROM activite as a JOIN app as ap on a.app_id = ap.app_id 
+        JOIN session_app as sa ON sa.app_id = ap.app_id 
+        JOIN session as s on s.session_id = sa.session_id
+        JOIN app_usager as au ON au.app_id = ap.app_id
+        WHERE s.periode @> CURRENT_DATE AND au.cip = #{cip}
+        ORDER BY activiteNom, a.type_id;
+    </select>
+
+    <select id="getActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT activite.activite_id as activiteId, activite.local, activite.nom as activiteNom,lower(activite.periode) as debut, upper(activite.periode) as fin, app.app_id as appId, app.nom as appNom, app.cours as appCours, type_activite.type_id as typeId, type_activite.nom as typeNom FROM activite
+        INNER JOIN type_activite ON type_activite.type_id = activite.type_id
+        INNER JOIN app ON app.app_id = activite.app_id
+        INNER JOIN app_usager ON app_usager.app_id = activite.app_id
+        JOIN session_app as sa ON sa.app_id = app.app_id
+        JOIN session as s on s.session_id = sa.session_id
+        WHERE app.app_id = #{appID} AND type_activite.type_id = #{typeID} AND app_usager.cip = #{cip} AND s.periode @> CURRENT_DATE
+        ORDER BY activiteNom,activite.periode ASC;
+    </select>
+
+    <select id="getPoids" resultType="ca.usherbrooke.gegi.server.business.Poids">
+        SELECT usager.cip, (SELECT COUNT(intendant.app_id) FROM intendant JOIN session_app as sa ON sa.app_id = intendant.app_id  JOIN session as s on s.session_id = sa.session_id WHERE s.periode @> CURRENT_DATE AND intendant.cip = usager.cip GROUP BY intendant.cip) / CAST((SELECT COUNT(session_app.app_id) FROM session_app
+        WHERE session_app.session_id = (SELECT session_app.session_id FROM session_app WHERE session_app.app_id = #{appID})) AS FLOAT) AS poids
+        FROM usager;
+    </select>
+
+    <select id="getEtudiantPreference" resultType="ca.usherbrooke.gegi.server.business.EtudiantPreference">
+        SELECT app_usager.cip as cip, usager_preference.preference_id as preferenceapp, usager.preference_id as preferenceglobal, usager_preference.intendant as intendant
+        FROM app_usager
+        LEFT JOIN usager_preference ON usager_preference.cip = app_usager.cip
+        INNER JOIN usager ON usager.cip = app_usager.cip
+        INNER JOIN session_app as sa ON sa.app_id = app_usager.app_id
+        INNER JOIN session as s on s.session_id = sa.session_id
+        WHERE app_usager.app_id = #{appID} AND (usager_preference.app_id is null OR usager_preference.app_id = #{appID}) AND s.periode @> CURRENT_DATE;
+    </select>
+
+    <select id="getPreference" resultType="ca.usherbrooke.gegi.server.business.Preference">
+        SELECT preference.preference_id as preferenceId, preference.nom, preference.debut, preference.fin FROM preference;
+    </select>
+
+    <select id="getNomActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT activite.nom as activiteNom, activite.activite_id as activiteId, activite.type_id as typeId
+        FROM activite
+    </select>
+
+</mapper>
