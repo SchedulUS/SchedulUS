@@ -1,10 +1,10 @@
 package ca.usherbrooke.gegi.server.service;
 
+import ca.usherbrooke.gegi.server.business.Person;
 import ca.usherbrooke.gegi.server.business.Preference;
-import ca.usherbrooke.gegi.server.persistence.PreferenceMapper;
-
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.SecurityContext;
+import ca.usherbrooke.gegi.server.persistence.UsagerMapper;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -12,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -19,33 +20,24 @@ import java.util.List;
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class PreferenceService
-{
+public class UsagerService {
 	@Context
 	SecurityContext securityContext;
 
 	@Inject
-	PreferenceMapper preferenceMapper;
+	UsagerMapper usagerMapper;
 
 	@GET 
-	@Path("getPreferences")
-	public List<Preference> getPreferences()
-	{
-		return preferenceMapper.getPreferences();
+	@Path("getNbrEchange")
+	public Person getNbrEchange(){
+		return usagerMapper.getNbrEchange(this.securityContext.getUserPrincipal().getName());
 	}
 
-	@GET
-	@Path("getPreferenceIntendance/{idAPP}")
-	public boolean getPreferenceIntendance(@PathParam("idAPP") int idAPP)
-	{
-		return preferenceMapper.getPreferenceIntendance(this.securityContext.getUserPrincipal().getName(), idAPP);
-	}
-
-	@GET
-	@Path("getPreferenceUsager")
-	public Integer getPreferenceUsager()
-	{
-		return preferenceMapper.getPreferenceUsager(this.securityContext.getUserPrincipal().getName());
+	@POST
+	@Path("/setPreference")
+	public Integer setPreference(@RequestBody Preference preference){
+		usagerMapper.setPreference(this.securityContext.getUserPrincipal().getName(), preference.preferenceId);
+		return 1;
 	}
 
 /*

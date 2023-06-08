@@ -1,17 +1,15 @@
 package ca.usherbrooke.gegi.server.persistence;
 
-import ca.usherbrooke.gegi.server.business.Preference;
+import ca.usherbrooke.gegi.server.business.Person;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-public interface PreferenceMapper
-{
-    List<Preference> getPreferences();
-    boolean getPreferenceIntendance(String cip, int id_app);
-    Integer getPreferenceUsager(String cip);
+public interface UsagerMapper {
+    Person getNbrEchange(String cip);
+    void setPreference(@Param("cip") String cip, @Param("preferenceId") int preferenceId);
 /*
     List<Message> select(String trimesterId, String profileId, String unit, Integer id);
     Message selectOne(Integer id);

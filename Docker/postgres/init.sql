@@ -12,11 +12,11 @@ SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-set search_path to public;
 
 DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA public;
@@ -24,8 +24,7 @@ CREATE SCHEMA public;
 CREATE TABLE preference(
     preference_id SERIAL NOT NULL,
     nom varchar(200) NOT NULL,
-    debut time NOT NULL,
-    fin time NOT NULL,
+    periode tsrange NOT NULL,
     PRIMARY KEY (preference_id)
 );
 
@@ -39,11 +38,11 @@ CREATE TABLE usager (
 	FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
 );
 
-CREATE TABLE session (
+CREATE TABLE `session` (
     session_id SERIAL NOT NULL,
     identifiant varchar(20) NOT NULL,
     periode daterange NOT NULL,
-    PRIMARY KEY (session_id)
+    PRIMARY KEY (`session`)
 );
 
 CREATE TABLE app(
@@ -69,7 +68,7 @@ CREATE TABLE usager_preference(
     PRIMARY KEY (cip, app_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id),
     FOREIGN KEY (cip) REFERENCES usager(cip),
-    FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
+    FOREIGN KEY (preference_id) REFERENCES `session`(preference_id)
 );
 
 CREATE TABLE type_activite(
@@ -81,9 +80,7 @@ CREATE TABLE type_activite(
 CREATE TABLE activite(
     activite_id SERIAL NOT NULL,
     nom varchar(200) NOT NULL,
-    nom_groupe varchar(200) NOT NULL,
-    local varchar(50) NOT NULL,
-    periode tsrange NOT NULL,
+    periode daterange NOT NULL,
     app_id SERIAL NOT NULL,
     type_id SERIAL NOT NULL,
     PRIMARY KEY (activite_id),
@@ -116,12 +113,12 @@ CREATE TABLE session_app(
 );
 
 CREATE TABLE usager_session(
-	session_id SERIAL NOT NULL,
-	cip CHAR(8) NOT NULL,
-	nbr_echange int NOT NULL DEFAULT 3,
-	PRIMARY KEY (session_id,cip),
-    FOREIGN KEY (session_id) REFERENCES session(session_id),
-    FOREIGN KEY (cip) REFERENCES usager(cip)
+    cip CHAR(8) NOT NULL,
+    session_id SERIAL NOT NULL,
+    nbr_echange INT NOT NULL DEFAULT 3,
+    PRIMARY KEY (cip, session_id)
+    FOREIGN KEY (cip) REFERENCES usager(cip),
+    FOREIGN KEY (session_id) REFERENCES `session`(session_id)
 );
 
 INSERT INTO type_activite(nom) VALUES 

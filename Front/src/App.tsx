@@ -10,14 +10,14 @@ import {Preference} from "./components/interfaces.tsx";
 function App()
 {
   const [preferences, setPreference] = useState<Preference[]>([])
-  
-  useEffect(() =>
-  {
+  const [nom, setNom] = useState("")
+  const [cip ,setCip] = useState("")
+
+  useEffect(() => {
     // declare the data fetching function
     const fetchData = async () =>
     {
       const result = await APIRequest<[]>("/getPreferences","GET",true);
-      console.log(result);
       if (result.data)
       {
         result.data.forEach((element:Preference) =>
@@ -26,6 +26,9 @@ function App()
           setPreference(preferences => [...preferences, preference]);
         });
       }
+      
+      setNom(getKeyCloakObj().tokenParsed.name)
+      setCip(getKeyCloakObj().tokenParsed.preferred_username)
     }
   
     // call the function
@@ -42,6 +45,7 @@ function App()
         </div>
         <h1>SchedulUS</h1>
         <div className='modules'>
+          <p>{nom}</p>
           <BasicModal preferences={preferences}/>
         </div>
       </nav>
