@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import PreferencesAPP from './components/PreferencesAPP/PreferencesAPP.tsx';
 import { getKeyCloakObj } from './utils/keycloakUtils.js'
 import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
@@ -17,9 +18,10 @@ function App()
   const [optionValue, setOptionValue] = useState<number>(0);
   const [optionValueApp, setOptionValueApp] = useState<number>(0);
 
-  useEffect(() => {
-    // declare the data fetching function
-    const fetchData = async () => {
+  useEffect(() =>
+  {
+    const fetchData = async () =>
+    {
       const result = await APIRequest<[]>("/getPreferences","GET",true);
       if (result.data)
       {

@@ -20,25 +20,25 @@ export default function SelectSmall(props:{label:string,options:Preference[],val
       }
       
     }
-    // call the function
-    fetchData()
-      // make sure to catch any error
-      .catch(console.error);
+    
+    fetchData().catch(console.error);
   };
 
   const elements : JSX.Element[] = props.options.map(e=>
   {
     return <MenuItem key={e.preferenceId} value={e.preferenceId}>{e.nom}</MenuItem>
   });
-  
+  console.log("Select")
+  console.log(props.value)
+  console.log(props.options)
   return (
     <FormControl sx={{ m: 1, width:'100%'}} size="small">
       <InputLabel id="demo-select-small-label">{props.label}</InputLabel>
-      {props.value && props.options && 
+      { 
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
-        value={props.value.toString()}
+        value={props.value ? props.value.toString() : ""}
         onChange={handleChange}
         label={props.label}
       >

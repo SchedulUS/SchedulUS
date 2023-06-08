@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import * as React from 'react';
 import {Box} from '@mui/material';
 import Button from '@mui/material/Button';
@@ -43,10 +42,10 @@ const style =
 
        // declare the data fetching function
       const fetchData2 = async () => {
-        const result = await APIRequest<Preference>("/getPreferenceUsager","GET",true);
+        const result = await APIRequest<number>("/getPreferenceUsager","GET",true);
         if (result.data !== undefined)
         {
-          props.setOptionValue(result.data.preferenceId);
+          props.setOptionValue(result.data);
         }
         
       }

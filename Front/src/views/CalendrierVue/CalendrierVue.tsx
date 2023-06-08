@@ -4,8 +4,8 @@ import "./CalendrierVue.css"
 import { APIRequest } from "../../utils/apiUtils";
 import { ResultatActivite } from "../../types/api/getActivites/resultatActivite";
 import { Activite } from "../../components/Calendrier/Activite";
-import PreferencesAPP from "../../components/PreferencesAPP";
 import { Preference } from "../../components/interfaces";
+import PreferencesAPP from "../../components/PreferencesAPP/PreferencesAPP";
 
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
@@ -43,7 +43,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             <div></div>
             <Calendrier activities={activites} currentDate={currentDate}/>
             <div>
-                <PreferencesAPP preferences={props.preferences} appCourant={props.appCourant} typeActiviteCourant={props.typeActiviteCourant} optionValue={props.optionValue} setOptionValue={props.setOptionValue}/>
+                <PreferencesAPP preferences={props.preferences} appId={props.appCourant} />
             </div>
         </div>
     )

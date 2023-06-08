@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class UsagerService {
+public class UsagerService
+{
 	@Context
 	SecurityContext securityContext;
 
@@ -29,13 +30,15 @@ public class UsagerService {
 
 	@GET 
 	@Path("getNbrEchange")
-	public Person getNbrEchange(){
+	public Person getNbrEchange()
+	{
 		return usagerMapper.getNbrEchange(this.securityContext.getUserPrincipal().getName());
 	}
 
 	@POST
 	@Path("/setPreference")
-	public Integer setPreference(@RequestBody Preference preference){
+	public Integer setPreference(@RequestBody Preference preference)
+	{
 		usagerMapper.setPreference(this.securityContext.getUserPrincipal().getName(), preference.preferenceId);
 		return 1;
 	}

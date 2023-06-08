@@ -6,7 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 @Mapper
-public interface ActiviteMapper {
+public interface ActiviteMapper
+{
     List<Activite> getActivite(@Param("appID") int appID, @Param("typeID") int typeID, String cip);
     List<Activite> getActivites(String cip);
     List<Activite> getNomActivite();

@@ -13,7 +13,9 @@ import java.util.List;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
-public class ActiviteService {
+@RolesAllowed({"etudiant"})
+public class ActiviteService
+{
     @Context
     SecurityContext securityContext;
     @Inject
@@ -21,7 +23,8 @@ public class ActiviteService {
 
     @GET
     @Path("getActivite/{appID}/{typeID}")
-    public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
+    public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID)
+    {
         return activiteMapper.getActivite(appID,typeID, this.securityContext.getUserPrincipal().getName());
     }
 
