@@ -3,17 +3,16 @@ import Checkbox from '@mui/material/Checkbox'
 import {APIRequest} from "../utils/apiUtils.ts";
 /*import {pink} from "@mui/material/colors"*/
 
-export default function ControlledCheckbox(props:{checked:boolean})
+export default function ControlledCheckbox(props:{checked:boolean, setChecked:(boolean)=>void})
 {
-    const [checked, setChecked] = React.useState(props.checked)
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     {
-        setChecked(event.target.checked)
-        console.log(checked)
+        let newValue = event.target.checked;
+        props.setChecked(newValue)
+        /*console.log(checked)*/
         const fetchData = async () =>
         {
-            await APIRequest<[]>("/setPreferenceIntendance","POST",true,{"idAPP": 3/*TODO : app actuel avec Émile*/,"intendance": checked});
+            await APIRequest<[]>("/setPreferenceIntendance","POST",true,{"idAPP": 3/*TODO : app actuel avec Émile*/,"intendance": newValue});
         }
 
         fetchData().catch(console.error);
@@ -21,7 +20,7 @@ export default function ControlledCheckbox(props:{checked:boolean})
 
     return (
         <Checkbox
-            checked={checked}
+            checked={props.checked}
             onChange={handleChange}
             inputProps={{ 'aria-label': 'controlled' }}
             /*sx={{

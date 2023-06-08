@@ -10,7 +10,7 @@ import java.util.List;
 public interface PreferenceMapper
 {
     List<Preference> getPreferences();
-    boolean getPreferenceIntendance(String cip, int idAPP);
+    boolean getPreferenceIntendance(@Param("cip") String cip, int idAPP);
     void setPreferenceIntendance(@Param("cip") String cip, @Param("idAPP") int idAPP, @Param("intendance") boolean intendance);
     Integer getPreferenceUsager(String cip);
 /*

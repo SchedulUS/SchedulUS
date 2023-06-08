@@ -1,7 +1,7 @@
 import './PreferencesAPP.css'
 import HelpIcon from '@mui/icons-material/Help'
 import EventNoteIcon from '@mui/icons-material/EventNote'
-import Checkbox from '../Checkbox'
+import ControlledCheckbox from '../Checkbox'
 import SelectSmall from "../Select"
 import { Preference } from '../interfaces'
 import { APIRequest } from '../../utils/apiUtils'
@@ -18,10 +18,16 @@ export default function PreferencesAPP(props:{preferences:Preference[]})
         const fetchData = async () =>
         {
             const result = await APIRequest<boolean>("/getPreferenceIntendance/" + "3"/*TODO : app actuel avec Émile*/,"GET",true);
-            console.log(result)
-            if (result.data)
+
+            if (result.data != null)
             {
                 setIntendanceChecked(result.data)
+                console.log("Data: ")
+                console.log(result.data)
+            }
+            else
+            {
+                console.log("No data")
             }
         }
         fetchData().catch(console.error);
@@ -55,7 +61,7 @@ export default function PreferencesAPP(props:{preferences:Preference[]})
                     <HelpIcon sx={{ fontSize: 18 }}/>
                     <span className="texte">Intention d'intendance</span>
                 </div>
-                <Checkbox checked={intendanceChecked}/>
+                <ControlledCheckbox checked={intendanceChecked} setChecked={setIntendanceChecked}/>
             </div>
         </div>
     )
