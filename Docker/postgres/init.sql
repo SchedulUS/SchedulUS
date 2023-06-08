@@ -18,23 +18,8 @@ SET client_min_messages = warning;
 SET row_security = off;
 set search_path to public;
 
-DROP SCHEMA IF EXISTS public;
+DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA public;
-
-CREATE TABLE usager (
-    cip CHAR(8) NOT NULL,
-    prenom varchar(200) NOT NULL,
-    nom varchar(200) NOT NULL,
-    cote_preference float NOT NULL DEFAULT 0.0,
-    PRIMARY KEY (cip)
-);
-
-CREATE TABLE session (
-    session_id SERIAL NOT NULL,
-    identifiant varchar(20) NOT NULL,
-    periode daterange NOT NULL,
-    PRIMARY KEY (session_id)
-);
 
 CREATE TABLE preference(
     preference_id SERIAL NOT NULL,
@@ -42,6 +27,23 @@ CREATE TABLE preference(
     debut time NOT NULL,
     fin time NOT NULL,
     PRIMARY KEY (preference_id)
+);
+
+CREATE TABLE usager (
+    cip CHAR(8) NOT NULL,
+    prenom varchar(200) NOT NULL,
+    nom varchar(200) NOT NULL,
+    cote_preference float NOT NULL DEFAULT 0.0,
+	preference_id int NOT NULL DEFAULT 1,
+    PRIMARY KEY (cip),
+	FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
+);
+
+CREATE TABLE session (
+    session_id SERIAL NOT NULL,
+    identifiant varchar(20) NOT NULL,
+    periode daterange NOT NULL,
+    PRIMARY KEY (session_id)
 );
 
 CREATE TABLE app(
@@ -63,7 +65,8 @@ CREATE TABLE usager_preference(
     cip CHAR(8) NOT NULL,
     preference_id SERIAL NOT NULL,
     app_id SERIAL,
-    PRIMARY KEY (cip),
+    intendant BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (cip, app_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id),
     FOREIGN KEY (cip) REFERENCES usager(cip),
     FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
@@ -112,10 +115,19 @@ CREATE TABLE session_app(
     FOREIGN KEY (app_id) REFERENCES app(app_id)
 );
 
+CREATE TABLE usager_session(
+	session_id SERIAL NOT NULL,
+	cip CHAR(8) NOT NULL,
+	nbr_echange int NOT NULL DEFAULT 3,
+	PRIMARY KEY (session_id,cip),
+    FOREIGN KEY (session_id) REFERENCES session(session_id),
+    FOREIGN KEY (cip) REFERENCES usager(cip)
+);
+
 INSERT INTO type_activite(nom) VALUES 
 ('Tutorat d''ouverture'),('Tutorat de fermeture');
 INSERT INTO preference(nom,debut,fin) VALUES
-('Avant-midi','08:00:00', '11:59:59'),
+('Avant-midi','08:00:00', '12:00:00'),
 ('Après-midi', '12:00:00', '18:00:00');
 INSERT INTO usager(cip,prenom,nom) VALUES
 ('aubj1202', 'Joséanne', 'Aubut'),
@@ -208,3 +220,16 @@ INSERT INTO app_usager(app_id,cip) VALUES
 
 INSERT INTO session_app (session_id,app_id) VALUES
 (1,1),(1,2),(1,3),(1,4),(1,5);
+
+INSERT INTO intendant(cip, app_id) VALUES
+('laft1301',1),
+('sevm1802',1),
+('stds2101',2),
+('aubj1202',3),
+('sehk2201',3);
+
+INSERT INTO usager_preference(cip, preference_id, app_id) VALUES
+('laft1301',1,1),
+('laft1301',1,2),
+('sevm1802',2,1),
+('sevm1802',1,2);
