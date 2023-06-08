@@ -231,5 +231,6 @@ INSERT INTO intendant(cip, app_id) VALUES
 INSERT INTO usager_preference(cip, preference_id, app_id) VALUES
 ('laft1301',1,1),
 ('laft1301',1,2),
+('stds2101',2,3),
 ('sevm1802',2,1),
 ('sevm1802',1,2);
