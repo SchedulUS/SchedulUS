@@ -54,8 +54,8 @@ export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeAc
     const handlePreviousClick = () => {
         if (previousData >= 1) {
             setPrevious(previousData - 1);
-            props.setAppCourant(data[previousData + 1].appId)
-            props.setTypeActiviteCourant(data[previousData + 1].typeId)
+            props.setAppCourant(data[previousData - 1].appId)
+            props.setTypeActiviteCourant(data[previousData - 1].typeId)
         }
     };
 
