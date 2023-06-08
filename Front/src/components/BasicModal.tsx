@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-import Box from '@mui/material/Box';
+import {Box} from '@mui/material';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import SelectSmall from './Select';
 import { Preference } from './interfaces';
 import { APIRequest } from '../utils/apiUtils';
 import { getKeyCloakObj } from '../utils/keycloakUtils';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 
 const style =
@@ -22,10 +23,9 @@ const style =
       p: 4,
       color: 'black',
     };
-  export default function BasicModal(props:{preferences:Preference[]}) {
+  export default function BasicModal(props:{preferences:Preference[],optionValue:string,setOptionValue:(string)=>void}) {
     const [open, setOpen] = React.useState(false);
     const [nbrEchange, setNbrEchange] = React.useState(0);
-    const [optionValue, setOptionValue] = React.useState("");
     
     const handleOpen = () => {
       // declare the data fetching function
@@ -48,7 +48,7 @@ const style =
         const result = await APIRequest<string>("/getPreferenceUsager","GET",true);
         if (result.data)
         {
-          setOptionValue(result.data);
+          props.setOptionValue(result.data);
         }
         
       }
@@ -70,8 +70,8 @@ const style =
  
   return (
     <div>
-      <Button onClick={handleOpen} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
-        <span style={{ fontSize: '1.2em' }}>&#9881;</span>
+      <Button onClick={handleOpen} style={{ border: 'none', background: 'none', cursor: 'pointer', color:'white' }}>
+        <SettingsIcon></SettingsIcon>
       </Button>
       <Modal
         open={open}
@@ -83,15 +83,14 @@ const style =
           <div>
             <p>Préférence du groupe de tutorat par défaut</p>
             <div>
-              
                 <SelectSmall
                   label="Sélectionnez une préférence"
                   options={props.preferences}
-                  value={optionValue}
-                  setValue={setOptionValue}
+                  value={props.optionValue}
+                  setValue={props.setOptionValue}
+                  global={true}
                 />
               </div>
-              
             </div>
           
           <p>Nombre d'échanges de groupe restant pour la session : {nbrEchange}</p>

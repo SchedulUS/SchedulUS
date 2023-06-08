@@ -33,10 +33,25 @@ public class PreferenceService {
 
 	@GET
 	@Path("getPreferenceUsager")
-	public Integer getPreferenceUsager(){
-		return preferenceMapper.getPreferenceUsager(this.securityContext.getUserPrincipal().getName());
+	public Preference getPreferenceUsager(){
+		Preference p = preferenceMapper.getPreferenceUsager(this.securityContext.getUserPrincipal().getName());
+		if(p == null){
+			p = new Preference();
+			return p;
+		}
+		return p;
 	}
 
+	@GET
+	@Path("getPreferenceUsagerApp/{appId}")
+	public Preference getPreferenceAppUsager(@PathParam("appId") int appId){
+		Preference p = preferenceMapper.getPreferenceAppUsager(this.securityContext.getUserPrincipal().getName(), appId);
+		if(p == null){
+			p = new Preference();
+			return p;
+		}
+		return p;
+	}
 /*
 	@GET
 	@Path("getmessages/{trimester}/{profile}/{unit}")

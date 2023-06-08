@@ -26,6 +26,12 @@ public class ActiviteService {
     }
 
     @GET
+    @Path("getActivites")
+    public List<Activite> getActivites(){
+        return activiteMapper.getActivites(this.securityContext.getUserPrincipal().getName());
+    }
+
+    @GET
     @Path("getActivite")
     public List<Activite> getNomActivite(){
         return activiteMapper.getNomActivite();

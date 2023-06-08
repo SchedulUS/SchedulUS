@@ -84,6 +84,8 @@ export async function APIRequest<T>(endURL:string,method:Method,isAuth:boolean,b
             return response.text();
         })
         .then(text => {
+            console.log("BANANE")
+            console.log(text)
             data = JSON.parse(text);
             //In my API if there is an error, the reveived data as no content.
             if (!data.content){

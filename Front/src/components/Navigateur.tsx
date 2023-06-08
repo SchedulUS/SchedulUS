@@ -6,7 +6,9 @@ import "./Navigateur.css";
 import {IconButton} from "@mui/material";
 
 interface Activite{
-    activiteNom: string
+    activiteNom: string,
+    appId: number,
+    typeId: number
 }
 
 function RemoveRedundants(activites:Activite[])
@@ -17,17 +19,23 @@ function RemoveRedundants(activites:Activite[])
     });
 }
 
-export default function Navigateur() {
+export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeActiviteCourant:(number)=>void}) {
     const [data, setData] = useState<Activite[]>([]);
+    const [previousData, setPrevious] = useState<number>();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await APIRequest<Activite[]>("/getActivite","GET",true);
+                const result = await APIRequest<Activite[]>("/getActivites","GET",true);
                 if(result.data) {
-                    console.log()
                     setData(RemoveRedundants(result.data));
                     setPrevious(0);
-                    console.log(result.data)
+                    console.log("TESTTT")
+                    console.log(data)
+                    if(result.data.length > 0){
+                        props.setAppCourant(result.data[0].appId);
+                        props.setTypeActiviteCourant(result.data[0].typeId);
+                    }
                 }
             }
             catch (error){
@@ -37,25 +45,28 @@ export default function Navigateur() {
         fetchData();
     },[])
 
- const [previousData, setPrevious] = useState<number>();
 
     const handleNextClick = () => {
         if (previousData >= data.length - 1) return;
         setPrevious(previousData + 1);
+        props.setAppCourant(data[previousData].appId)
+        props.setTypeActiviteCourant(data[previousData].typeId)
     };
 
     const handlePreviousClick = () => {
         if (previousData >= 1) {
             setPrevious(previousData - 1);
+            props.setAppCourant(data[previousData].appId)
+            props.setTypeActiviteCourant(data[previousData].typeId)
         }
     };
 
 
  return(
-     <div         className= "Navigateur-containeur">
+     <div className= "Navigateur-containeur">
          <div>
              <IconButton onClick={handlePreviousClick}>
-                 <ArrowBackIos ></ArrowBackIos>
+                 <ArrowBackIos style={{color:'white'}}></ArrowBackIos>
              </IconButton>
          </div>
 
@@ -65,7 +76,7 @@ export default function Navigateur() {
 
          <div>
              <IconButton  onClick={handleNextClick}>
-                 <ArrowForwardIos></ArrowForwardIos>
+                 <ArrowForwardIos style={{color:'white'}}></ArrowForwardIos>
              </IconButton>
          </div>
 

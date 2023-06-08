@@ -7,14 +7,20 @@ import { Preference } from './interfaces';
 import { getKeyCloakObj } from '../utils/keycloakUtils';
 import { APIRequest } from '../utils/apiUtils';
 
-export default function SelectSmall(props:{label:string,options:Preference[],value:string,setValue:(string)=>void}) {
+export default function SelectSmall(props:{label:string,options:Preference[],value:string,setValue:(string)=>void,global:boolean}) {
 
 
   const handleChange = (event: SelectChangeEvent) =>
   {
     props.setValue(event.target.value);
+    
     const fetchData = async () => {
-      await APIRequest<[]>("/setPreference","POST",true,{ preferenceId: event.target.value});
+      if(props.global){
+        await APIRequest<[]>("/setPreference","POST",true,{ preferenceId: event.target.value});
+      }else{
+          //SET PREFERENCE APP [TODO]
+      }
+      
     }
     // call the function
     fetchData()

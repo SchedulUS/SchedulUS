@@ -8,9 +8,15 @@
     SELECT preference_id, nom FROM public.preference
 </select>
 
-<select id="getPreferenceUsager" resultType="Integer">
-    SELECT preference_id FROM public.usager
+<select id="getPreferenceUsager" resultType="ca.usherbrooke.gegi.server.business.Preference">
+    SELECT preference_id FROM public.usager 
     WHERE cip = #{cip}
+</select>
+
+<select id="getPreferenceAppUsager" resultType="ca.usherbrooke.gegi.server.business.Preference">
+    SELECT up.preference_id
+    FROM public.usager u JOIN public.usager_preference up on u.cip = up.cip
+    WHERE u.cip = #{cip} AND up.app_id = #{appId}
 </select>
 
 <!--

@@ -7,13 +7,17 @@ import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
 import Navigateur from "./components/Navigateur.tsx";
-import { CalendrierVue } from './views/CalendrierVue/CalendrierVue.js';
+import { CalendrierVue } from './views/CalendrierVue/CalendrierVue';
 
 function App()
 {
-  const [preferences, setPreference] = useState<Preference[]>([])
-  const [nom, setNom] = useState("")
-  const [cip ,setCip] = useState("")
+  const [preferences, setPreference] = useState<Preference[]>([]);
+  const [nom, setNom] = useState("");
+  const [cip ,setCip] = useState("");
+  const [appCourant, setAppCourant] = useState(0);
+  const [typeActiviteCourant, setTypeActiviteCourant] = useState(0);
+  const [optionValue, setOptionValue] = useState("");
+  const [optionValueApp, setOptionValueApp] = useState("");
 
   useEffect(() => {
     // declare the data fetching function
@@ -30,32 +34,50 @@ function App()
       setNom(getKeyCloakObj().tokenParsed.name)
       setCip(getKeyCloakObj().tokenParsed.preferred_username)
     }
-  
-    // call the function
-    fetchData()
-      // make sure to catch any error
-      .catch(console.error);
+
+    fetchData().catch(console.error);
   }, [])
 
+  
+  useEffect(() => {
+    console.log("APPCOURANT")
+    console.log(appCourant)
+    if(appCourant != 0){
+      const fetchData = async () => {
+        const result = await APIRequest<[]>(`/getPreferenceUsagerApp/${appCourant}`,"GET",true);
+        if (result.data)
+        {
+          if(result.data["preference_id"]){
+            setOptionValueApp(result.data["preference_id"]);
+          }else{
+            const result = await APIRequest<[]>(`/getPreferenceUsager/`,"GET",true);
+            if(result.data){
+              setOptionValueApp(result.data["preference_id"]);
+            }
+          }
+        }
+    
+      }
+      
+      fetchData().catch(console.error);
+    }
+  }, [appCourant]);
 
   return (
     <>
       <nav>
         <div className='modules'>
-          <p>Émile</p>
+          <Navigateur setAppCourant={setAppCourant} setTypeActiviteCourant={setTypeActiviteCourant}/>
         </div>
         <h1>SchedulUS</h1>
         <div className='modules'>
           <p>{nom}</p>
-          <BasicModal preferences={preferences}/>
+          <BasicModal preferences={preferences} optionValue={optionValue} setOptionValue={setOptionValue}/>
         </div>
       </nav>
       <div>
-          <PreferencesAPP/>
+        <CalendrierVue preferences={preferences} appCourant={appCourant} typeActiviteCourant={typeActiviteCourant} optionValue={optionValueApp} setOptionValue={setOptionValueApp}/>
       </div>
-        <div>
-            <Fuck_qui /> {/* Appel de Fuck_qui */}
-        </div>
     </>
   )
 }
