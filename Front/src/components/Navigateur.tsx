@@ -11,14 +11,6 @@ interface Activite{
     typeId: number
 }
 
-function RemoveRedundants(activites:Activite[])
-{
-    var seen = {};
-    return activites.filter(function(item) {
-        return seen.hasOwnProperty(item.activiteNom) ? false : (seen[item.activiteNom] = true);
-    });
-}
-
 export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeActiviteCourant:(number)=>void}) {
     const [data, setData] = useState<Activite[]>([]);
     const [previousData, setPrevious] = useState<number>();
@@ -28,10 +20,8 @@ export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeAc
             try {
                 const result = await APIRequest<Activite[]>("/getActivites","GET",true);
                 if(result.data) {
-                    setData(RemoveRedundants(result.data));
+                    setData(result.data);
                     setPrevious(0);
-                    console.log("TESTTT")
-                    console.log(data)
                     if(result.data.length > 0){
                         props.setAppCourant(result.data[0].appId);
                         props.setTypeActiviteCourant(result.data[0].typeId);

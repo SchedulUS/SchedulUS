@@ -4,11 +4,9 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import Checkbox from './Checkbox.tsx';
 import SelectSmall from "./Select.tsx";
 import {Tooltip,IconButton} from '@mui/material';
-import { useEffect, useState } from 'react';
-import { APIRequest } from '../utils/apiUtils.ts';
 import { Preference } from './interfaces.tsx';
 
-export default function PreferencesAPP(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:string,setOptionValue:(string)=>void})
+export default function PreferencesAPP(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
     return (
         <div className="boite">

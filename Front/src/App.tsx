@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Fuck_qui from './composants/Fuck_qui.tsx'
-import PreferencesAPP from './components/PreferencesAPP.tsx';
-import { getKeyCloakObj, logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js'
+import { getKeyCloakObj } from './utils/keycloakUtils.js'
 import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
@@ -16,8 +14,8 @@ function App()
   const [cip ,setCip] = useState("");
   const [appCourant, setAppCourant] = useState(0);
   const [typeActiviteCourant, setTypeActiviteCourant] = useState(0);
-  const [optionValue, setOptionValue] = useState("");
-  const [optionValueApp, setOptionValueApp] = useState("");
+  const [optionValue, setOptionValue] = useState<number>(0);
+  const [optionValueApp, setOptionValueApp] = useState<number>(0);
 
   useEffect(() => {
     // declare the data fetching function
@@ -26,7 +24,7 @@ function App()
       if (result.data)
       {
         result.data.forEach((element:Preference) => {
-          let preference = {preferenceId: element.preferenceId, nom: element.nom}
+          const preference = {preferenceId: element.preferenceId, nom: element.nom}
           setPreference(preferences => [...preferences, preference]);
         });
       }
@@ -40,19 +38,17 @@ function App()
 
   
   useEffect(() => {
-    console.log("APPCOURANT")
-    console.log(appCourant)
     if(appCourant != 0){
       const fetchData = async () => {
-        const result = await APIRequest<[]>(`/getPreferenceUsagerApp/${appCourant}`,"GET",true);
+        const result = await APIRequest<Preference>(`/getPreferenceUsagerApp/${appCourant}`,"GET",true);
         if (result.data)
         {
-          if(result.data["preference_id"]){
-            setOptionValueApp(result.data["preference_id"]);
+          if(result.data !== undefined){
+            setOptionValueApp(result.data.preferenceId);
           }else{
-            const result = await APIRequest<[]>(`/getPreferenceUsager/`,"GET",true);
+            const result = await APIRequest<Preference>(`/getPreferenceUsager/`,"GET",true);
             if(result.data){
-              setOptionValueApp(result.data["preference_id"]);
+              setOptionValueApp(result.data.preferenceId);
             }
           }
         }

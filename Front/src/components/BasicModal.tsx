@@ -6,13 +6,12 @@ import Modal from '@mui/material/Modal';
 import SelectSmall from './Select';
 import { Preference } from './interfaces';
 import { APIRequest } from '../utils/apiUtils';
-import { getKeyCloakObj } from '../utils/keycloakUtils';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 
 const style =
     {
-      position: 'absolute' as 'absolute',
+      position: 'absolute',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
@@ -23,7 +22,7 @@ const style =
       p: 4,
       color: 'black',
     };
-  export default function BasicModal(props:{preferences:Preference[],optionValue:string,setOptionValue:(string)=>void}) {
+  export default function BasicModal(props:{preferences:Preference[],optionValue:number,setOptionValue:(param:number)=>void}) {
     const [open, setOpen] = React.useState(false);
     const [nbrEchange, setNbrEchange] = React.useState(0);
     
@@ -31,7 +30,6 @@ const style =
       // declare the data fetching function
       const fetchData = async () => {
         const result = await APIRequest<[]>("/getNbrEchange","GET",true);
-        console.log(result)
         if (result.data)
         {
           setNbrEchange(result.data["nbrEchange"])
@@ -45,10 +43,10 @@ const style =
 
        // declare the data fetching function
       const fetchData2 = async () => {
-        const result = await APIRequest<string>("/getPreferenceUsager","GET",true);
-        if (result.data)
+        const result = await APIRequest<Preference>("/getPreferenceUsager","GET",true);
+        if (result.data !== undefined)
         {
-          props.setOptionValue(result.data);
+          props.setOptionValue(result.data.preferenceId);
         }
         
       }

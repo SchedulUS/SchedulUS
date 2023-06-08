@@ -7,10 +7,8 @@ import { Activite } from "../../components/Calendrier/Activite";
 import PreferencesAPP from "../../components/PreferencesAPP";
 import { Preference } from "../../components/interfaces";
 
-const appId = 1;
-const typeId = 1;
 
-export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:string,setOptionValue:(string)=>void})
+export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
@@ -38,7 +36,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
         }
 
         getActivities();
-    },[])
+    },[props.appCourant,props.typeActiviteCourant])
     
     return (
         <div id="calendriervue">
