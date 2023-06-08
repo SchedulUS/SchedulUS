@@ -6,6 +6,8 @@ import { getKeyCloakObj, logout, requestForStudent, requestForTeacher } from './
 import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
+import Navigateur from "./components/Navigateur.tsx";
+import { CalendrierVue } from './views/CalendrierVue/CalendrierVue.js';
 
 function App()
 {
