@@ -13,8 +13,8 @@ function App()
   const [nom, setNom] = useState("")
   const [cip ,setCip] = useState("")
 
-  useEffect(() => {
-    // declare the data fetching function
+  useEffect(() =>
+  {
     const fetchData = async () =>
     {
       const result = await APIRequest<[]>("/getPreferences","GET",true);
@@ -30,11 +30,7 @@ function App()
       setNom(getKeyCloakObj().tokenParsed.name)
       setCip(getKeyCloakObj().tokenParsed.preferred_username)
     }
-  
-    // call the function
-    fetchData()
-      // make sure to catch any error
-      .catch(console.error);
+    fetchData().catch(console.error);
   }, [])
 
   return (

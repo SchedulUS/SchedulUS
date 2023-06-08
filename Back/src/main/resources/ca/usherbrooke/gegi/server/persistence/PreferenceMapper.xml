@@ -11,10 +11,16 @@
             WHERE cip = #{cip} AND app_id = #{idAPP}
     </select>
 
-<select id="getPreferenceUsager" resultType="Integer">
-    SELECT preference_id FROM public.usager
-    WHERE cip = #{cip}
-</select>
+    <update id="setPreferenceIntendance">
+        UPDATE public.usager_preference
+            SET intendance = #{intendance}
+            WHERE cip = #{cip} AND app_id = #{idAPP}
+    </update>
+
+    <select id="getPreferenceUsager" resultType="Integer">
+        SELECT preference_id FROM public.usager
+        WHERE cip = #{cip}
+    </select>
 
 <!--
     <select id="select" resultType="ca.usherbrooke.fgen.api.business.Message">

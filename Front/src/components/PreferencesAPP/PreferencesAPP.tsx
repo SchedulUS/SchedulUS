@@ -17,7 +17,7 @@ export default function PreferencesAPP(props:{preferences:Preference[]})
     {
         const fetchData = async () =>
         {
-            const result = await APIRequest<boolean>("/getPreferenceIntendance/"+ "2"/*TODO : app actuel avec Émile*/,"GET",true);
+            const result = await APIRequest<boolean>("/getPreferenceIntendance/" + "3"/*TODO : app actuel avec Émile*/,"GET",true);
             console.log(result)
             if (result.data)
             {
@@ -48,7 +48,7 @@ export default function PreferencesAPP(props:{preferences:Preference[]})
                 <div className="article">
                     <EventNoteIcon sx={{ fontSize: 18 }}/>
                 </div>
-                <SelectSmall label="Plage horaire" options={props.preferences} value={valPlageHoraire} setValue={setValPlageHoraire()}/>
+                <SelectSmall label="Plage horaire" options={props.preferences} value={valPlageHoraire} setValue={setValPlageHoraire}/>
             </div>
             <div className="ligne">
                 <div className="article">
