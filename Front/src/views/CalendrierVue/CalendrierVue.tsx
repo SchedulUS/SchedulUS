@@ -42,7 +42,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
         <div id="calendriervue">
             <div></div>
             <Calendrier activities={activites} currentDate={currentDate}/>
-            <div>
+            <div id="preferenceAPPDiv">
                 <PreferencesAPP preferences={props.preferences} appId={props.appCourant} />
             </div>
         </div>
