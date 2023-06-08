@@ -7,8 +7,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface PreferenceMapper {
+public interface PreferenceMapper
+{
     List<Preference> getPreferences();
+    boolean getPreferenceIntendance(String cip, int id_app);
 /*
     List<Message> select(String trimesterId, String profileId, String unit, Integer id);
     Message selectOne(Integer id);

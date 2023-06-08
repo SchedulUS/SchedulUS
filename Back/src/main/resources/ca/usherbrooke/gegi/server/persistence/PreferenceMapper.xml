@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.gegi.server.persistence.PreferenceMapper">
 
-<select id="getPreferences" resultType="ca.usherbrooke.gegi.server.business.Preference">
-    SELECT preference_id, nom FROM public.preference
-</select>
+    <select id="getPreferences" resultType="ca.usherbrooke.gegi.server.business.Preference">
+        SELECT preference_id, nom FROM public.preference
+    </select>
+
+    <select id="getPreferenceIntendance" resultType="java.lang.Boolean">
+        SELECT intendance FROM public.usager_preference
+            WHERE cip = #{cip} AND app_id = #{idAPP}
+    </select>
 
 <!--
     <select id="select" resultType="ca.usherbrooke.fgen.api.business.Message">

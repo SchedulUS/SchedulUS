@@ -1,4 +1,5 @@
-export interface Preference{
+export interface Preference
+{
     preferenceId:number;
     nom:string;
 }

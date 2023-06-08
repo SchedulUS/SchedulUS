@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import PreferencesAPP from './components/PreferencesAPP.tsx';
+import PreferencesAPP from './components/PreferencesAPP/PreferencesAPP.tsx';
 import { getKeyCloakObj } from './utils/keycloakUtils.js'
 import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
 import { CalendrierVue } from './views/CalendrierVue/CalendrierVue.js';
+import {Preference} from "./components/interfaces.tsx";
 
 function App()
 {

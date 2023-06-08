@@ -13,7 +13,6 @@ export default function SelectSmall(props:{label:string,options:Preference[]})
   {
     setIndex(event.target.value);
   };
-
   
   const elements : JSX.Element[] = props.options.map(e=>
   {

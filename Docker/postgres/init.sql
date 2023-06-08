@@ -65,7 +65,7 @@ CREATE TABLE usager_preference(
     cip CHAR(8) NOT NULL,
     preference_id SERIAL NOT NULL,
     app_id SERIAL,
-    intendant BOOLEAN NOT NULL DEFAULT FALSE,
+    intendance BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (cip, app_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id),
     FOREIGN KEY (cip) REFERENCES usager(cip),
