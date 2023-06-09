@@ -30,8 +30,6 @@ export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeAc
                 if(result.data) {
                     setData(RemoveRedundants(result.data));
                     setPrevious(0);
-                    console.log("TESTTT")
-                    console.log(data)
                     if(result.data.length > 0){
                         props.setAppCourant(result.data[0].appId);
                         props.setTypeActiviteCourant(result.data[0].typeId);

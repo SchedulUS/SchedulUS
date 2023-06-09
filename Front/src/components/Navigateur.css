@@ -3,6 +3,6 @@
     flex-direction: row;
     align-items: baseline;
 }
-span{
+.Navigateur-containeur span{
     font-size:18px;
 }

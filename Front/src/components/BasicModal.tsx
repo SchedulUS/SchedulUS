@@ -31,7 +31,6 @@ const style =
       // declare the data fetching function
       const fetchData = async () => {
         const result = await APIRequest<[]>("/getNbrEchange","GET",true);
-        console.log(result)
         if (result.data)
         {
           setNbrEchange(result.data["nbrEchange"])

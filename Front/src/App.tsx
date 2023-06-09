@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Fuck_qui from './composants/Fuck_qui.tsx'
 import PreferencesAPP from './components/PreferencesAPP.tsx';
 import { getKeyCloakObj, logout, requestForStudent, requestForTeacher } from './utils/keycloakUtils.js'
 import { APIRequest } from './utils/apiUtils.js'
@@ -40,8 +39,6 @@ function App()
 
   
   useEffect(() => {
-    console.log("APPCOURANT")
-    console.log(appCourant)
     if(appCourant != 0){
       const fetchData = async () => {
         const result = await APIRequest<[]>(`/getPreferenceUsagerApp/${appCourant}`,"GET",true);
