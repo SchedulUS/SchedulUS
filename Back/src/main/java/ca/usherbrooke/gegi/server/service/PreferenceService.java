@@ -37,7 +37,7 @@ public class PreferenceService
 
 	@GET
 	@Path("getPreferenceIntendance/{idAPP}")
-	public boolean getPreferenceIntendance(@PathParam("idAPP") int idAPP)
+	public Boolean getPreferenceIntendance(@PathParam("idAPP") int idAPP)
 	{
 		return preferenceMapper.getPreferenceIntendance(this.securityContext.getUserPrincipal().getName(), idAPP);
 	}
@@ -59,7 +59,7 @@ public class PreferenceService
 
 	@GET
 	@Path("getPreferenceUsagerApp/{appId}")
-	public boolean getPreferenceAppUsager(@PathParam("appId") int appId){
+	public Boolean getPreferenceAppUsager(@PathParam("appId") int appId){
 		return preferenceMapper.getPreferenceIntendance(this.securityContext.getUserPrincipal().getName(), appId);
 	}
 	@POST
@@ -71,7 +71,7 @@ public class PreferenceService
 	}
 	@GET
 	@Path("/getPreferenceUsagerAPP/{appId}")
-	public int getPreferenceUsagerAPP(@PathParam("appId") int appId)
+	public Integer getPreferenceUsagerAPP(@PathParam("appId") int appId)
 	{
 		String cip = this.securityContext.getUserPrincipal().getName();
 		return preferenceMapper.getPreferenceUsagerAPP(cip,appId);
