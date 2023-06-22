@@ -244,3 +244,29 @@ INSERT INTO usager_session(cip,session_id)VALUES
 ('stds2101',1),
 ('aubj1202',1),
 ('sehk2201',1);
+
+CREATE FUNCTION VerifierNbrEchange(user usager_session)
+returns Table(reponse bool)
+AS $$
+BEGIN
+    if(user.nbr_echange > 0)
+    then
+        reponse = true;
+    end if;
+    if(user.nbr_echange <= 0)
+        then
+        reponse = false;
+    end if;
+    end;
+
+    $$ language plpgsql;
+
+CREATE FUNCTION DiminuerNbrEchange(user usager_session)
+AS $$
+BEGIN
+    user.nbr_echange = user.nbr_echange - 1;
+end;
+
+$$ language plpgsql;
+
+
