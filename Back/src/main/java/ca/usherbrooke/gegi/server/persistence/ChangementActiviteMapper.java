@@ -1,5 +1,6 @@
 package ca.usherbrooke.gegi.server.persistence;
 
+import ca.usherbrooke.gegi.server.business.ChangementActivite;
 import ca.usherbrooke.gegi.server.business.EtudiantEchange;
 import ca.usherbrooke.gegi.server.business.Groupe;
 import org.apache.ibatis.annotations.Mapper;
