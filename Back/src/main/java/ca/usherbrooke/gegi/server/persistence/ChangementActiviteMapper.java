@@ -1,4 +1,7 @@
 package ca.usherbrooke.gegi.server.persistence;
 
-public class ChangementActiviteMapper {
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface ChangementActiviteMapper {
 }
