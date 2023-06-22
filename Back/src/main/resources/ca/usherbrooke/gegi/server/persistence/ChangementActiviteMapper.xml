@@ -3,7 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.gegi.server.persistence.ChangementActiviteMapper">
+    <select id="getChangementActivite" resultType="ca.usherbrooke.gegi.server.business.ChangementActivite">
+        SELECT cip, activite_id as activiteID, date_changement as dateChangement FROM changement_activite WHERE cip = #{cip};
+    </select>
 
+    <select id="getEtudiantIntendant" resultType="ca.usherbrooke.gegi.server.business.Groupe">
+        SELECT cip FROM groupe WHERE cip = #{cip} AND intendant = true;
+    </select>
 
+    <insert id="setChangementActivite">
+        INSERT INTO changement_activite (cip, activite_id,date_changement) VALUES (#{cip}, #{activiteID},NOW()::timestamp);
+    </insert>
+
+    <update id="updateChangementActivite">
+        UPDATE changement_activite SET date_changement = NOW()::timestamp, activite_id = #{activiteID} WHERE cip = #{cip};
+    </update>
+
+    <delete id="deleteChangmentActivite">
+        DELETE FROM changement_activite WHERE cip = #{cip}
+    </delete>
 
 </mapper>

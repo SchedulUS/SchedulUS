@@ -1,8 +1,8 @@
 package ca.usherbrooke.gegi.server.business;
 
-public class ChangementActivite {
+public class Groupe {
     public String cip;
     public int activiteID;
-    public String dateChangement;
+    public boolean intendant;
 
 }
