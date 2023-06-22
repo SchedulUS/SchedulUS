@@ -124,6 +124,15 @@ CREATE TABLE usager_session(
     FOREIGN KEY (cip) REFERENCES usager(cip)
 );
 
+CREATE TABLE changement_activite(
+    cip CHAR(8) NOT NULL,
+    activite_id SERIAL NOT NULL,
+    date_changement timestamp NOT NULL,
+    PRIMARY KEY (cip,activite_id),
+    FOREIGN KEY (cip) REFERENCES usager(cip),
+    FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
+);
+
 INSERT INTO type_activite(nom) VALUES 
 ('Tutorat d''ouverture'),('Tutorat de fermeture');
 INSERT INTO preference(nom,debut,fin) VALUES

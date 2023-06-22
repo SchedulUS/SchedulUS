@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.gegi.server.persistence.ChangementActiviteMapper">
+    <select id="getEtudiantVoulantChanger" resultType="ca.usherbrooke.gegi.server.business.EtudiantEchange">
+        SELECT changement_activite.cip, changement_activite.activite_id AS activiteVoulueId
+        FROM changement_activite
+        INNER JOIN activite AS activite1 ON activite1.activite_id = changement_activite.activite_id
+        INNER JOIN groupe AS groupe1 ON groupe1.cip = changement_activite.cip
+        WHERE changement_activite.activite_id IN (
+            SELECT groupe.activite_id FROM groupe
+                                               INNER JOIN activite ON activite.activite_id = groupe.activite_id
+            WHERE groupe.cip = #{cip} AND activite.app_id = activite1.app_id
+        )
+          AND groupe1.activite_id = #{activiteId}
+          AND changement_activite.cip != #{cip}
+        ORDER BY changement_activite.date_changement ASC
+        LIMIT 1;
+    </select>
+    <delete id="supprimerDemandeChangement">
+        DELETE FROM changement_activite WHERE changement_activite.cip = #{cip} AND changement_activite.activite_id = #{activiteId};
+    </delete>
+    <update id="changerGroupe">
+        UPDATE groupe
+        SET activite_id=#{newActiviteId}
+        WHERE groupe.activite_id=#{oldActiviteId} AND groupe.cip=#{cip};
+    </update>
+    <select id="getCurrentGroupOfStudent" resultType="java.lang.Integer">
+        SELECT groupe.activite_id from groupe
+        INNER JOIN activite ON activite.activite_id = groupe.activite_id
+        WHERE activite.app_id = (
+            SELECT activite.app_id FROM activite
+            WHERE activite.activite_id = #{activite_id}
+        )
+          AND groupe.cip = #{cip};
+    </select>
+</mapper>
