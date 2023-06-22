@@ -2,6 +2,7 @@ package ca.usherbrooke.gegi.server.service;
 
 import ca.usherbrooke.gegi.server.business.ChangementActivite;
 import ca.usherbrooke.gegi.server.business.Groupe;
+import ca.usherbrooke.gegi.server.business.EtudiantEchange;
 import ca.usherbrooke.gegi.server.persistence.ChangementActiviteMapper;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
@@ -21,7 +22,32 @@ public class ChangementActiviteService {
     SecurityContext securityContext;
     @Inject
     ChangementActiviteMapper changementActiviteMapper;
+    private void ChangementAvecFantome(String cip, int activiteId)
+    {
+        Integer oldActiviteId = changementActiviteMapper.getCurrentGroupOfStudent(cip,activiteId);
+        changementActiviteMapper.changerGroupe(cip,oldActiviteId,activiteId);
+    }
+    private void ChangementAvecEtudiant(String cip, int activiteId, EtudiantEchange autreEtudiant)
+    {
+        changementActiviteMapper.supprimerDemandeChangement(autreEtudiant.cip,autreEtudiant.activiteVoulueId);
+        changementActiviteMapper.changerGroupe(cip,autreEtudiant.activiteVoulueId,activiteId);
+        changementActiviteMapper.changerGroupe(autreEtudiant.cip,activiteId,autreEtudiant.activiteVoulueId);
+    }
+    private void EffectuerChangement(String cip, int activiteId)
+    {
+        EtudiantEchange autreEtudiantAEchanger = changementActiviteMapper.getEtudiantVoulantChanger(cip,activiteId);
 
+        //Si null c'est un changement avec un étudiant fantôme
+        if (autreEtudiantAEchanger == null)
+        {
+            ChangementAvecFantome(cip,activiteId);
+        }
+        else
+        {
+            ChangementAvecEtudiant(cip,activiteId,autreEtudiantAEchanger);
+        }
+    }
+    
     @GET
     @Path("getChangementActivite")
     public List<ChangementActivite> getChangementActivite(){
