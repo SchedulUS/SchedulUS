@@ -123,6 +123,23 @@ CREATE TABLE usager_session(
     FOREIGN KEY (session_id) REFERENCES session(session_id),
     FOREIGN KEY (cip) REFERENCES usager(cip)
 );
+CREATE TABLE groupe(
+   cip CHAR(8) NOT NULL,
+   activite_id SERIAL NOT NULL,
+   intendant BOOLEAN NOT NULL,
+   PRIMARY KEY (cip,activite_id),
+   FOREIGN KEY (cip) REFERENCES usager(cip),
+   FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
+);
+
+CREATE TABLE changement_activite(
+    cip CHAR(8) NOT NULL,
+    activite_id SERIAL NOT NULL,
+    date_changement timestamp NOT NULL,
+    PRIMARY KEY (cip,activite_id),
+    FOREIGN KEY (cip) REFERENCES usager(cip),
+    FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
+);
 
 INSERT INTO type_activite(nom) VALUES 
 ('Tutorat d''ouverture'),('Tutorat de fermeture');
