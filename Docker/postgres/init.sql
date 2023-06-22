@@ -124,12 +124,12 @@ CREATE TABLE usager_session(
     FOREIGN KEY (cip) REFERENCES usager(cip)
 );
 CREATE TABLE groupe(
-    intendant BOOLEAN NOT NULL,
-    activite_id SERIAL NOT NULL,
-    cip CHAR(8) NOT NULL,
-    PRIMARY KEY (cip,activite_id),
-    FOREIGN KEY(activite_id) REFERENCES activite(activite_id),
-    FOREIGN KEY(cip) REFERENCES usager(cip)
+   cip CHAR(8) NOT NULL,
+   activite_id SERIAL NOT NULL,
+   intendant BOOLEAN NOT NULL,
+   PRIMARY KEY (cip,activite_id),
+   FOREIGN KEY (cip) REFERENCES usager(cip),
+   FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
 );
 
 CREATE TABLE changement_activite(
