@@ -13,6 +13,15 @@
         WHERE s.periode @> CURRENT_DATE AND au.cip = #{cip}
         ORDER BY activiteNom, a.type_id;
     </select>
+    
+    <select id="getActiviteUsager" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT a.activite_id
+        FROM activite as a JOIN app as ap on a.app_id = ap.app_id 
+        JOIN session_app as sa ON sa.app_id = ap.app_id 
+        JOIN session as s on s.session_id = sa.session_id
+        JOIN app_usager as au ON au.app_id = ap.app_id
+        WHERE s.periode @> CURRENT_DATE AND au.cip = #{cip} AND ap.app_id = #{appId} AND a.type_id = #{typeId} 
+    </select>
 
     <select id="getActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">
         SELECT activite.activite_id as activiteId, activite.local, activite.nom as activiteNom,lower(activite.periode) as debut, upper(activite.periode) as fin, app.app_id as appId, app.nom as appNom, app.cours as appCours, type_activite.type_id as typeId, type_activite.nom as typeNom FROM activite

@@ -37,29 +37,35 @@ public class PreferenceService
 
 	@GET
 	@Path("getPreferenceIntendance/{idAPP}")
-	public boolean getPreferenceIntendance(@PathParam("idAPP") int idAPP)
+	public PreferenceIntendance getPreferenceIntendance(@PathParam("idAPP") int idAPP)
 	{
-		return preferenceMapper.getPreferenceIntendance(this.securityContext.getUserPrincipal().getName(), idAPP);
+		PreferenceIntendance resultat = preferenceMapper.getPreferenceIntendance(this.securityContext.getUserPrincipal().getName(), idAPP);
+		if(resultat != null){
+			return resultat;
+		}
+		PreferenceIntendance preference = new PreferenceIntendance();
+		preference.intendance = false;
+		return preference;
 	}
 
 	@POST
 	@Path("/setPreferenceIntendance")
-	public Integer setPreferenceIntendance(@RequestBody PreferenceIntendance preferenceIntendant)
+	public void setPreferenceIntendance(@RequestBody PreferenceIntendance preferenceIntendant)
 	{
-		preferenceMapper.setPreferenceIntendance(this.securityContext.getUserPrincipal().getName(), preferenceIntendant.idAPP, preferenceIntendant.intendance);
-		return 1;
+		String cip = this.securityContext.getUserPrincipal().getName();
+		preferenceMapper.setPreferenceIntendance(cip, preferenceIntendant.idAPP, preferenceIntendant.intendance);
 	}
 
 	@GET
 	@Path("getPreferenceUsager")
-	public Integer getPreferenceUsager()
+	public Preference getPreferenceUsager()
 	{
 		return preferenceMapper.getPreferenceUsager(this.securityContext.getUserPrincipal().getName());
 	}
 
 	@GET
 	@Path("getPreferenceUsagerApp/{appId}")
-	public boolean getPreferenceAppUsager(@PathParam("appId") int appId){
+	public PreferenceIntendance getPreferenceAppUsager(@PathParam("appId") int appId){
 		return preferenceMapper.getPreferenceIntendance(this.securityContext.getUserPrincipal().getName(), appId);
 	}
 	@POST
@@ -71,10 +77,16 @@ public class PreferenceService
 	}
 	@GET
 	@Path("/getPreferenceUsagerAPP/{appId}")
-	public int getPreferenceUsagerAPP(@PathParam("appId") int appId)
+	public Preference getPreferenceUsagerAPP(@PathParam("appId") int appId)
 	{
 		String cip = this.securityContext.getUserPrincipal().getName();
-		return preferenceMapper.getPreferenceUsagerAPP(cip,appId);
+		Preference resultat= preferenceMapper.getPreferenceUsagerAPP(cip,appId);
+		if(resultat != null){
+			return resultat;
+		}
+		Preference preference = new Preference();
+		preference.preferenceId = 0;
+		return preference;
 	}
 /*
 	@GET

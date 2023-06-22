@@ -6,7 +6,7 @@
         SELECT preference_id, nom FROM public.preference
     </select>
 
-    <select id="getPreferenceIntendance" resultType="java.lang.Boolean">
+    <select id="getPreferenceIntendance" resultType="ca.usherbrooke.gegi.server.business.PreferenceIntendance">
         SELECT intendant FROM public.usager_preference
             WHERE cip = #{cip} AND app_id = #{idAPP}
     </select>
@@ -17,7 +17,7 @@
             WHERE cip = #{cip} AND app_id = #{idAPP}
     </update>
 
-    <select id="getPreferenceUsager" resultType="Integer">
+    <select id="getPreferenceUsager" resultType="ca.usherbrooke.gegi.server.business.Preference">
         SELECT preference_id FROM public.usager
         WHERE cip = #{cip}
     </select>
@@ -27,7 +27,7 @@
         SELECT #{cip}, #{preferenceId}, #{appId}, #{intendant}
         WHERE NOT EXISTS (SELECT 1 FROM public.usager_preference WHERE app_id=#{appId} and cip = #{cip});
     </insert>
-    <select id="getPreferenceUsagerAPP" resultType="java.lang.Integer">
+    <select id="getPreferenceUsagerAPP" resultType="ca.usherbrooke.gegi.server.business.Preference">
         SELECT preference_id FROM public.usager_preference
         WHERE cip = #{cip} AND app_id = #{appId}
     </select>

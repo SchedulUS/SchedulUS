@@ -10,6 +10,7 @@ import PreferencesAPP from "../../components/PreferencesAPP/PreferencesAPP";
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
+    const [idActiviteUsager,setIdActivitesUsager] = useState<number>(0);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
     useEffect(()=> {
@@ -32,6 +33,13 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
                         endDate: new Date(e.fin)}
                 });
                 setActivites(newActivites);
+            }
+
+            const result2 = await APIRequest<ResultatActivite>(`/getActiviteUsager/${props.appCourant}/${props.typeActiviteCourant}`,"GET",true);
+            if(result2.data)
+            {
+                const idActiviteUsager : number = result2.data.activiteId;
+                setIdActivitesUsager(idActiviteUsager);
             }
         }
 

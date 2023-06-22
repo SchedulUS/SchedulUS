@@ -15,8 +15,8 @@ function App()
   const [cip ,setCip] = useState("");
   const [appCourant, setAppCourant] = useState(0);
   const [typeActiviteCourant, setTypeActiviteCourant] = useState(0);
-  const [optionValue, setOptionValue] = useState<number>(0);
-  const [optionValueApp, setOptionValueApp] = useState<number>(0);
+  const [optionValue, setOptionValue] = useState<number>(1);
+  const [optionValueApp, setOptionValueApp] = useState<number>(1);
 
   useEffect(() =>
   {
@@ -42,19 +42,22 @@ function App()
   useEffect(() => {
     if(appCourant != 0){
       const fetchData = async () => {
-        const result = await APIRequest<Preference>(`/getPreferenceUsagerApp/${appCourant}`,"GET",true);
+        const result = await APIRequest<Preference>(`/getPreferenceUsagerAPP/${appCourant}`,"GET",true);
+        
         if (result.data)
         {
-          if(result.data !== undefined){
+          if(result.data.preferenceId != 0){
             setOptionValueApp(result.data.preferenceId);
           }else{
             const result = await APIRequest<Preference>(`/getPreferenceUsager/`,"GET",true);
             if(result.data){
-              setOptionValueApp(result.data.preferenceId);
+              if(result.data.preferenceId != undefined){
+                setOptionValueApp(result.data.preferenceId);
+              }
             }
           }
         }
-    
+        
       }
       
       fetchData().catch(console.error);

@@ -11,6 +11,11 @@ import { SetPreferenceEtudiantAPP } from '../../types/api/setPreferenceEtudiantA
 
 export default function PreferencesAPP(props:{preferences:Preference[],appId : number})
 {
+    interface PreferenceIntendance {
+        appId : number,
+        intendance : boolean
+    }
+
     const [intendanceChecked, setIntendanceChecked] = React.useState(false);
     const [valPlageHoraire, setValPlageHoraire] = React.useState(0);
 
@@ -30,17 +35,11 @@ export default function PreferencesAPP(props:{preferences:Preference[],appId : n
         const fetchData = async () =>
         {
             if (props.appId === 0) return;
-
-            const result = await APIRequest<boolean>(`/getPreferenceIntendance/${props.appId}`,"GET",true);
+            const result = await APIRequest<PreferenceIntendance>(`/getPreferenceIntendance/${props.appId}`,"GET",true);
 
             if (result.data != undefined)
             {
-                console.log(result.data)
-                setIntendanceChecked(result.data)
-            }
-            else
-            {
-                console.log("No data")
+                setIntendanceChecked(result.data.intendance)
             }
         }
         fetchData().catch(console.error);
