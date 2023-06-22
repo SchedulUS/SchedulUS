@@ -43,14 +43,4 @@ public class ChangementActiviteService {
             ChangementAvecEtudiant(cip,activiteId,autreEtudiantAEchanger);
         }
     }
-
-    @GET
-    @Path("testEffectuerChangement")
-    public String testEffectuerChangement()
-    {
-        String cip = "stds2101";
-        int activite = 11;
-        EffectuerChangement(cip,activite);
-        return "Regarde la bd";
-    }
 }
