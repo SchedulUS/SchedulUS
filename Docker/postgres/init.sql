@@ -243,30 +243,34 @@ INSERT INTO usager_session(cip,session_id)VALUES
 ('sevm1802',1),
 ('stds2101',1),
 ('aubj1202',1),
-('sehk2201',1);
+('sehk2201',1),
+('boie0601',1);
 
-CREATE FUNCTION VerifierNbrEchange(user usager_session)
-returns Table(reponse bool)
+CREATE FUNCTION VerifierNbrEchange(m_cip varchar(8))
+    returns Boolean
 AS $$
+DECLARE nbrEchange int;
 BEGIN
-    if(user.nbr_echange > 0)
+    SELECT nbr_echange INTO nbrEchange FROM usager_session WHERE cip = m_cip;
+    if(nbrEchange > 0)
     then
-        reponse = true;
+        return true;
     end if;
-    if(user.nbr_echange <= 0)
-        then
-        reponse = false;
-    end if;
-    end;
-
-    $$ language plpgsql;
-
-CREATE FUNCTION DiminuerNbrEchange(user usager_session)
-AS $$
-BEGIN
-    user.nbr_echange = user.nbr_echange - 1;
+    return false;
 end;
 
 $$ language plpgsql;
 
+CREATE FUNCTION DiminuerNbrEchange(m_cip varchar(8))
+    returns int
+AS $$
+Declare nbrEchange int;
+BEGIN
+    select nbr_Echange into nbrEchange from usager_session where cip = m_cip;
+    update usager_session set nbr_Echange = (nbrEchange - 1) where  cip = m_cip;
+    select nbr_Echange into nbrEchange from usager_session where cip = m_cip;
+    return nbrEchange;
+end;
+
+$$ language plpgsql;
 
