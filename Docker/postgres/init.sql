@@ -131,7 +131,7 @@ CREATE TABLE changement_activite(
     PRIMARY KEY (cip,activite_id),
     FOREIGN KEY (cip) REFERENCES usager(cip),
     FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
-)
+);
 
 INSERT INTO type_activite(nom) VALUES 
 ('Tutorat d''ouverture'),('Tutorat de fermeture');
