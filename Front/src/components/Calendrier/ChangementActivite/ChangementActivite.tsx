@@ -12,6 +12,7 @@ export default function ChangementActivite()
             </div>
             <div className="ligne">
                 <div className="article">
+                    {/*TODO : bouton de demande de changement*/}
                     <Button>Demande de changement</Button>
                 </div>
             </div>
