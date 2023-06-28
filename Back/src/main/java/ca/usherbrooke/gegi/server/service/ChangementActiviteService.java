@@ -26,8 +26,9 @@ public class ChangementActiviteService
     ChangementActiviteMapper changementActiviteMapper;
     private boolean DisponiblePourChangement(String cip, int activiteId)
     {
+        Boolean isIntendant = changementActiviteMapper.getUsagerIntendant(cip,activiteId);
         //Vérifie que l'usager n'est pas intendant
-        if (changementActiviteMapper.getUsagerIntendant(cip,activiteId))
+        if (isIntendant != null && isIntendant == true)
         {
             return false;
         }
@@ -76,7 +77,12 @@ public class ChangementActiviteService
             ChangementAvecEtudiant(cip,activiteId,autreEtudiantAEchanger);
         }
     }
-    
+    @GET
+    @Path("getDisponibiliteChangement/{activiteID}")
+    public Boolean getPreferenceAppUsager(@PathParam("activiteID") int appId){
+        return DisponiblePourChangement(this.securityContext.getUserPrincipal().getName(), appId);
+    }
+
     @GET
     @Path("getChangementActivite")
     public List<ChangementActivite> getChangementActivite(){

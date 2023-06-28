@@ -57,7 +57,7 @@ public class ActiviteService
 
     @GET
     @Path("getInscription/{idAPP}/")
-    public boolean getInscription(@PathParam("idAPP") int idAPP)
+    public Boolean getInscription(@PathParam("idAPP") int idAPP)
     {
         return activiteMapper.getInscription(idAPP);
     }

@@ -76,6 +76,7 @@ function generateTooltip(inscription:boolean, idActiviteUsager:number)
 
 export function Calendrier(props:{activities:Activite[], currentDate:Date, inscription:boolean, idActiviteUsager:number})
 {
+  console.log(props.activities)
     return(
       <div id='calendrier'>
         <Scheduler

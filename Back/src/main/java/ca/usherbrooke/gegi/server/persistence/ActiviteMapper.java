@@ -20,5 +20,5 @@ public interface ActiviteMapper
     List<EtudiantPreference> getEtudiantPreference(@Param("appID") int appID);
     List<Preference> getPreference();
     List<Activite> getNomActivite(@Param("cip") String cip);
-    boolean getInscription(@Param("idAPP") int idAPP);
+    Boolean getInscription(@Param("idAPP") int idAPP);
 }
