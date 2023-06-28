@@ -1,6 +1,5 @@
 package ca.usherbrooke.gegi.server.service;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
 import ca.usherbrooke.gegi.server.assignation.algorithm.ActivitiesAssigner;
 import ca.usherbrooke.gegi.server.assignation.models.PeopleInActivity;
 import ca.usherbrooke.gegi.server.assignation.models.PersonInActivity;

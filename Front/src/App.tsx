@@ -62,20 +62,7 @@ function App()
       fetchData().catch(console.error);
     }
   }, [appCourant]);
-  const handleButtonClick = async () => {
-    try {
-      const response = await APIRequest<Response>('/groups/possible-groups', 'POST', true, { appCourant, typeActiviteCourant });
-
-      if (response.data) {
-        const data = response.data;
-        console.log(data);
-      } else {
-        throw new Error('Erreur lors de la requête au backend');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  
   return (
     <>
       <nav>
@@ -90,9 +77,6 @@ function App()
       </nav>
       <div>
         <CalendrierVue preferences={preferences} appCourant={appCourant} typeActiviteCourant={typeActiviteCourant} optionValue={optionValueApp} setOptionValue={setOptionValueApp}/>
-        <Button onClick={handleButtonClick} variant="contained" color="primary">
-          Appeler la fonction du backend
-        </Button>
       </div>
     </>
   )
