@@ -47,7 +47,15 @@ public class ChangementActiviteService {
             ChangementAvecEtudiant(cip,activiteId,autreEtudiantAEchanger);
         }
     }
-    
+
+    @POST
+    @Path("setEffectuerChangement")
+    public Integer setEffectuerChangement(@RequestBody ChangementActivite changementActivite){
+        String cip = this.securityContext.getUserPrincipal().getName();
+        EffectuerChangement(cip, changementActivite.activiteID);
+        return 1;
+    }
+
     @GET
     @Path("getChangementActivite")
     public List<ChangementActivite> getChangementActivite(){
