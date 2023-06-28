@@ -56,5 +56,4 @@
         JOIN session on session.session_id = session_app.session_id
         WHERE session.periode @> CURRENT_DATE AND app_id = #{idAPP}
     </select>
-
 </mapper>

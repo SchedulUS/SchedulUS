@@ -12,7 +12,6 @@ import * as React from "react";
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
     const [inscription, setInscription] = React.useState(false);
-    const [dansActivite, setDansActivite] = React.useState(false);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
     useEffect(()=>
@@ -20,23 +19,11 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
         const fetchData = async () =>
         {
             const result1 = await APIRequest<boolean>(`/getInscription/${props.appCourant}`,"GET",true);
-            //TODO : dansActivite = true --> ne pas afficher : requête au groupe, route à créer
-            const result2 = await APIRequest<boolean>(`/getInscription/${props.appCourant}`,"GET",true);
 
             if (result1.data != undefined)
             {
                 console.log(result1.data)
                 setInscription(result1.data)
-            }
-            else
-            {
-                console.log("No data")
-            }
-
-            if (result2.data != undefined)
-            {
-                console.log(result2.data)
-                setDansActivite(result2.data)
             }
             else
             {
@@ -74,7 +61,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
     return (
         <div id="calendriervue">
             <div></div>
-            <Calendrier activities={activites} currentDate={currentDate} inscription={inscription} dansActivite={dansActivite}/>
+            <Calendrier activities={activites} currentDate={currentDate} inscription={inscription} idActiviteUsager={0/*idActiviteUsager*/}/>
             <div id="preferenceAPPDiv">
                 <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />
             </div>
