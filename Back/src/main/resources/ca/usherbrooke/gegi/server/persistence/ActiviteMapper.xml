@@ -25,6 +25,18 @@
         ORDER BY activiteNom,activite.periode ASC;
     </select>
 
+    <select id="getActiviteUsager" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT activite.activite_id as activiteId
+        FROM activite
+        JOIN type_activite ON type_activite.type_id = activite.type_id
+        JOIN app ON app.app_id = activite.app_id
+        JOIN session_app as sa ON sa.app_id = app.app_id
+        JOIN session as s on s.session_id = sa.session_id
+        JOIN groupe as g ON g.activite_id = activite.activite_id
+        WHERE app.app_id = #{appID} AND type_activite.type_id = #{typeID} AND g.cip = #{cip} AND s.periode @> CURRENT_DATE
+        ORDER BY activite.nom,activite.periode ASC;
+    </select>
+
     <select id="getPoids" resultType="ca.usherbrooke.gegi.server.business.Poids">
         SELECT usager.cip, (SELECT COUNT(intendant.app_id) FROM intendant JOIN session_app as sa ON sa.app_id = intendant.app_id  JOIN session as s on s.session_id = sa.session_id WHERE s.periode @> CURRENT_DATE AND intendant.cip = usager.cip GROUP BY intendant.cip) / CAST((SELECT COUNT(session_app.app_id) FROM session_app
         WHERE session_app.session_id = (SELECT session_app.session_id FROM session_app WHERE session_app.app_id = #{appID})) AS FLOAT) AS poids
@@ -56,5 +68,4 @@
         JOIN session on session.session_id = session_app.session_id
         WHERE session.periode @> CURRENT_DATE AND app_id = #{idAPP}
     </select>
-
 </mapper>

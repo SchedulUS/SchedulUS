@@ -1,15 +1,27 @@
 import Button from "@mui/material/Button";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
-import * as React from "react";
-import {APIRequest} from "../../../utils/apiUtils.ts";
+import { red, green } from '@mui/material/colors';
+import { useEffect, useState } from "react";
+import { APIRequest } from "../../../utils/apiUtils";
 import {Dialog, DialogActions, DialogContent, DialogContentText} from "@mui/material";
 
-export default function ChangementActivite(props:{activiteId:number})
+export default function ChangementActivite(props:{activityId:number})
 {
+    const [disponibiliteChangement, setDisponibiliteChangement] = useState<boolean>(false);
+    useEffect(() => {
+        async function getDisponibiliteChangement()
+        {
+            const result = await APIRequest<boolean>(`/getDisponibiliteChangement/${props.activityId}`,"GET",true);
     const [isAttente, setIsAttente] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("")
+
+            setDisponibiliteChangement(result.data == true)
+        }
+
+        getDisponibiliteChangement();
+    },[props.activityId])
 
 
     const setChangementActivite = async () => {
@@ -90,8 +102,7 @@ export default function ChangementActivite(props:{activiteId:number})
             </div>
             <div className="ligne">
                 <div className="article">
-                    {/*TODO : Vérifier la disponibilité */}
-                    {true ? <EventAvailableIcon sx={{ fontSize: 22 }} color="success"/> : <EventBusyIcon sx={{ fontSize: 22 }} color="disabled"/>}
+                    {disponibiliteChangement ? <EventAvailableIcon sx={{ fontSize: 22, color: green[700] }}/> : <EventBusyIcon sx={{ fontSize: 22, color: red[700] }}/>}
                     <span className="texte">Disponibilité</span>
                 </div>
             </div>
