@@ -32,7 +32,10 @@ public class ChangementActiviteService
             return false;
         }
         //Vérifier que l'usager a des déplacements de disponibles
-        
+        if (!changementActiviteMapper.VerifierNbChangement(cip))
+        {
+            return false;
+        }
         //Vérifier si l'activité désiré a un étudiant fantôme
         if (changementActiviteMapper.getIsContainingGhostStudent(activiteId))
         {
@@ -43,8 +46,10 @@ public class ChangementActiviteService
                 return true;
             }
         }
-        //Vérifie qu'il y a quelqu'un qui veut changer
+        EtudiantEchange autreEtudiantAEchanger = changementActiviteMapper.getEtudiantVoulantChanger(cip,activiteId);
 
+        //S'il y a un étudiant qui veut changer
+        return autreEtudiantAEchanger != null;
     }
     private void ChangementAvecFantome(String cip, int activiteId)
     {

@@ -7,11 +7,11 @@
         SELECT cip, activite_id as activiteID, date_changement as dateChangement FROM changement_activite WHERE cip = #{cip};
     </select>
 
-    <select id="VerifierNbChangement" resultType="Boolean">
+    <select id="VerifierNbChangement" resultType="java.lang.Boolean">
         SELECT * from verifiernbrechange(#{cip});
     </select>
 
-    <select id="DiminierNbChangement" resultType="int">
+    <select id="DiminuerNbChangement" resultType="java.lang.Integer">
         SELECT * from diminuernbrechange(#{cip});
     </select>
 
@@ -71,7 +71,7 @@
                     JOIN activite as a2 ON activite.app_id = a2.app_id
                     LEFT JOIN groupe ON groupe.activite_id = a2.activite_id
                     WHERE activite.activite_id = #{activite_id} AND s.periode @> CURRENT_DATE AND a2.type_id = 1
-                    GROUP BY a2.activite_id) AS sub2 WHERE activite_id = #{activite_id}) = MIN(nb_etudiant) a_un_etudiant_fantome
+                    GROUP BY a2.activite_id) AS sub2 WHERE activite_id = #{activite_id}) = MAX(nb_etudiant) - 1 a_un_etudiant_fantome
         FROM
             (SELECT COUNT(groupe.cip) nb_etudiant, a2.activite_id FROM activite
                JOIN session_app as sa ON sa.app_id = activite.app_id
