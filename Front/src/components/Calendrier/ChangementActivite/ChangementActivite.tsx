@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
-import { red } from '@mui/material/colors';
+import { red, green } from '@mui/material/colors';
 import { useEffect, useState } from "react";
 import { APIRequest } from "../../../utils/apiUtils";
 
@@ -32,7 +32,7 @@ export default function ChangementActivite(props:{activityId:number})
             </div>
             <div className="ligne">
                 <div className="article">
-                    {disponibiliteChangement ? <EventAvailableIcon sx={{ fontSize: 22 }} color="success"/> : <EventBusyIcon sx={{ fontSize: 22, color: red[500]}}/>}
+                    {disponibiliteChangement ? <EventAvailableIcon sx={{ fontSize: 22, color: green[700] }}/> : <EventBusyIcon sx={{ fontSize: 22, color: red[700] }}/>}
                     <span className="texte">Disponibilité</span>
                 </div>
             </div>
