@@ -21,7 +21,8 @@ set search_path to public;
 DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA public;
 
-CREATE TABLE preference(
+CREATE TABLE preference
+(
     preference_id SERIAL NOT NULL,
     nom varchar(200) NOT NULL,
     debut time NOT NULL,
@@ -29,7 +30,8 @@ CREATE TABLE preference(
     PRIMARY KEY (preference_id)
 );
 
-CREATE TABLE usager (
+CREATE TABLE usager
+(
     cip CHAR(8) NOT NULL,
     prenom varchar(200) NOT NULL,
     nom varchar(200) NOT NULL,
@@ -39,21 +41,24 @@ CREATE TABLE usager (
 	FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
 );
 
-CREATE TABLE session (
+CREATE TABLE session
+(
     session_id SERIAL NOT NULL,
     identifiant varchar(20) NOT NULL,
     periode daterange NOT NULL,
     PRIMARY KEY (session_id)
 );
 
-CREATE TABLE app(
+CREATE TABLE app
+(
     app_id SERIAL NOT NULL,
     nom varchar(200) NOT NULL,
     cours varchar(100) NOT NULL,
     PRIMARY KEY (app_id)
 );
 
-CREATE TABLE app_usager(
+CREATE TABLE app_usager
+(
     app_id SERIAL NOT NULL,
     cip CHAR(8) NOT NULL,
     PRIMARY KEY (app_id, cip),
@@ -61,7 +66,8 @@ CREATE TABLE app_usager(
     FOREIGN KEY (cip) REFERENCES usager(cip)
 );
 
-CREATE TABLE usager_preference(
+CREATE TABLE usager_preference
+(
     cip CHAR(8) NOT NULL,
     preference_id SERIAL NOT NULL,
     app_id SERIAL,
@@ -72,13 +78,15 @@ CREATE TABLE usager_preference(
     FOREIGN KEY (preference_id) REFERENCES preference(preference_id)
 );
 
-CREATE TABLE type_activite(
+CREATE TABLE type_activite
+(
     type_id SERIAL NOT NULL,
     nom varchar(200) NOT NULL,
     PRIMARY KEY(type_id)
 );
 
-CREATE TABLE activite(
+CREATE TABLE activite
+(
     activite_id SERIAL NOT NULL,
     nom varchar(200) NOT NULL,
     nom_groupe varchar(200) NOT NULL,
@@ -91,7 +99,8 @@ CREATE TABLE activite(
     FOREIGN KEY (type_id) REFERENCES type_activite(type_id)
 );
 
-CREATE TABLE activite_usager(
+CREATE TABLE activite_usager
+(
     activite_id SERIAL NOT NULL,
     cip CHAR(8) NOT NULL,
     PRIMARY KEY(activite_id, cip),
@@ -99,7 +108,8 @@ CREATE TABLE activite_usager(
     FOREIGN KEY(cip) REFERENCES usager(cip)
 );
 
-CREATE TABLE intendant(
+CREATE TABLE intendant
+(
     cip CHAR(8) NOT NULL,
     app_id SERIAL NOT NULL,
     PRIMARY KEY (cip,app_id),
@@ -107,9 +117,11 @@ CREATE TABLE intendant(
     FOREIGN KEY (app_id) REFERENCES app(app_id)
 );
 
-CREATE TABLE session_app(
+CREATE TABLE session_app
+(
     session_id SERIAL NOT NULL,
     app_id SERIAL NOT NULL,
+    inscription BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (session_id,app_id),
     FOREIGN KEY (session_id) REFERENCES session(session_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id)
@@ -126,7 +138,7 @@ CREATE TABLE usager_session(
 CREATE TABLE groupe(
    cip CHAR(8) NOT NULL,
    activite_id SERIAL NOT NULL,
-   intendant BOOLEAN NOT NULL,
+   intendant BOOLEAN NOT NULL DEFAULT false,
    PRIMARY KEY (cip,activite_id),
    FOREIGN KEY (cip) REFERENCES usager(cip),
    FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
@@ -255,7 +267,7 @@ INSERT INTO usager_preference(cip, preference_id, app_id) VALUES
 ('sevm1802',2,1),
 ('sevm1802',1,2);
 
-INSERT INTO usager_session(cip,session_id)VALUES
+INSERT INTO usager_session(cip,session_id) VALUES
 ('laft1301',1),
 ('sevm1802',1),
 ('stds2101',1),

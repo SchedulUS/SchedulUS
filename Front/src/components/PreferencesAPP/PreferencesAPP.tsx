@@ -1,4 +1,4 @@
-import './PreferencesAPP.css'
+import '../StylesModal.css'
 import HelpIcon from '@mui/icons-material/Help'
 import EventNoteIcon from '@mui/icons-material/EventNote'
 import ControlledCheckbox from '../Checkbox'
@@ -9,7 +9,7 @@ import {useEffect} from "react"
 import * as React from 'react'
 import { SetPreferenceEtudiantAPP } from '../../types/api/setPreferenceEtudiantAPP/SetPreferenceEtudiantAPP'
 
-export default function PreferencesAPP(props:{preferences:Preference[],appId : number})
+export default function PreferencesAPP(props:{preferences:Preference[],idAPP : number})
 {
     const [intendanceChecked, setIntendanceChecked] = React.useState(false);
     const [valPlageHoraire, setValPlageHoraire] = React.useState(0);
@@ -19,7 +19,7 @@ export default function PreferencesAPP(props:{preferences:Preference[],appId : n
         setValPlageHoraire(param);
         const preference : SetPreferenceEtudiantAPP = {
             preference_id:param,
-            appId:props.appId,
+            appId:props.idAPP,
             intendant:intendanceChecked
         }
         await APIRequest<void>(`/setPreferenceUsagerAPP`,"POST",true,preference);
@@ -29,9 +29,9 @@ export default function PreferencesAPP(props:{preferences:Preference[],appId : n
     {
         const fetchData = async () =>
         {
-            if (props.appId === 0) return;
+            if (props.idAPP === 0) return;
 
-            const result = await APIRequest<boolean>(`/getPreferenceIntendance/${props.appId}`,"GET",true);
+            const result = await APIRequest<boolean>(`/getPreferenceIntendance/${props.idAPP}`,"GET",true);
 
             if (result.data != undefined)
             {
@@ -47,9 +47,9 @@ export default function PreferencesAPP(props:{preferences:Preference[],appId : n
 
         const fetchData2 = async () =>
         {
-            if (props.appId === 0) return;
+            if (props.idAPP === 0) return;
 
-            const result = await APIRequest<number>(`/getPreferenceUsagerAPP/${props.appId}`,"GET",true);
+            const result = await APIRequest<number>(`/getPreferenceUsagerAPP/${props.idAPP}`,"GET",true);
             if (result.data !== undefined)
             {
                 setValPlageHoraire(result.data);
@@ -57,26 +57,26 @@ export default function PreferencesAPP(props:{preferences:Preference[],appId : n
 
         }
         fetchData2().catch(console.error);
-    }, [props.appId])
+    }, [props.idAPP])
 
 
     return (
-        <div className="boite">
+        <div className="boite ombre" style={{ width: '260px' }}>
             <div className="titre">
                 <span>Préférences pour cet APP</span>
             </div>
             <div className="ligne">
                 <div className="article">
-                    <EventNoteIcon sx={{ fontSize: 18 }}/>
+                    <EventNoteIcon sx={{ fontSize: 22 }}/>
                 </div>
                 <SelectSmall global={false} label="Plage horaire" options={props.preferences} value={valPlageHoraire} setValue={handleChange}/>
             </div>
             <div className="ligne">
                 <div className="article">
-                    <HelpIcon sx={{ fontSize: 18 }}/>
+                    <HelpIcon sx={{ fontSize: 22 }}/>
                     <span className="texte">Intention d'intendance</span>
                 </div>
-                <ControlledCheckbox appId={props.appId} checked={intendanceChecked} setChecked={setIntendanceChecked}/>
+                <ControlledCheckbox appId={props.idAPP} checked={intendanceChecked} setChecked={setIntendanceChecked}/>
             </div>
         </div>
     )

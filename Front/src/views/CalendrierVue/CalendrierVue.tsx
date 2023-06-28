@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Calendrier } from "../../components/Calendrier/Calendrier"
 import "./CalendrierVue.css"
 import { APIRequest } from "../../utils/apiUtils";
@@ -6,15 +6,35 @@ import { ResultatActivite } from "../../types/api/getActivites/resultatActivite"
 import { Activite } from "../../components/Calendrier/Activite";
 import { Preference } from "../../components/interfaces";
 import PreferencesAPP from "../../components/PreferencesAPP/PreferencesAPP";
+import * as React from "react";
+import { Button } from "@mui/material";
 
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
     const [idActiviteUsager,setIdActiviteUsager] = useState<number>(0);
+    const [inscription, setInscription] = React.useState(false);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
+    const [activitePropre,setActivitePropre] = useState<Activite[]>([]);
+    useEffect(()=>
+    {
+        const fetchData = async () =>
+        {
+            const result1 = await APIRequest<boolean>(`/getInscription/${props.appCourant}`,"GET",true);
 
-    useEffect(()=> {
+            if (result1.data != undefined)
+            {
+                console.log(result1.data)
+                setInscription(result1.data)
+            }
+            else
+            {
+                console.log("No data")
+            }
+        }
+        fetchData().catch(console.error);
+
         async function getActivities()
         {
             const result = await APIRequest<ResultatActivite[]>(`/getActivite/${props.appCourant}/${props.typeActiviteCourant}`,"GET",true);
@@ -32,9 +52,11 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
                         location:e.local,
                         backgroundColor: '#64b5f6',
                         startDate: new Date(e.debut),
-                        endDate: new Date(e.fin)}
+                        endDate: new Date(e.fin)
+                    }
                 });
                 setActivites(newActivites);
+                setActivitePropre(newActivites)
             }
         }
 
@@ -78,16 +100,34 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
                     }
                 }
             }); 
-            setActivites(tmpActivites);
+            setActivitePropre(tmpActivites);
         }
     },[activites]);
+    async function createGroups(appCourant:number,typeActiviteCourant:number)
+    {
+        try {
+          const response = await APIRequest<Response>('/groups/possible-groups', 'POST', true, { appCourant, typeActiviteCourant });
     
+          if (response.data) {
+            const data = response.data;
+            console.log(data);
+          } else {
+            throw new Error('Erreur lors de la requête au backend');
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
     return (
         <div id="calendriervue">
-            <div></div>
-            <Calendrier activities={activites} currentDate={currentDate}/>
+            <div>
+                <Button onClick={() => createGroups(props.appCourant,props.typeActiviteCourant)} variant="contained" color="primary">
+                    Créer groupes
+                </Button>
+        </div>
+            <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} idActiviteUsager={idActiviteUsager}/>
             <div id="preferenceAPPDiv">
-                <PreferencesAPP preferences={props.preferences} appId={props.appCourant} />
+                <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />
             </div>
         </div>
     )

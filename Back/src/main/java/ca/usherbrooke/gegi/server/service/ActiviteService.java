@@ -1,7 +1,8 @@
 package ca.usherbrooke.gegi.server.service;
-
+import javax.ws.rs.core.Response;
 import ca.usherbrooke.gegi.server.assignation.algorithm.ActivitiesAssigner;
 import ca.usherbrooke.gegi.server.assignation.models.PeopleInActivity;
+import ca.usherbrooke.gegi.server.assignation.models.PersonInActivity;
 import ca.usherbrooke.gegi.server.assignation.models.PersonWithWeights;
 import ca.usherbrooke.gegi.server.assignation.models.PreferenceEnum;
 import ca.usherbrooke.gegi.server.business.*;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -31,7 +33,8 @@ public class ActiviteService
 
     @GET
     @Path("getActivite/{appID}/{typeID}")
-    public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
+    public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID)
+    {
         String cip = this.securityContext.getUserPrincipal().getName();
         return activiteMapper.getActivite(appID,typeID, cip);
     }
@@ -50,8 +53,16 @@ public class ActiviteService
     }
     @GET
     @Path("getNomActivite")
-    public List<Activite> getNomActivites(){
+    public List<Activite> getNomActivites()
+    {
         return activiteMapper.getNomActivite(this.securityContext.getUserPrincipal().getName());
+    }
+
+    @GET
+    @Path("getInscription/{idAPP}/")
+    public Boolean getInscription(@PathParam("idAPP") int idAPP)
+    {
+        return activiteMapper.getInscription(idAPP);
     }
 
     @POST
@@ -92,9 +103,7 @@ public class ActiviteService
         return activiteMapper.getPreference();
     }
 
-    @GET
-    @Path("getPossibleGroupsForAnAPP/{appID}/{typeID}")
-    public List<PeopleInActivity> getPossibleGroupsForAnAPP(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
+    public List<PeopleInActivity> getPossibleGroupsForAnAPP(int appID,int typeID){
         String cip = this.securityContext.getUserPrincipal().getName();
         List<Poids> poids = activiteMapper.getPoids(appID);
         List<EtudiantPreference> etudiantPreferences = activiteMapper.getEtudiantPreference(appID);
@@ -104,12 +113,12 @@ public class ActiviteService
         //Using algorithm
         List<PeopleInActivity> activitiesToFill = new ArrayList<>(activites.size());
         for (Activite activite:
-             activites) {
+                activites) {
             activitiesToFill.add(new PeopleInActivity(activite.activiteId,Preference.getPreferenceEnum(activite.debut)));
         }
         List<PersonWithWeights> people = new ArrayList<>(preferencePoids.size());
         for (PreferencePoids person:
-             preferencePoids) {
+                preferencePoids) {
             PreferenceEnum preferenceEnum = getPreferenceByPersonPreferences(person.preferenceapp,person.preferenceglobal);
 
             if (person.intendant == null)
@@ -123,7 +132,20 @@ public class ActiviteService
         assigner.createGroupsForActivities();
         return assigner.getActivities();
     }
-
+    @POST
+    @Path("/groups/possible-groups")
+    public Response getPossibleGroups(@RequestBody CreationGroupesDemande body) {
+        List<PeopleInActivity> groups = getPossibleGroupsForAnAPP(body.appCourant, body.typeActiviteCourant);
+        for (PeopleInActivity activity : groups) {
+            int activiteId = activity.getActivityId();
+            List<PersonInActivity> people = activity.getPeople();
+            for (PersonInActivity person : people) {
+                activiteMapper.setGroupe(person.getCIP(), activiteId, person.getIsAttendent());
+            }
+        }
+        activiteMapper.setInscription( true, body.appCourant);
+        return Response.ok(groups, MediaType.APPLICATION_JSON).build();
+    }
     private PreferenceEnum getPreferenceByPersonPreferences(int appPreferenceId, int globalPreferenceId)
     {
         int preferenceId = appPreferenceId;
