@@ -21,4 +21,11 @@ public interface ActiviteMapper
     List<Preference> getPreference();
     List<Activite> getNomActivite(@Param("cip") String cip);
     Boolean getInscription(@Param("idAPP") int idAPP);
+
+     void setGroupe(@Param("cip") String cip,
+                                      @Param("activiteId") Integer activiteId,
+                                      @Param("intendant") Boolean intendant);
+    void setInscription(@Param("inscription") Boolean inscription,@Param ("appID") Integer appID);
+
 }
+

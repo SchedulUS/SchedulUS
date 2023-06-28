@@ -7,6 +7,7 @@ import { Activite } from "../../components/Calendrier/Activite";
 import { Preference } from "../../components/interfaces";
 import PreferencesAPP from "../../components/PreferencesAPP/PreferencesAPP";
 import * as React from "react";
+import { Button } from "@mui/material";
 
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
@@ -102,10 +103,28 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             setActivitePropre(tmpActivites);
         }
     },[activites]);
+    async function createGroups(appCourant:number,typeActiviteCourant:number)
+    {
+        try {
+          const response = await APIRequest<Response>('/groups/possible-groups', 'POST', true, { appCourant, typeActiviteCourant });
     
+          if (response.data) {
+            const data = response.data;
+            console.log(data);
+          } else {
+            throw new Error('Erreur lors de la requête au backend');
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
     return (
         <div id="calendriervue">
-            <div></div>
+            <div>
+                <Button onClick={() => createGroups(props.appCourant,props.typeActiviteCourant)} variant="contained" color="primary">
+                    Créer groupes
+                </Button>
+        </div>
             <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} idActiviteUsager={idActiviteUsager}/>
             <div id="preferenceAPPDiv">
                 <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />

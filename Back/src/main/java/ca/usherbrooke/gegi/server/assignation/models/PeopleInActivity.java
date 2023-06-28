@@ -34,7 +34,7 @@ public class PeopleInActivity
     {
         return activityId;
     }
-    public Iterable<PersonInActivity> getPeople()
+    public List<PersonInActivity> getPeople()
     {
         return peopleInActivity;
     }
