@@ -11,6 +11,7 @@ import { Activite } from './Activite';
 import { Grid } from '@mui/material';
 import Room from '@mui/icons-material/Room';
 import { styled } from '@mui/material/styles';
+import ChangementActivite from "./ChangementActivite/ChangementActivite.tsx";
 
 const PREFIX = 'Calendar';
 
@@ -51,41 +52,48 @@ const Appointment = ({
     <span style={style}>Local : {restProps.data.location}</span>
   </Appointments.Appointment>
   );
-  }
-const TooltipContent = (({
-    appointmentData, ...restProps
-  }) => (
-    <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
-      <Grid container alignItems="center">
-        <StyledGrid item xs={2} className={classes.textCenter}>
-          <StyledRoom className={classes.icon} />
-        </StyledGrid>
-        <Grid item xs={10}>
-          <span>{appointmentData.location}</span>
-        </Grid>
-      </Grid>
-    </AppointmentTooltip.Content>
-  ));
-export function Calendrier(props:{activities:Activite[],currentDate:Date})
+}
+
+function generateTooltip(inscription:boolean, idActiviteUsager:number)
 {
-  return(
-    <div id='calendrier'>
-      <Scheduler
-        locale="fr-CA"
-        data={props.activities}
-      >
-        <ViewState
-          currentDate={DateInISO(props.currentDate)}
-        />
-        <DayView
-          cellDuration={60}
-          startDayHour={8}
-          endDayHour={18}
-        />
-        <Appointments appointmentComponent={Appointment}/>
-        <AppointmentTooltip contentComponent={TooltipContent} />
-      </Scheduler>
-    </div>
-      
-  )
+    return (({
+                 appointmentData, ...restProps
+             }) => (
+        <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
+            <Grid container alignItems="center">
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                    <StyledRoom className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                    <span>{appointmentData.location}</span>
+
+                </Grid>
+            </Grid>
+            {(inscription && !(idActiviteUsager == appointmentData.id)) ? <ChangementActivite activityId={appointmentData.id}/> : <></>}
+        </AppointmentTooltip.Content>
+    ));
+}
+
+export function Calendrier(props:{activities:Activite[], currentDate:Date, inscription:boolean, idActiviteUsager:number})
+{
+    return(
+      <div id='calendrier'>
+        <Scheduler
+          locale="fr-CA"
+          data={props.activities}
+        >
+          <ViewState
+            currentDate={DateInISO(props.currentDate)}
+          />
+          <DayView
+            cellDuration={60}
+            startDayHour={8}
+            endDayHour={18}
+          />
+          <Appointments appointmentComponent={Appointment} />
+          <AppointmentTooltip contentComponent={generateTooltip(props.inscription, props.idActiviteUsager)} />
+        </Scheduler>
+      </div>
+        
+    )
 }

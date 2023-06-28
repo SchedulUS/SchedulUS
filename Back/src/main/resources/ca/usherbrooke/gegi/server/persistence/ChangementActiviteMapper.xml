@@ -7,12 +7,19 @@
         SELECT cip, activite_id as activiteID, date_changement as dateChangement FROM changement_activite WHERE cip = #{cip};
     </select>
 
-    <select id="VerifierNbChangement" resultType="Boolean">
+    <select id="VerifierNbChangement" resultType="java.lang.Boolean">
         SELECT * from verifiernbrechange(#{cip});
     </select>
 
-    <select id="DiminierNbChangement" resultType="int">
+    <select id="DiminuerNbChangement" resultType="java.lang.Integer">
         SELECT * from diminuernbrechange(#{cip});
+    </select>
+
+    <select id="getActiviteIntendant" resultType="ca.usherbrooke.gegi.server.business.Groupe">
+        SELECT * FROM activite
+        INNER JOIN groupe ON groupe.activite_id = activite.activite_id
+        WHERE app_id = (SELECT app_id FROM activite WHERE activite_id = #{appID})
+        AND type_id = ((SELECT type_id FROM activite WHERE activite_id = #{appID})) AND intendant = true and cip = #{cip}
     </select>
 
     <select id="getEtudiantIntendant" resultType="ca.usherbrooke.gegi.server.business.Groupe">
@@ -62,5 +69,30 @@
             WHERE activite.activite_id = #{activite_id}
         )
           AND groupe.cip = #{cip};
+    </select>
+    <select id="getIsContainingGhostStudent" resultType="java.lang.Boolean">
+        SELECT
+                (SELECT nb_etudiant FROM (SELECT COUNT(groupe.cip) nb_etudiant, a2.activite_id FROM activite
+                    JOIN session_app as sa ON sa.app_id = activite.app_id
+                    JOIN session as s ON s.session_id = sa.session_id
+                    JOIN activite as a2 ON activite.app_id = a2.app_id
+                    LEFT JOIN groupe ON groupe.activite_id = a2.activite_id
+                    WHERE activite.activite_id = #{activite_id} AND s.periode @> CURRENT_DATE AND a2.type_id = 1
+                    GROUP BY a2.activite_id) AS sub2 WHERE activite_id = #{activite_id}) = MAX(nb_etudiant) - 1 a_un_etudiant_fantome
+        FROM
+            (SELECT COUNT(groupe.cip) nb_etudiant, a2.activite_id FROM activite
+               JOIN session_app as sa ON sa.app_id = activite.app_id
+               JOIN session as s ON s.session_id = sa.session_id
+               JOIN activite as a2 ON activite.app_id = a2.app_id
+               LEFT JOIN groupe ON groupe.activite_id = a2.activite_id
+             WHERE activite.activite_id = #{activite_id} AND s.periode @> CURRENT_DATE AND a2.type_id = 1
+             GROUP BY a2.activite_id)
+                AS sub;
+    </select>
+    <select id="getUsagerIntendant" resultType="java.lang.Boolean">
+        SELECT groupe.intendant FROM activite
+                                         JOIN activite AS a2 ON activite.app_id = a2.app_id
+                                         JOIN groupe ON groupe.activite_id = activite.activite_id
+        WHERE a2.activite_id = #{activite_id} AND a2.type_id = 1 AND cip = #{cip};
     </select>
 </mapper>

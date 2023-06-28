@@ -22,7 +22,7 @@
         WHERE cip = #{cip}
     </select>
     <insert id="setPreferenceUsagerAPP">
-        UPDATE public.usager_preference SET preference_id=#{preferenceId} WHERE app_id=#{appId} and cip = #{cip};
+        UPDATE public.usager_preference SET preference_id = #{preferenceId} WHERE app_id = #{appId} and cip = #{cip};
         INSERT INTO public.usager_preference (cip, preference_id, app_id, intendant)
         SELECT #{cip}, #{preferenceId}, #{appId}, #{intendant}
         WHERE NOT EXISTS (SELECT 1 FROM public.usager_preference WHERE app_id=#{appId} and cip = #{cip});

@@ -62,6 +62,12 @@
         FROM activite
     </select>
 
+    <select id="getInscription" resultType="java.lang.Boolean">
+        SELECT inscription
+        FROM session_app
+        JOIN session on session.session_id = session_app.session_id
+        WHERE session.periode @> CURRENT_DATE AND app_id = #{idAPP}
+    </select>
     <insert id="setGroupe" >
         INSERT INTO groupe(cip, activite_id,intendant) VALUES  (#{cip}, #{activiteId}, #{intendant})
     </insert>

@@ -11,7 +11,8 @@ import org.apache.ibatis.annotations.Select;
 import javax.ws.rs.PathParam;
 import java.util.List;
 @Mapper
-public interface ActiviteMapper {
+public interface ActiviteMapper
+{
     List<Activite> getActivites(String cip);
     List<Activite> getActivite(@Param("appID") int appID, @Param("typeID") int typeID, @Param("cip") String cip);
     List<Activite> getActiviteUsager(@Param("appID") int appID, @Param("typeID") int typeID, @Param("cip") String cip);
@@ -19,6 +20,7 @@ public interface ActiviteMapper {
     List<EtudiantPreference> getEtudiantPreference(@Param("appID") int appID);
     List<Preference> getPreference();
     List<Activite> getNomActivite(@Param("cip") String cip);
+    Boolean getInscription(@Param("idAPP") int idAPP);
 
      void setGroupe(@Param("cip") String cip,
                                       @Param("activiteId") Integer activiteId,
