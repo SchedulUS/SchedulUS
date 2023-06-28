@@ -7,6 +7,14 @@
         SELECT cip, activite_id as activiteID, date_changement as dateChangement FROM changement_activite WHERE cip = #{cip};
     </select>
 
+    <select id="VerifierNbChangement" resultType="Boolean">
+        SELECT * from verifiernbrechange(#{cip});
+    </select>
+
+    <select id="DiminierNbChangement" resultType="int">
+        SELECT * from diminuernbrechange(#{cip});
+    </select>
+
     <select id="getEtudiantIntendant" resultType="ca.usherbrooke.gegi.server.business.Groupe">
         SELECT cip FROM groupe WHERE cip = #{cip} AND intendant = true;
     </select>
