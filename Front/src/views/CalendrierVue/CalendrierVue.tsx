@@ -55,6 +55,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
                     }
                 });
                 setActivites(newActivites);
+                setActivitePropre(newActivites)
             }
         }
 

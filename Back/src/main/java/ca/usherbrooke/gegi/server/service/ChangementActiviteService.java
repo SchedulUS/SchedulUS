@@ -24,6 +24,34 @@ public class ChangementActiviteService
     SecurityContext securityContext;
     @Inject
     ChangementActiviteMapper changementActiviteMapper;
+    private boolean DisponiblePourChangement(String cip, int activiteId)
+    {
+        Boolean isIntendant = changementActiviteMapper.getUsagerIntendant(cip,activiteId);
+        //Vérifie que l'usager n'est pas intendant
+        if (isIntendant != null && isIntendant == true)
+        {
+            return false;
+        }
+        //Vérifier que l'usager a des déplacements de disponibles
+        if (!changementActiviteMapper.VerifierNbChangement(cip))
+        {
+            return false;
+        }
+        //Vérifier si l'activité désiré a un étudiant fantôme
+        if (changementActiviteMapper.getIsContainingGhostStudent(activiteId))
+        {
+            Integer oldActiviteId = changementActiviteMapper.getCurrentGroupOfStudent(cip,activiteId);
+            //Vérifie que l'activité en cours n'a pas d'étudiant fantôme
+            if (!changementActiviteMapper.getIsContainingGhostStudent(oldActiviteId))
+            {
+                return true;
+            }
+        }
+        EtudiantEchange autreEtudiantAEchanger = changementActiviteMapper.getEtudiantVoulantChanger(cip,activiteId);
+
+        //S'il y a un étudiant qui veut changer
+        return autreEtudiantAEchanger != null;
+    }
     private void ChangementAvecFantome(String cip, int activiteId)
     {
         Integer oldActiviteId = changementActiviteMapper.getCurrentGroupOfStudent(cip,activiteId);
@@ -49,7 +77,12 @@ public class ChangementActiviteService
             ChangementAvecEtudiant(cip,activiteId,autreEtudiantAEchanger);
         }
     }
-    
+    @GET
+    @Path("getDisponibiliteChangement/{activiteID}")
+    public Boolean getPreferenceAppUsager(@PathParam("activiteID") int appId){
+        return DisponiblePourChangement(this.securityContext.getUserPrincipal().getName(), appId);
+    }
+
     @GET
     @Path("getChangementActivite")
     public List<ChangementActivite> getChangementActivite(){

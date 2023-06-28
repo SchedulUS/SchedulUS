@@ -69,7 +69,7 @@ function generateTooltip(inscription:boolean, idActiviteUsager:number)
 
                 </Grid>
             </Grid>
-            {(inscription && !(idActiviteUsager == appointmentData.id)) ? <ChangementActivite></ChangementActivite> : <></>}
+            {(inscription && !(idActiviteUsager == appointmentData.id)) ? <ChangementActivite activityId={appointmentData.id}/> : <></>}
         </AppointmentTooltip.Content>
     ));
 }

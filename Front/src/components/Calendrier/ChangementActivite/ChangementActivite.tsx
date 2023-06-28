@@ -2,9 +2,22 @@ import Button from "@mui/material/Button";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import { red } from '@mui/material/colors';
+import { useEffect, useState } from "react";
+import { APIRequest } from "../../../utils/apiUtils";
 
-export default function ChangementActivite()
+export default function ChangementActivite(props:{activityId:number})
 {
+    const [disponibiliteChangement, setDisponibiliteChangement] = useState<boolean>(false);
+    useEffect(() => {
+        async function getDisponibiliteChangement()
+        {
+            const result = await APIRequest<boolean>(`/getDisponibiliteChangement/${props.activityId}`,"GET",true);
+
+            setDisponibiliteChangement(result.data == true)
+        }
+
+        getDisponibiliteChangement();
+    },[props.activityId])
 
     return (
         <div className="boite">
@@ -19,8 +32,7 @@ export default function ChangementActivite()
             </div>
             <div className="ligne">
                 <div className="article">
-                    {/*TODO : Vérifier la disponibilité */}
-                    {true ? <EventAvailableIcon sx={{ fontSize: 22 }} color="success"/> : <EventBusyIcon sx={{ fontSize: 22, color: red[500]}}/>}
+                    {disponibiliteChangement ? <EventAvailableIcon sx={{ fontSize: 22 }} color="success"/> : <EventBusyIcon sx={{ fontSize: 22, color: red[500]}}/>}
                     <span className="texte">Disponibilité</span>
                 </div>
             </div>
