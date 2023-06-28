@@ -110,6 +110,7 @@ CREATE TABLE intendant(
 CREATE TABLE session_app(
     session_id SERIAL NOT NULL,
     app_id SERIAL NOT NULL,
+    inscription boolean,
     PRIMARY KEY (session_id,app_id),
     FOREIGN KEY (session_id) REFERENCES session(session_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id)
@@ -123,7 +124,14 @@ CREATE TABLE usager_session(
     FOREIGN KEY (session_id) REFERENCES session(session_id),
     FOREIGN KEY (cip) REFERENCES usager(cip)
 );
-
+CREATE TABLE groupe(
+    cip CHAR(8) NOT NULL,
+    activite_id SERIAL NOT NULL,
+    intendant boolean,
+    PRIMARY KEY (cip,activite_id),
+    FOREIGN KEY (cip) REFERENCES usager(cip),
+    FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
+);
 CREATE TABLE changement_activite(
     cip CHAR(8) NOT NULL,
     activite_id SERIAL NOT NULL,
@@ -253,3 +261,4 @@ INSERT INTO usager_session(cip,session_id)VALUES
 ('stds2101',1),
 ('aubj1202',1),
 ('sehk2201',1);
+

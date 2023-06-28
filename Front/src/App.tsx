@@ -7,12 +7,14 @@ import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
 import Navigateur from "./components/Navigateur.tsx";
 import { CalendrierVue } from './views/CalendrierVue/CalendrierVue';
+import Button from "@mui/material/Button";
+import * as React from "react";
 
 function App()
 {
   const [preferences, setPreference] = useState<Preference[]>([]);
   const [nom, setNom] = useState("");
-  const [cip ,setCip] = useState("");
+
   const [appCourant, setAppCourant] = useState(0);
   const [typeActiviteCourant, setTypeActiviteCourant] = useState(0);
   const [optionValue, setOptionValue] = useState<number>(0);
@@ -60,7 +62,20 @@ function App()
       fetchData().catch(console.error);
     }
   }, [appCourant]);
+  const handleButtonClick = async () => {
+    try {
+      const response = await APIRequest<Response>('/groups/possible-groups', 'POST', true, { appCourant, typeActiviteCourant });
 
+      if (response.data) {
+        const data = response.data;
+        console.log(data);
+      } else {
+        throw new Error('Erreur lors de la requête au backend');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <nav>
@@ -75,6 +90,9 @@ function App()
       </nav>
       <div>
         <CalendrierVue preferences={preferences} appCourant={appCourant} typeActiviteCourant={typeActiviteCourant} optionValue={optionValueApp} setOptionValue={setOptionValueApp}/>
+        <Button onClick={handleButtonClick} variant="contained" color="primary">
+          Appeler la fonction du backend
+        </Button>
       </div>
     </>
   )
