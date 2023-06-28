@@ -17,6 +17,7 @@ export default function ChangementActivite()
             </div>
             <div className="ligne">
                 <div className="article">
+                    {/*TODO : Vérifier la disponibilité */}
                     {true ? <EventAvailableIcon sx={{ fontSize: 22 }} color="success"/> : <EventBusyIcon sx={{ fontSize: 22 }} color="disabled"/>}
                     <span className="texte">Disponibilité</span>
                 </div>
