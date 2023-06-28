@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Calendrier } from "../../components/Calendrier/Calendrier"
 import "./CalendrierVue.css"
 import { APIRequest } from "../../utils/apiUtils";
@@ -15,6 +15,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
     const [inscription, setInscription] = React.useState(false);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
+    const [activitePropre,setActivitePropre] = useState<Activite[]>([]);
     useEffect(()=>
     {
         const fetchData = async () =>
@@ -97,14 +98,14 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
                     }
                 }
             }); 
-            setActivites(tmpActivites);
+            setActivitePropre(tmpActivites);
         }
     },[activites]);
     
     return (
         <div id="calendriervue">
             <div></div>
-            <Calendrier activities={activites} currentDate={currentDate} inscription={inscription} idActiviteUsager={0/*idActiviteUsager*/}/>
+            <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} idActiviteUsager={idActiviteUsager}/>
             <div id="preferenceAPPDiv">
                 <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />
             </div>

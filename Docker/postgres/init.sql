@@ -267,7 +267,7 @@ INSERT INTO usager_preference(cip, preference_id, app_id) VALUES
 ('sevm1802',2,1),
 ('sevm1802',1,2);
 
-INSERT INTO usager_session(cip,session_id)VALUES
+INSERT INTO usager_session(cip,session_id) VALUES
 ('laft1301',1),
 ('sevm1802',1),
 ('stds2101',1),

@@ -56,8 +56,6 @@ const Appointment = ({
 
 function generateTooltip(inscription:boolean, idActiviteUsager:number)
 {
-
-    console.log(inscription)
     return (({
                  appointmentData, ...restProps
              }) => (
