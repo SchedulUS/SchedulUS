@@ -62,4 +62,15 @@
         FROM activite
     </select>
 
+    <insert id="setGroupe" >
+        INSERT INTO groupe(cip, activite_id,intendant) VALUES  (#{cip}, #{activiteId}, #{intendant})
+    </insert>
+    <update id="setInscription">
+        UPDATE session_app as sa
+        SET inscription =true
+        Where (select session_id FROM session WHERE periode@> CURRENT_DATE) =sa.session_id
+        AND sa.app_id=#{appID}
+    </update>
+
+
 </mapper>

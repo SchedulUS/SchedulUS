@@ -24,8 +24,8 @@ const style =
   export default function BasicModal(props:{preferences:Preference[],optionValue:number,setOptionValue:(param:number)=>void}) {
     const [open, setOpen] = React.useState(false);
     const [nbrEchange, setNbrEchange] = React.useState(0);
-    
-    const handleOpen = () => {
+
+      const handleOpen = () => {
       // declare the data fetching function
       const fetchData = async () => {
         const result = await APIRequest<[]>("/getNbrEchange","GET",true);
@@ -35,7 +35,9 @@ const style =
         }
         
       }
-      // call the function
+
+
+          // call the function
       fetchData()
         // make sure to catch any error
         .catch(console.error);
@@ -54,11 +56,10 @@ const style =
         // make sure to catch any error
         .catch(console.error);
 
-        
-      setOpen(true)
+          setOpen(true)
     };
     const handleClose = () => setOpen(false);
-    
+
   
     const handleOkButtonClick = () => {
       setOpen(false);
@@ -98,6 +99,7 @@ const style =
           </div>
         </Box>
       </Modal>
+
     </div>
   );
 }

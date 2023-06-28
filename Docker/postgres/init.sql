@@ -110,6 +110,7 @@ CREATE TABLE intendant(
 CREATE TABLE session_app(
     session_id SERIAL NOT NULL,
     app_id SERIAL NOT NULL,
+    inscription boolean,
     PRIMARY KEY (session_id,app_id),
     FOREIGN KEY (session_id) REFERENCES session(session_id),
     FOREIGN KEY (app_id) REFERENCES app(app_id)
@@ -126,7 +127,7 @@ CREATE TABLE usager_session(
 CREATE TABLE groupe(
    cip CHAR(8) NOT NULL,
    activite_id SERIAL NOT NULL,
-   intendant BOOLEAN NOT NULL,
+   intendant BOOLEAN NOT NULL DEFAULT false,
    PRIMARY KEY (cip,activite_id),
    FOREIGN KEY (cip) REFERENCES usager(cip),
    FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
