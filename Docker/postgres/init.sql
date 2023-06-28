@@ -125,13 +125,14 @@ CREATE TABLE usager_session(
     FOREIGN KEY (cip) REFERENCES usager(cip)
 );
 CREATE TABLE groupe(
-    cip CHAR(8) NOT NULL,
-    activite_id SERIAL NOT NULL,
-    intendant boolean,
-    PRIMARY KEY (cip,activite_id),
-    FOREIGN KEY (cip) REFERENCES usager(cip),
-    FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
+   cip CHAR(8) NOT NULL,
+   activite_id SERIAL NOT NULL,
+   intendant BOOLEAN NOT NULL DEFAULT false,
+   PRIMARY KEY (cip,activite_id),
+   FOREIGN KEY (cip) REFERENCES usager(cip),
+   FOREIGN KEY (activite_id) REFERENCES activite(activite_id)
 );
+
 CREATE TABLE changement_activite(
     cip CHAR(8) NOT NULL,
     activite_id SERIAL NOT NULL,
@@ -260,5 +261,34 @@ INSERT INTO usager_session(cip,session_id)VALUES
 ('sevm1802',1),
 ('stds2101',1),
 ('aubj1202',1),
-('sehk2201',1);
+('sehk2201',1),
+('boie0601',1);
+
+CREATE FUNCTION VerifierNbrEchange(m_cip varchar(8))
+    returns Boolean
+AS $$
+DECLARE nbrEchange int;
+BEGIN
+    SELECT nbr_echange INTO nbrEchange FROM usager_session WHERE cip = m_cip;
+    if(nbrEchange > 0)
+    then
+        return true;
+    end if;
+    return false;
+end;
+
+$$ language plpgsql;
+
+CREATE FUNCTION DiminuerNbrEchange(m_cip varchar(8))
+    returns int
+AS $$
+Declare nbrEchange int;
+BEGIN
+    select nbr_Echange into nbrEchange from usager_session where cip = m_cip;
+    update usager_session set nbr_Echange = (nbrEchange - 1) where  cip = m_cip;
+    select nbr_Echange into nbrEchange from usager_session where cip = m_cip;
+    return nbrEchange;
+end;
+
+$$ language plpgsql;
 

@@ -44,8 +44,7 @@ const Appointment = ({
     {...restProps}
     style={{
       ...style,
-//      backgroundColor: '#FFC107',
-//      borderRadius: '8px',
+      backgroundColor: restProps.data.backgroundColor
     }}
   >
     {children}
@@ -69,24 +68,24 @@ const TooltipContent = (({
   ));
 export function Calendrier(props:{activities:Activite[],currentDate:Date})
 {
-    return(
-      <div id='calendrier'>
-        <Scheduler
-          locale="fr-CA"
-          data={props.activities}
-        >
-          <ViewState
-            currentDate={DateInISO(props.currentDate)}
-          />
-          <DayView
-            cellDuration={60}
-            startDayHour={8}
-            endDayHour={18}
-          />
-          <Appointments appointmentComponent={Appointment} />
-          <AppointmentTooltip contentComponent={TooltipContent} />
-        </Scheduler>
-      </div>
-        
-    )
+  return(
+    <div id='calendrier'>
+      <Scheduler
+        locale="fr-CA"
+        data={props.activities}
+      >
+        <ViewState
+          currentDate={DateInISO(props.currentDate)}
+        />
+        <DayView
+          cellDuration={60}
+          startDayHour={8}
+          endDayHour={18}
+        />
+        <Appointments appointmentComponent={Appointment}/>
+        <AppointmentTooltip contentComponent={TooltipContent} />
+      </Scheduler>
+    </div>
+      
+  )
 }
