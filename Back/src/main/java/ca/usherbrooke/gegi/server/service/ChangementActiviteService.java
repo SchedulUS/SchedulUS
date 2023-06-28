@@ -106,11 +106,16 @@ public class ChangementActiviteService
         return changementActiviteMapper.getEtudiantIntendant(cip);
     }
 
+    private List<Groupe> getActiviteIntendant(int appID){
+        String cip = this.securityContext.getUserPrincipal().getName();
+        return changementActiviteMapper.getActiviteIntendant(cip,appID);
+    }
+
     @PUT
     @Path("updateChangementActivite")
     public Integer updateChangementActivite(@RequestBody ChangementActivite changementActivite){
         String cip = this.securityContext.getUserPrincipal().getName();
-        List<Groupe> intendants = getEtudiantIntendant();
+        List<Groupe> intendants = getActiviteIntendant(changementActivite.activiteID);
         if(intendants.isEmpty()) {
             try{
                 changementActiviteMapper.updateChangementActivite(changementActivite.activiteID, cip);
@@ -123,11 +128,12 @@ public class ChangementActiviteService
         return 1;
     }
 
+
     @POST
     @Path("setChangementActivite")
     public Integer setChangementActivite(@RequestBody ChangementActivite changementActivite){
         String cip = this.securityContext.getUserPrincipal().getName();
-        List<Groupe> intendants = getEtudiantIntendant();
+        List<Groupe> intendants = getActiviteIntendant(changementActivite.activiteID);
         if(intendants.isEmpty()){
             List<ChangementActivite> changementActivites = getChangementActivite();
             if(changementActivites.isEmpty()){

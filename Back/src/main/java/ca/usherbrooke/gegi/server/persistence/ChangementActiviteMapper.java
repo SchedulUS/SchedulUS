@@ -14,6 +14,7 @@ public interface ChangementActiviteMapper
     List<ChangementActivite> getChangementActivite(@Param("cip") String cip);
 
     List<Groupe> getEtudiantIntendant(@Param("cip") String cip);
+    List<Groupe> getActiviteIntendant(@Param("cip") String cip, @Param("appID") int appID);
 
     void setChangementActivite(@Param("activiteID") int activiteID, @Param("cip") String cip);
 

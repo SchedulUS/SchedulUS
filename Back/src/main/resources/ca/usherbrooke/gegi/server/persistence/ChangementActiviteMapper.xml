@@ -15,6 +15,13 @@
         SELECT * from diminuernbrechange(#{cip});
     </select>
 
+    <select id="getActiviteIntendant" resultType="ca.usherbrooke.gegi.server.business.Groupe">
+        SELECT * FROM activite
+        INNER JOIN groupe ON groupe.activite_id = activite.activite_id
+        WHERE app_id = (SELECT app_id FROM activite WHERE activite_id = #{appID})
+        AND type_id = ((SELECT type_id FROM activite WHERE activite_id = #{appID})) AND intendant = true and cip = #{cip}
+    </select>
+
     <select id="getEtudiantIntendant" resultType="ca.usherbrooke.gegi.server.business.Groupe">
         SELECT cip FROM groupe WHERE cip = #{cip} AND intendant = true;
     </select>
