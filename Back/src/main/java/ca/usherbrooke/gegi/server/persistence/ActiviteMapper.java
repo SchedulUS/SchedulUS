@@ -17,6 +17,7 @@ public interface ActiviteMapper {
     List<Activite> getActiviteUsager(@Param("appID") int appID, @Param("typeID") int typeID, @Param("cip") String cip);
     List<Poids> getPoids(@Param("appID") int appID);
     List<EtudiantPreference> getEtudiantPreference(@Param("appID") int appID);
+    List<EtudiantPreference> getUsager(@Param("appID") int appID);
     List<Preference> getPreference();
     List<Activite> getNomActivite(@Param("cip") String cip);
 }

@@ -62,4 +62,10 @@
         FROM activite
     </select>
 
+    <select id="getUsager" resultType="ca.usherbrooke.gegi.server.business.EtudiantPreference">
+        SELECT usager.cip, preference_id as preferenceglobal from usager
+        INNER JOIN app_usager ON app_usager.cip = usager.cip
+        WHERE app_id = #{appID}
+    </select>
+
 </mapper>
