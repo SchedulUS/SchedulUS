@@ -44,9 +44,7 @@ const Appointment = ({
     {...restProps}
     style={{
       ...style,
-      backgroundColor: restProps.data.backgroundColor,
-//      backgroundColor: '#FFC107',
-//      borderRadius: '8px',
+      backgroundColor: restProps.data.backgroundColor
     }}
   >
     {children}

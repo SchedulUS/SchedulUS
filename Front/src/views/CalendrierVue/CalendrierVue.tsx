@@ -13,7 +13,6 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
     const [idActiviteUsager,setIdActiviteUsager] = useState<number>(0);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
-    const refActivite = useRef(null);
 
     useEffect(()=> {
         async function getActivities()

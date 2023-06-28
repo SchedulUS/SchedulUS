@@ -5,5 +5,5 @@ export interface Activite
     endDate: Date,
     id: number,
     location: string,
-    backgroundColor: string,
+    backgroundColor: string
 }
