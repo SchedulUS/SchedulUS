@@ -1,6 +1,7 @@
 import Button from "@mui/material/Button";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
+import { red } from '@mui/material/colors';
 
 export default function ChangementActivite()
 {
@@ -19,7 +20,7 @@ export default function ChangementActivite()
             <div className="ligne">
                 <div className="article">
                     {/*TODO : Vérifier la disponibilité */}
-                    {true ? <EventAvailableIcon sx={{ fontSize: 22 }} color="success"/> : <EventBusyIcon sx={{ fontSize: 22 }} color="disabled"/>}
+                    {true ? <EventAvailableIcon sx={{ fontSize: 22 }} color="success"/> : <EventBusyIcon sx={{ fontSize: 22, color: red[500]}}/>}
                     <span className="texte">Disponibilité</span>
                 </div>
             </div>
