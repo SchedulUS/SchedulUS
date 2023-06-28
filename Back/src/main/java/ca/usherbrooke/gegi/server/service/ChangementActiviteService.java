@@ -5,6 +5,7 @@ import ca.usherbrooke.gegi.server.business.Groupe;
 import ca.usherbrooke.gegi.server.business.EtudiantEchange;
 import ca.usherbrooke.gegi.server.persistence.ChangementActiviteMapper;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+import org.eclipse.microprofile.openapi.models.parameters.Parameter;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -17,7 +18,8 @@ import java.util.List;
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 @RolesAllowed({"etudiant"})
-public class ChangementActiviteService {
+public class ChangementActiviteService
+{
     @Context
     SecurityContext securityContext;
     @Inject

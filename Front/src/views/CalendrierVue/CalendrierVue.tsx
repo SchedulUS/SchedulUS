@@ -11,32 +11,21 @@ import * as React from "react";
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
+    const [idActiviteUsager,setIdActiviteUsager] = useState<number>(0);
     const [inscription, setInscription] = React.useState(false);
-    const [dansActivite, setDansActivite] = React.useState(false);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
+    const [activitePropre,setActivitePropre] = useState<Activite[]>([]);
     useEffect(()=>
     {
         const fetchData = async () =>
         {
             const result1 = await APIRequest<boolean>(`/getInscription/${props.appCourant}`,"GET",true);
-            //TODO : dansActivite = true --> ne pas afficher : requête au groupe, route à créer
-            const result2 = await APIRequest<boolean>(`/getInscription/${props.appCourant}`,"GET",true);
 
             if (result1.data != undefined)
             {
                 console.log(result1.data)
                 setInscription(result1.data)
-            }
-            else
-            {
-                console.log("No data")
-            }
-
-            if (result2.data != undefined)
-            {
-                console.log(result2.data)
-                setDansActivite(result2.data)
             }
             else
             {
@@ -60,6 +49,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
                         id:e.activiteId,
                         title:e.activiteNom,
                         location:e.local,
+                        backgroundColor: '#64b5f6',
                         startDate: new Date(e.debut),
                         endDate: new Date(e.fin)
                     }
@@ -68,13 +58,54 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             }
         }
 
+        async function getActiviteUsager()
+        {
+            if(props.appCourant > 0 && props.typeActiviteCourant > 0)
+            {
+                const result2 = await APIRequest<ResultatActivite[]>(`/getActiviteUsager/${props.appCourant}/${props.typeActiviteCourant}`,"GET",true);
+
+                if (result2.data && result2.data[0])
+                {
+                    setIdActiviteUsager(result2.data[0].activiteId);
+                }
+            }
+        }
+
         getActivities();
-    },[props.appCourant,props.typeActiviteCourant])
+        getActiviteUsager();
+    },[props.appCourant,props.typeActiviteCourant]);
+
+    useEffect(()=>{
+        if(idActiviteUsager > 0){
+            const tmpActivites : Activite[] = activites.map(e => {
+                if(e.id == idActiviteUsager){
+                    return {
+                        id:e.id,
+                        title:e.title,
+                        location:e.location,
+                        backgroundColor: '#283075',
+                        startDate: new Date(e.startDate),
+                        endDate: new Date(e.endDate)
+                    }
+                }else{
+                    return {
+                        id:e.id,
+                        title:e.title,
+                        location:e.location,
+                        backgroundColor: '#64b5f6',
+                        startDate: new Date(e.startDate),
+                        endDate: new Date(e.endDate)
+                    }
+                }
+            }); 
+            setActivitePropre(tmpActivites);
+        }
+    },[activites]);
     
     return (
         <div id="calendriervue">
             <div></div>
-            <Calendrier activities={activites} currentDate={currentDate} inscription={inscription} dansActivite={dansActivite}/>
+            <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} idActiviteUsager={idActiviteUsager}/>
             <div id="preferenceAPPDiv">
                 <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />
             </div>

@@ -45,8 +45,7 @@ const Appointment = ({
     {...restProps}
     style={{
       ...style,
-//      backgroundColor: '#FFC107',
-//      borderRadius: '8px',
+      backgroundColor: restProps.data.backgroundColor
     }}
   >
     {children}
@@ -55,9 +54,8 @@ const Appointment = ({
   );
 }
 
-function generateTooltip(inscription:boolean, dansActivite:boolean)
+function generateTooltip(inscription:boolean, idActiviteUsager:number)
 {
-    console.log(inscription)
     return (({
                  appointmentData, ...restProps
              }) => (
@@ -71,12 +69,12 @@ function generateTooltip(inscription:boolean, dansActivite:boolean)
 
                 </Grid>
             </Grid>
-            {(true && !false) ? <ChangementActivite></ChangementActivite> : <></>}
+            {(inscription && !(idActiviteUsager == appointmentData.id)) ? <ChangementActivite></ChangementActivite> : <></>}
         </AppointmentTooltip.Content>
     ));
 }
 
-export function Calendrier(props:{activities:Activite[], currentDate:Date, inscription:boolean, dansActivite:boolean})
+export function Calendrier(props:{activities:Activite[], currentDate:Date, inscription:boolean, idActiviteUsager:number})
 {
     return(
       <div id='calendrier'>
@@ -93,7 +91,7 @@ export function Calendrier(props:{activities:Activite[], currentDate:Date, inscr
             endDayHour={18}
           />
           <Appointments appointmentComponent={Appointment} />
-          <AppointmentTooltip contentComponent={generateTooltip(props.inscription, props.dansActivite)} />
+          <AppointmentTooltip contentComponent={generateTooltip(props.inscription, props.idActiviteUsager)} />
         </Scheduler>
       </div>
         
