@@ -9,7 +9,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface ChangementActiviteMapper {
+public interface ChangementActiviteMapper
+{
     List<ChangementActivite> getChangementActivite(@Param("cip") String cip);
 
     List<Groupe> getEtudiantIntendant(@Param("cip") String cip);

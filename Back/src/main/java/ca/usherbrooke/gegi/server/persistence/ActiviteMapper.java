@@ -11,11 +11,13 @@ import org.apache.ibatis.annotations.Select;
 import javax.ws.rs.PathParam;
 import java.util.List;
 @Mapper
-public interface ActiviteMapper {
+public interface ActiviteMapper
+{
     List<Activite> getActivites(String cip);
     List<Activite> getActivite(@Param("appID") int appID, @Param("typeID") int typeID, @Param("cip") String cip);
     List<Poids> getPoids(@Param("appID") int appID);
     List<EtudiantPreference> getEtudiantPreference(@Param("appID") int appID);
     List<Preference> getPreference();
     List<Activite> getNomActivite(@Param("cip") String cip);
+    boolean getInscription(@Param("idAPP") int idAPP);
 }

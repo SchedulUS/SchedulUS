@@ -30,7 +30,8 @@ public class ActiviteService
 
     @GET
     @Path("getActivite/{appID}/{typeID}")
-    public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID){
+    public List<Activite> getActivite(@PathParam("appID") int appID,@PathParam("typeID") int typeID)
+    {
         String cip = this.securityContext.getUserPrincipal().getName();
         return activiteMapper.getActivite(appID,typeID, cip);
     }
@@ -42,8 +43,16 @@ public class ActiviteService
     }
     @GET
     @Path("getNomActivite")
-    public List<Activite> getNomActivites(){
+    public List<Activite> getNomActivites()
+    {
         return activiteMapper.getNomActivite(this.securityContext.getUserPrincipal().getName());
+    }
+
+    @GET
+    @Path("getInscription/{idAPP}/")
+    public boolean getInscription(@PathParam("idAPP") int idAPP)
+    {
+        return activiteMapper.getInscription(idAPP);
     }
 
     @POST
