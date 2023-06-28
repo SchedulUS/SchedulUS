@@ -25,4 +25,6 @@ public interface ChangementActiviteMapper
     void supprimerDemandeChangement(@Param("cip") String cip, @Param("activiteId") int activiteId);
     void changerGroupe(@Param("cip") String cip, @Param("oldActiviteId") int oldActiviteId, @Param("newActiviteId") int newActivite);
     Integer getCurrentGroupOfStudent(@Param("cip") String cip, @Param("activite_id") int activiteId);
+    Boolean getIsContainingGhostStudent(@Param("activite_id") int activiteId);
+    Boolean getUsagerIntendant(@Param("cip") String cip, @Param("activite_id") int activiteId);
 }

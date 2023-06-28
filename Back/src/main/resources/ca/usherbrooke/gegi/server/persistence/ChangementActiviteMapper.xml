@@ -55,4 +55,29 @@
         )
           AND groupe.cip = #{cip};
     </select>
+    <select id="getIsContainingGhostStudent" resultType="java.lang.Boolean">
+        SELECT
+                (SELECT nb_etudiant FROM (SELECT COUNT(groupe.cip) nb_etudiant, a2.activite_id FROM activite
+                    JOIN session_app as sa ON sa.app_id = activite.app_id
+                    JOIN session as s ON s.session_id = sa.session_id
+                    JOIN activite as a2 ON activite.app_id = a2.app_id
+                    LEFT JOIN groupe ON groupe.activite_id = a2.activite_id
+                    WHERE activite.activite_id = #{activite_id} AND s.periode @> CURRENT_DATE AND a2.type_id = 1
+                    GROUP BY a2.activite_id) AS sub2 WHERE activite_id = #{activite_id}) = MIN(nb_etudiant) a_un_etudiant_fantome
+        FROM
+            (SELECT COUNT(groupe.cip) nb_etudiant, a2.activite_id FROM activite
+               JOIN session_app as sa ON sa.app_id = activite.app_id
+               JOIN session as s ON s.session_id = sa.session_id
+               JOIN activite as a2 ON activite.app_id = a2.app_id
+               LEFT JOIN groupe ON groupe.activite_id = a2.activite_id
+             WHERE activite.activite_id = #{activite_id} AND s.periode @> CURRENT_DATE AND a2.type_id = 1
+             GROUP BY a2.activite_id)
+                AS sub;
+    </select>
+    <select id="getUsagerIntendant" resultType="java.lang.Boolean">
+        SELECT groupe.intendant FROM activite
+                                         JOIN activite AS a2 ON activite.app_id = a2.app_id
+                                         JOIN groupe ON groupe.activite_id = activite.activite_id
+        WHERE a2.activite_id = #{activite_id} AND a2.type_id = 1 AND cip = #{cip};
+    </select>
 </mapper>
