@@ -4,18 +4,20 @@ import EventBusyIcon from '@mui/icons-material/EventBusy';
 import { red, green } from '@mui/material/colors';
 import { useEffect, useState } from "react";
 import { APIRequest } from "../../../utils/apiUtils";
+import * as React from "react";
 import {Dialog, DialogActions, DialogContent, DialogContentText} from "@mui/material";
 
 export default function ChangementActivite(props:{activityId:number})
 {
     const [disponibiliteChangement, setDisponibiliteChangement] = useState<boolean>(false);
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState("");
+
     useEffect(() => {
         async function getDisponibiliteChangement()
         {
             const result = await APIRequest<boolean>(`/getDisponibiliteChangement/${props.activityId}`,"GET",true);
-    const [isAttente, setIsAttente] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
-    const [message, setMessage] = React.useState("")
+
 
             setDisponibiliteChangement(result.data == true)
         }
@@ -25,7 +27,7 @@ export default function ChangementActivite(props:{activityId:number})
 
 
     const setChangementActivite = async () => {
-        const result = await APIRequest<number>("/setChangementActivite","POST",true, {"activiteID" : props.activiteId});
+        const result = await APIRequest<number>("/setChangementActivite","POST",true, {"activiteID" : props.activityId});
         if (result.data !== undefined)
         {
             if (result.data == 1){
@@ -41,7 +43,7 @@ export default function ChangementActivite(props:{activityId:number})
     }
 
     const setEffectuerChangement = async () =>{
-        const result = await APIRequest<number>("/setEffectuerChangement","POST",true, {"activiteID" : props.activiteId});
+        const result = await APIRequest<number>("/setEffectuerChangement","POST",true, {"activiteID" : props.activityId});
         if (result.data !== undefined)
         {
             if (result.data == 1){
@@ -57,11 +59,12 @@ export default function ChangementActivite(props:{activityId:number})
     }
 
     const demandeChangement = () => {
-        if(isAttente){
+        if(!disponibiliteChangement){
             setChangementActivite();
         }
         else{
             setEffectuerChangement();
+            window.location.reload()
         }
     };
 
