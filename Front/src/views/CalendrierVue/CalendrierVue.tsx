@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Calendrier } from "../../components/Calendrier/Calendrier"
 import "./CalendrierVue.css"
 import { APIRequest } from "../../utils/apiUtils";
@@ -10,8 +10,11 @@ import PreferencesAPP from "../../components/PreferencesAPP/PreferencesAPP";
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
+    const [idActiviteUsager,setIdActiviteUsager] = useState<number>(0);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
+    const refActivite = useRef(null);
+
     useEffect(()=> {
         async function getActivities()
         {
@@ -28,6 +31,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
                         id:e.activiteId,
                         title:e.activiteNom,
                         location:e.local,
+                        backgroundColor: '#64b5f6',
                         startDate: new Date(e.debut),
                         endDate: new Date(e.fin)}
                 });
@@ -35,8 +39,49 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             }
         }
 
+        async function getActiviteUsager()
+        {
+            if(props.appCourant > 0 && props.typeActiviteCourant > 0)
+            {
+                const result2 = await APIRequest<ResultatActivite[]>(`/getActiviteUsager/${props.appCourant}/${props.typeActiviteCourant}`,"GET",true);
+
+                if (result2.data && result2.data[0])
+                {
+                    setIdActiviteUsager(result2.data[0].activiteId);
+                }
+            }
+        }
+
         getActivities();
-    },[props.appCourant,props.typeActiviteCourant])
+        getActiviteUsager();
+    },[props.appCourant,props.typeActiviteCourant]);
+
+    useEffect(()=>{
+        if(idActiviteUsager > 0){
+            const tmpActivites : Activite[] = activites.map(e => {
+                if(e.id == idActiviteUsager){
+                    return {
+                        id:e.id,
+                        title:e.title,
+                        location:e.location,
+                        backgroundColor: '#283075',
+                        startDate: new Date(e.startDate),
+                        endDate: new Date(e.endDate)
+                    }
+                }else{
+                    return {
+                        id:e.id,
+                        title:e.title,
+                        location:e.location,
+                        backgroundColor: '#64b5f6',
+                        startDate: new Date(e.startDate),
+                        endDate: new Date(e.endDate)
+                    }
+                }
+            }); 
+            setActivites(tmpActivites);
+        }
+    },[activites]);
     
     return (
         <div id="calendriervue">
