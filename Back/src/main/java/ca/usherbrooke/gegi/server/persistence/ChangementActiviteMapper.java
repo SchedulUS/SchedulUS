@@ -21,6 +21,10 @@ public interface ChangementActiviteMapper
 
     void deleteChangmentActivite(@Param("cip") String cip);
 
+    void VerifierNbChangement(@Param("cip") String cip);
+
+    void DiminierNbChangement(@Param("cip") String cip);
+
     EtudiantEchange getEtudiantVoulantChanger(@Param("cip") String cip, @Param("activiteId") int activiteId);
     void supprimerDemandeChangement(@Param("cip") String cip, @Param("activiteId") int activiteId);
     void changerGroupe(@Param("cip") String cip, @Param("oldActiviteId") int oldActiviteId, @Param("newActiviteId") int newActivite);
