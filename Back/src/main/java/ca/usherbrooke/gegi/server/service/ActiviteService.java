@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -79,7 +80,21 @@ public class ActiviteService
     @GET
     @Path("getEtudiantPreference/{appID}/")
     public List<EtudiantPreference> getEtudiantPreference(@PathParam("appID") int appID){
-        return activiteMapper.getEtudiantPreference(appID);
+        List<EtudiantPreference> etudiants = activiteMapper.getEtudiantPreference(appID);
+        List<EtudiantPreference> listeEtudiant = activiteMapper.getUsager(appID);
+        AtomicBoolean present = new AtomicBoolean(false);
+        listeEtudiant.forEach((le) -> {
+            for (int i = 0; i < etudiants.size(); i++){
+                if (Objects.equals(etudiants.get(i).cip, le.cip)){
+                    present.set(true);
+                }
+            }
+            if (!present.get()){
+                etudiants.add(le);
+            }
+            present.set(false);
+        });
+        return etudiants;
     }
 
     @GET
@@ -91,7 +106,7 @@ public class ActiviteService
     public List<PeopleInActivity> getPossibleGroupsForAnAPP(int appID,int typeID){
         String cip = this.securityContext.getUserPrincipal().getName();
         List<Poids> poids = activiteMapper.getPoids(appID);
-        List<EtudiantPreference> etudiantPreferences = activiteMapper.getEtudiantPreference(appID);
+        List<EtudiantPreference> etudiantPreferences = getEtudiantPreference(appID);
         List<Preference> preferences = activiteMapper.getPreference();
         List<Activite> activites = activiteMapper.getActivite(appID,typeID,cip);
         List<PreferencePoids> preferencePoids = getPreferencePoids(poids,etudiantPreferences,preferences);
