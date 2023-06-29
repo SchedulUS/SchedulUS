@@ -93,6 +93,6 @@
         SELECT groupe.intendant FROM activite
                                          JOIN activite AS a2 ON activite.app_id = a2.app_id
                                          JOIN groupe ON groupe.activite_id = activite.activite_id
-        WHERE a2.activite_id = #{activite_id} AND a2.type_id = 1 AND cip = #{cip};
+        WHERE a2.activite_id = #{activite_id} AND a2.type_id = 1 AND cip = #{cip} limit 1;
     </select>
 </mapper>
