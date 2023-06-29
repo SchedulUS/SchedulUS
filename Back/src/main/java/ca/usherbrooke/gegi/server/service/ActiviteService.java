@@ -106,7 +106,7 @@ public class ActiviteService
     public List<PeopleInActivity> getPossibleGroupsForAnAPP(int appID,int typeID){
         String cip = this.securityContext.getUserPrincipal().getName();
         List<Poids> poids = activiteMapper.getPoids(appID);
-        List<EtudiantPreference> etudiantPreferences = activiteMapper.getEtudiantPreference(appID);
+        List<EtudiantPreference> etudiantPreferences = getEtudiantPreference(appID);
         List<Preference> preferences = activiteMapper.getPreference();
         List<Activite> activites = activiteMapper.getActivite(appID,typeID,cip);
         List<PreferencePoids> preferencePoids = getPreferencePoids(poids,etudiantPreferences,preferences);
