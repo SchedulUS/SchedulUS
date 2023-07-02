@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { APIRequest } from "../../../utils/apiUtils";
 import * as React from "react";
 import {Dialog, DialogActions, DialogContent, DialogContentText} from "@mui/material";
+import {ChangementActiviteModele} from "./ChangementActiviteModele";
 
 export default function ChangementActivite(props:{activityId:number})
 {
     const [disponibiliteChangement, setDisponibiliteChangement] = useState<boolean>(false);
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
+    const [estAttente, setEstAttente] = React.useState<boolean>(false);
 
     useEffect(() => {
         async function getDisponibiliteChangement()
@@ -58,6 +60,27 @@ export default function ChangementActivite(props:{activityId:number})
         handleClickOpen();
     }
 
+    const getChangementActivite = async () =>{
+        const result = await APIRequest<ChangementActiviteModele[]>("/getChangementActivite","GET",true);
+        if (result.data !== undefined && result.data.length > 0)
+        {
+            if(result.data[0].activiteID == props.activityId){
+                setEstAttente(true)
+            }
+            else{
+                setEstAttente(false)
+            }
+        }
+        else{
+            setEstAttente(false)
+        }
+    }
+
+    const deleteChangementActivite = async () =>{
+        await APIRequest<number>("/deleteChangmentActivite","DELETE",true);
+        buttonDemandeAnnulerChangement();
+    }
+
     const demandeChangement = () => {
         if(!disponibiliteChangement){
             setChangementActivite();
@@ -76,6 +99,20 @@ export default function ChangementActivite(props:{activityId:number})
         setOpen(false);
     };
 
+    function buttonDemandeAnnulerChangement() {
+        getChangementActivite();
+        if(estAttente){
+            return(
+                <Button onClick={deleteChangementActivite}>Annuler la demande</Button>
+            )
+        }
+        else{
+            return(
+                <Button onClick={demandeChangement}>Demande de changement</Button>
+            )
+        }
+    }
+
     return (
         <div className="boite">
             <div className="titre">
@@ -83,8 +120,7 @@ export default function ChangementActivite(props:{activityId:number})
             </div>
             <div className="ligne">
                 <div className="article">
-                    {/*TODO : bouton de demande de changement*/}
-                    <Button onClick={demandeChangement}>Demande de changement</Button>
+                    {buttonDemandeAnnulerChangement()}
                     <Dialog
                         open={open}
                         onClose={handleClose}

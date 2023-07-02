@@ -150,9 +150,10 @@ public class ChangementActiviteService
 
     @DELETE
     @Path("deleteChangmentActivite")
-    public void deleteChangmentActivite(){
+    public int deleteChangmentActivite(){
         String cip = this.securityContext.getUserPrincipal().getName();
         changementActiviteMapper.deleteChangmentActivite(cip);
+        return 1;
     }
 
 }
