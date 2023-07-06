@@ -76,6 +76,7 @@ public class ChangementActiviteService
         else
         {
             ChangementAvecEtudiant(cip,activiteId,autreEtudiantAEchanger);
+            changementActiviteMapper.DiminuerNbChangement(autreEtudiantAEchanger.cip);
         }
         changementActiviteMapper.DiminuerNbChangement(cip);
     }
