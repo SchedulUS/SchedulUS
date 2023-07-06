@@ -98,16 +98,17 @@ public class ActivitiesAssigner
         }
         return peopleToCheck;
     }
-    private void placeIntendents(PreferenceEnum zone)
+    private void placeIntendents(PreferenceEnum zone, boolean placeAleatoireSiAucun)
     {
         List<PeopleInActivity> activitiesInZone = getActivitiesForAZone(zone);
         List<PersonWithRange> peopleWhoWantsToBeIntendentCheck = getPeopleIntendents(zone);
-        float start = 0;
 
-        List<PeopleInActivity> activitiesNotFilled = new ArrayList<>();
         for (PeopleInActivity activity:
              activitiesInZone)
         {
+            if (!activity.isEmpty()){
+                continue;
+            }
             PersonWithRange person;
             //Place people who wants to be intendent
             if (!peopleWhoWantsToBeIntendentCheck.isEmpty())
@@ -116,18 +117,15 @@ public class ActivitiesAssigner
                 removePersonFromList(person,peopleWhoWantsToBeIntendentCheck);
             }
             else{
-                activitiesNotFilled.add(activity);
-                continue;
+                //Place people who doesn't want to be intendent
+                if (placeAleatoireSiAucun)
+                {
+                    person = getRandomPerson(getRangeByZone(zone));
+                }
+                else{
+                    continue;
+                }
             }
-            removePersonFromList(person,rangesAM);
-            removePersonFromList(person,rangesPM);
-            activity.addPerson(person,true);
-        }
-        //Place people who doesn't want to be intendent
-        for (PeopleInActivity activity:
-                activitiesNotFilled) {
-            PersonWithRange person;
-            person = getRandomPerson(getRangeByZone(zone));
             removePersonFromList(person,rangesAM);
             removePersonFromList(person,rangesPM);
             activity.addPerson(person,true);
@@ -143,8 +141,10 @@ public class ActivitiesAssigner
     }
     public void createGroupsForActivities()
     {
-        placeIntendents(PreferenceEnum.AM);
-        placeIntendents(PreferenceEnum.PM);
+        placeIntendents(PreferenceEnum.AM,false);
+        placeIntendents(PreferenceEnum.PM,false);
+        placeIntendents(PreferenceEnum.AM,true);
+        placeIntendents(PreferenceEnum.PM,true);
 
         for (PeopleInActivity activty:
              activities) {
