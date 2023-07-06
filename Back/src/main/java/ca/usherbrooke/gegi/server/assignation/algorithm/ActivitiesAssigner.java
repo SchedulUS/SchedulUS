@@ -104,6 +104,7 @@ public class ActivitiesAssigner
         List<PersonWithRange> peopleWhoWantsToBeIntendentCheck = getPeopleIntendents(zone);
         float start = 0;
 
+        List<PeopleInActivity> activitiesNotFilled = new ArrayList<>();
         for (PeopleInActivity activity:
              activitiesInZone)
         {
@@ -114,10 +115,19 @@ public class ActivitiesAssigner
                 person = getRandomPerson(peopleWhoWantsToBeIntendentCheck);
                 removePersonFromList(person,peopleWhoWantsToBeIntendentCheck);
             }
-            //Place people who doesn't want to be intendent
             else{
-                person = getRandomPerson(getRangeByZone(zone));
+                activitiesNotFilled.add(activity);
+                continue;
             }
+            removePersonFromList(person,rangesAM);
+            removePersonFromList(person,rangesPM);
+            activity.addPerson(person,true);
+        }
+        //Place people who doesn't want to be intendent
+        for (PeopleInActivity activity:
+                activitiesNotFilled) {
+            PersonWithRange person;
+            person = getRandomPerson(getRangeByZone(zone));
             removePersonFromList(person,rangesAM);
             removePersonFromList(person,rangesPM);
             activity.addPerson(person,true);
