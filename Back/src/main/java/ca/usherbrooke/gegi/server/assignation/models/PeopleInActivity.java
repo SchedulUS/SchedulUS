@@ -47,4 +47,5 @@ public class PeopleInActivity
     {
         return nombreDeCIPMax;
     }
+    public boolean isEmpty() {return peopleInActivity.isEmpty();}
 }
