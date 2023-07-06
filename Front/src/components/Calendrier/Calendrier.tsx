@@ -12,6 +12,7 @@ import { Grid } from '@mui/material';
 import Room from '@mui/icons-material/Room';
 import { styled } from '@mui/material/styles';
 import ChangementActivite from "./ChangementActivite/ChangementActivite.tsx";
+import {ResultatActivite} from "../../types/api/getActivites/resultatActivite.ts";
 
 const PREFIX = 'Calendar';
 
@@ -54,8 +55,9 @@ const Appointment = ({
   );
 }
 
-function generateTooltip(inscription:boolean, idActiviteUsager:number)
+function generateTooltip(inscription:boolean, activiteUsager:ResultatActivite)
 {
+    console.log(activiteUsager)
     return (({
                  appointmentData, ...restProps
              }) => (
@@ -66,15 +68,14 @@ function generateTooltip(inscription:boolean, idActiviteUsager:number)
                 </StyledGrid>
                 <Grid item xs={10}>
                     <span>{appointmentData.location}</span>
-
                 </Grid>
             </Grid>
-            {(inscription && !(idActiviteUsager == appointmentData.id)) ? <ChangementActivite activityId={appointmentData.id}/> : <></>}
+            {(inscription && !(activiteUsager.activiteId == appointmentData.id)) ? <ChangementActivite activityId={appointmentData.id}/> : <></>}
         </AppointmentTooltip.Content>
     ));
 }
 
-export function Calendrier(props:{activities:Activite[], currentDate:Date, inscription:boolean, idActiviteUsager:number})
+export function Calendrier(props:{activities:Activite[], currentDate:Date, inscription:boolean, activiteUsager:ResultatActivite})
 {
     return(
       <div id='calendrier'>
@@ -91,7 +92,7 @@ export function Calendrier(props:{activities:Activite[], currentDate:Date, inscr
             endDayHour={18}
           />
           <Appointments appointmentComponent={Appointment} />
-          <AppointmentTooltip contentComponent={generateTooltip(props.inscription, props.idActiviteUsager)} />
+          <AppointmentTooltip contentComponent={generateTooltip(props.inscription, props.activiteUsager)} />
         </Scheduler>
       </div>
         

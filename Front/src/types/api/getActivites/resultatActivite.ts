@@ -8,6 +8,7 @@ export interface ResultatActivite
     appNom : string,
     appCours : string,
     typeId : number,
-    local:string,
+    local : string,
     typeNom : string;
+    intendant : boolean;
 }

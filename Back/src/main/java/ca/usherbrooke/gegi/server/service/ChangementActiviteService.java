@@ -38,8 +38,9 @@ public class ChangementActiviteService
         {
             return false;
         }
+        Boolean isContainingGhost = changementActiviteMapper.getIsContainingGhostStudent(activiteId);
         //Vérifier si l'activité désiré a un étudiant fantôme
-        if (changementActiviteMapper.getIsContainingGhostStudent(activiteId))
+        if (isContainingGhost != null && isContainingGhost)
         {
             Integer oldActiviteId = changementActiviteMapper.getCurrentGroupOfStudent(cip,activiteId);
             //Vérifie que l'activité en cours n'a pas d'étudiant fantôme

@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import PreferencesAPP from './components/PreferencesAPP/PreferencesAPP.tsx';
 import { getKeyCloakObj } from './utils/keycloakUtils.js'
 import { APIRequest } from './utils/apiUtils.js'
 import BasicModal from './components/BasicModal.js';
 import { Preference } from './components/interfaces';
 import Navigateur from "./components/Navigateur.tsx";
 import { CalendrierVue } from './views/CalendrierVue/CalendrierVue';
-import Button from "@mui/material/Button";
-import * as React from "react";
+
 
 function App()
 {

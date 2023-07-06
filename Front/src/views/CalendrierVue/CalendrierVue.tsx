@@ -12,7 +12,7 @@ import { Button } from "@mui/material";
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
-    const [idActiviteUsager,setIdActiviteUsager] = useState<number>(0);
+    const [activiteUsager,setActiviteUsager] = useState<ResultatActivite>(undefined);
     const [inscription, setInscription] = React.useState(false);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
@@ -63,7 +63,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
 
                 if (result2.data && result2.data[0])
                 {
-                    setIdActiviteUsager(result2.data[0].activiteId);
+                    setActiviteUsager(result2.data[0]);
                 }
             }
         }
@@ -73,9 +73,9 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
     },[props.appCourant,props.typeActiviteCourant]);
 
     useEffect(()=>{
-        if(idActiviteUsager > 0){
+        if(activiteUsager != undefined){
             const tmpActivites : Activite[] = activites.map(e => {
-                if(e.id == idActiviteUsager){
+                if(e.id == activiteUsager.activiteId){
                     return {
                         id:e.id,
                         title:e.title,
@@ -97,7 +97,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             }); 
             setActivitePropre(tmpActivites);
         }
-    },[activites, idActiviteUsager]);
+    },[activites, activiteUsager]);
     async function createGroups(appCourant:number,typeActiviteCourant:number)
     {
         try {
@@ -124,7 +124,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             }
                 
             </div>
-            <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} idActiviteUsager={idActiviteUsager}/>
+            <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} activiteUsager={activiteUsager}/>
             <div id="preferenceAPPDiv">
                 <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />
             </div>
