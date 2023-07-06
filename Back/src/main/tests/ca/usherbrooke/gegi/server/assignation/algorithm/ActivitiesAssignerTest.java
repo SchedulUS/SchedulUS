@@ -11,45 +11,37 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActivitiesAssignerTest {
+    private ArrayList<PersonWithWeights> createPeople(int count)
+    {
+        ArrayList<PersonWithWeights> people = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            boolean isWillingToBeAttendant = count % i == 3;
+
+            PreferenceEnum preference = PreferenceEnum.PM;
+            if (i % 2 == 0)
+            {
+                preference = PreferenceEnum.AM;
+            }
+            float ratioIntendance = i % 3 == 0 ? (float) 0.5 : 0;
+
+            StringBuilder builder = new StringBuilder();
+
+            builder.append(PreferenceEnum.AM.toString());
+
+            if (isWillingToBeAttendant)
+            {
+                builder.append("-A");
+            }
+
+            PersonWithWeights person = new PersonWithWeights(builder.toString(), preference,ratioIntendance,isWillingToBeAttendant);
+            people.add(person);
+        }
+        return people;
+    }
     @Test
     void TestAssignation()
     {
-        PersonWithWeights p1 = new PersonWithWeights("AM-A", PreferenceEnum.AM,0,true);
-        PersonWithWeights p2 = new PersonWithWeights("AM", PreferenceEnum.AM,0,false);
-        PersonWithWeights p3 = new PersonWithWeights("AM-A", PreferenceEnum.AM,0,true);
-        PersonWithWeights p4 = new PersonWithWeights("AM", PreferenceEnum.AM,0,false);
-        PersonWithWeights p5 = new PersonWithWeights("AM", PreferenceEnum.AM,0,false);
-        PersonWithWeights p6 = new PersonWithWeights("AM", PreferenceEnum.AM,0,false);
-        PersonWithWeights p7 = new PersonWithWeights("AM", PreferenceEnum.AM,0,false);
-        PersonWithWeights p8 = new PersonWithWeights("AM", PreferenceEnum.AM,0,false);
-
-        PersonWithWeights p11 = new PersonWithWeights("PM-A", PreferenceEnum.PM,0,true);
-        PersonWithWeights p12 = new PersonWithWeights("PM", PreferenceEnum.PM,0,false);
-        PersonWithWeights p13 = new PersonWithWeights("PM-A", PreferenceEnum.PM,0,true);
-        PersonWithWeights p14 = new PersonWithWeights("PM", PreferenceEnum.PM,0,false);
-        PersonWithWeights p15 = new PersonWithWeights("PM", PreferenceEnum.PM,0,false);
-        PersonWithWeights p16 = new PersonWithWeights("PM", PreferenceEnum.PM,0,false);
-        PersonWithWeights p17 = new PersonWithWeights("PM", PreferenceEnum.PM,0,false);
-        PersonWithWeights p18 = new PersonWithWeights("PM", PreferenceEnum.PM,0,false);
-
-        List<PersonWithWeights> people = new ArrayList<>();
-        people.add(p1);
-        people.add(p2);
-        people.add(p3);
-        people.add(p4);
-        people.add(p5);
-        people.add(p6);
-        people.add(p7);
-        people.add(p8);
-
-        people.add(p11);
-        people.add(p12);
-        people.add(p13);
-        people.add(p14);
-        people.add(p15);
-        people.add(p16);
-        people.add(p17);
-        people.add(p18);
+        List<PersonWithWeights> people = createPeople(50);
 
         PeopleInActivity a1 = new PeopleInActivity(1,PreferenceEnum.AM);
         PeopleInActivity a2 = new PeopleInActivity(2,PreferenceEnum.PM);
