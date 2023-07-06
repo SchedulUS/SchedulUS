@@ -121,6 +121,7 @@ public class ActivitiesAssigner
                 if (placeAleatoireSiAucun)
                 {
                     person = getRandomPerson(getRangeByZone(zone));
+                    if (person == null) continue;
                 }
                 else{
                     continue;
@@ -151,6 +152,7 @@ public class ActivitiesAssigner
             while (!activty.isFull())
             {
                 PersonWithRange person = getRandomPerson(getRangeByZone(activty.getZone()));
+                if (person == null) break;
                 activty.addPerson(person,false);
                 removePersonFromList(person,rangesAM);
                 removePersonFromList(person,rangesPM);

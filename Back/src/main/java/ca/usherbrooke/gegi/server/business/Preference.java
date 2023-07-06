@@ -15,7 +15,8 @@ public class Preference {
     }
     public static PreferenceEnum getPreferenceEnum(String debut)
     {
-        String[] hourSeperated = debut.split(":");
+        String[] dateSeperated = debut.split(" ");
+        String[] hourSeperated = dateSeperated[1].split(":");
         if (hourSeperated.length < 1) return PreferenceEnum.AM;
         int hour = 8;
         try {

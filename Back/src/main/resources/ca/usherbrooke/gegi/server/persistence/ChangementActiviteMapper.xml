@@ -63,12 +63,14 @@
     </update>
     <select id="getCurrentGroupOfStudent" resultType="java.lang.Integer">
         SELECT groupe.activite_id from groupe
-        INNER JOIN activite ON activite.activite_id = groupe.activite_id
+                                           INNER JOIN activite ON activite.activite_id = groupe.activite_id
         WHERE activite.app_id = (
             SELECT activite.app_id FROM activite
             WHERE activite.activite_id = #{activite_id}
         )
-          AND groupe.cip = #{cip};
+          AND groupe.cip = #{cip}
+          AND activite.type_id = (SELECT activite.type_id FROM activite
+                                  WHERE activite.activite_id = #{activite_id});
     </select>
     <select id="getIsContainingGhostStudent" resultType="java.lang.Boolean">
         SELECT
