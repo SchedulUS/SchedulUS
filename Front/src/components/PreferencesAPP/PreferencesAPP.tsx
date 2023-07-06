@@ -12,7 +12,7 @@ import { SetPreferenceEtudiantAPP } from '../../types/api/setPreferenceEtudiantA
 export default function PreferencesAPP(props:{preferences:Preference[],idAPP : number})
 {
     const [intendanceChecked, setIntendanceChecked] = React.useState(false);
-    const [valPlageHoraire, setValPlageHoraire] = React.useState(0);
+    const [valPlageHoraire, setValPlageHoraire] = React.useState(1);
 
     const handleChange = async(param: number) =>
     {
@@ -57,6 +57,8 @@ export default function PreferencesAPP(props:{preferences:Preference[],idAPP : n
 
         }
         fetchData2().catch(console.error);
+        setValPlageHoraire(1);
+        setIntendanceChecked(false);
     }, [props.idAPP])
 
 

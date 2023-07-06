@@ -60,26 +60,26 @@ export default function Navigateur(props:{setAppCourant:(number)=>void,setTypeAc
     };
 
 
- return(
-     <div className= "Navigateur-containeur">
-         <div>
-             <IconButton onClick={handlePreviousClick}>
-                 <ArrowBackIos style={{color:'white'}}></ArrowBackIos>
-             </IconButton>
-         </div>
+    return(
+        <div className= "Navigateur-containeur">
+            <div>
+                <IconButton onClick={handlePreviousClick}>
+                    <ArrowBackIos style={{color:'white'}}></ArrowBackIos>
+                </IconButton>
+            </div>
 
-         <div >
-             <p> <span>{data.length == 0 ? "" : data[previousData].activiteNom}</span> </p>
-         </div>
+            <div >
+                <p> <span>{data.length == 0 ? "" : data[previousData].activiteNom}</span> </p>
+            </div>
 
-         <div>
-             <IconButton  onClick={handleNextClick}>
-                 <ArrowForwardIos style={{color:'white'}}></ArrowForwardIos>
-             </IconButton>
-         </div>
+            <div>
+                <IconButton  onClick={handleNextClick}>
+                    <ArrowForwardIos style={{color:'white'}}></ArrowForwardIos>
+                </IconButton>
+            </div>
 
 
-     </div>
+        </div>
 
- );
+    );
 }
