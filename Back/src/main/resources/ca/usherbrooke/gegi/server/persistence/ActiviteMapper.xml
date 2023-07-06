@@ -25,6 +25,19 @@
         ORDER BY activiteNom,activite.periode ASC;
     </select>
 
+    <select id="getActiviteByID" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT activite_id as activiteId, nom_groupe as groupeNom FROM activite WHERE activite_id = #{activiteID};
+    </select>
+
+    <select id="getAutreTypeActicite" resultType="ca.usherbrooke.gegi.server.business.TypeActivite">
+        SELECT type_id as typeActiviteId FROM type_activite WHERE nom LIKE 'Tutorat%' AND type_id != #{typeActiviteID}
+    </select>
+
+    <select id="getAutreActivite" resultType="ca.usherbrooke.gegi.server.business.Activite">
+        SELECT activite_id as activiteId FROM activite 
+        WHERE nom_groupe = #{nomGroupe} AND app_id = #{appID} AND type_id = #{typeActiviteID}
+    </select>
+
     <select id="getActiviteUsager" resultType="ca.usherbrooke.gegi.server.business.Activite">
         SELECT activite.activite_id as activiteId
         FROM activite
