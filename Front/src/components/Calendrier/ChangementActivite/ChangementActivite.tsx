@@ -89,9 +89,7 @@ export default function ChangementActivite(props:{activityId:number})
             setChangementActivite();
         }
         else{
-            setEffectuerChangement().finally(()=>{
-                
-            });
+            setEffectuerChangement();
         }
     };
 
