@@ -14,6 +14,7 @@ export default function ChangementActivite(props:{activityId:number})
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
     const [estAttente, setEstAttente] = React.useState<boolean>(false);
+    const [reload,setReload] = React.useState(false);
 
     useEffect(() => {
         async function getDisponibiliteChangement()
@@ -34,6 +35,7 @@ export default function ChangementActivite(props:{activityId:number})
         {
             if (result.data == 1){
                 setMessage("Vous êtes dans la liste d'attente")
+                setReload(true)
             }
             else{
                 setMessage("Il a eu un problème lors de l'ajout dans la liste d'attente")
@@ -50,6 +52,7 @@ export default function ChangementActivite(props:{activityId:number})
         {
             if (result.data == 1){
                 setMessage("Le changement de groupe a été effectué")
+                setReload(true)
             }
             else{
                 setMessage("Le changement de groupe n'a pas été effectué")
@@ -87,7 +90,6 @@ export default function ChangementActivite(props:{activityId:number})
         }
         else{
             setEffectuerChangement();
-            window.location.reload()
         }
     };
 
@@ -97,6 +99,10 @@ export default function ChangementActivite(props:{activityId:number})
 
     const handleClose = () => {
         setOpen(false);
+        if (reload)
+        {
+            window.location.reload();
+        }
     };
 
     function buttonDemandeAnnulerChangement() {

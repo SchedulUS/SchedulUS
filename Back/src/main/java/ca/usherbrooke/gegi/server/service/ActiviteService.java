@@ -112,13 +112,11 @@ public class ActiviteService
         List<PreferencePoids> preferencePoids = getPreferencePoids(poids,etudiantPreferences,preferences);
         //Using algorithm
         List<PeopleInActivity> activitiesToFill = new ArrayList<>(activites.size());
-        for (Activite activite:
-                activites) {
+        for (Activite activite:activites) {
             activitiesToFill.add(new PeopleInActivity(activite.activiteId,Preference.getPreferenceEnum(activite.debut)));
         }
         List<PersonWithWeights> people = new ArrayList<>(preferencePoids.size());
-        for (PreferencePoids person:
-                preferencePoids) {
+        for (PreferencePoids person:preferencePoids) {
             PreferenceEnum preferenceEnum = getPreferenceByPersonPreferences(person.preferenceapp,person.preferenceglobal);
 
             if (person.intendant == null)
@@ -135,16 +133,26 @@ public class ActiviteService
     @POST
     @Path("/groups/possible-groups")
     public Response getPossibleGroups(@RequestBody CreationGroupesDemande body) {
-        List<PeopleInActivity> groups = getPossibleGroupsForAnAPP(body.appCourant, body.typeActiviteCourant);
-        for (PeopleInActivity activity : groups) {
-            int activiteId = activity.getActivityId();
-            List<PersonInActivity> people = activity.getPeople();
-            for (PersonInActivity person : people) {
-                activiteMapper.setGroupe(person.getCIP(), activiteId, person.getIsAttendent());
+        Boolean inscription = activiteMapper.getInscription(body.appCourant);
+        if(!inscription){
+            List<PeopleInActivity> groups = getPossibleGroupsForAnAPP(body.appCourant, body.typeActiviteCourant);
+            for (PeopleInActivity activity : groups) {
+                Integer activiteId = activity.getActivityId();
+                List<PersonInActivity> people = activity.getPeople();
+                
+                TypeActivite autreTypeActivite = activiteMapper.getAutreTypeActicite(body.typeActiviteCourant);
+                Activite activite = activiteMapper.getActiviteByID(activiteId);
+                Activite autreActivite = activiteMapper.getAutreActivite(activite.groupeNom, body.appCourant, autreTypeActivite.typeActiviteId);
+
+                for (PersonInActivity person : people) {
+                    activiteMapper.setGroupe(person.getCIP(), activiteId, person.getIsAttendent());
+                    activiteMapper.setGroupe(person.getCIP(), autreActivite.activiteId, person.getIsAttendent());
+                }
             }
+            activiteMapper.setInscription( true, body.appCourant);
+            return Response.ok(groups, MediaType.APPLICATION_JSON).build();
         }
-        activiteMapper.setInscription( true, body.appCourant);
-        return Response.ok(groups, MediaType.APPLICATION_JSON).build();
+        return Response.ok().build();
     }
     private PreferenceEnum getPreferenceByPersonPreferences(int appPreferenceId, int globalPreferenceId)
     {

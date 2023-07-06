@@ -4,6 +4,7 @@ import ca.usherbrooke.gegi.server.business.ChangementActivite;
 import ca.usherbrooke.gegi.server.business.Groupe;
 import ca.usherbrooke.gegi.server.business.EtudiantEchange;
 import ca.usherbrooke.gegi.server.persistence.ChangementActiviteMapper;
+import org.apache.ibatis.annotations.Param;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.models.parameters.Parameter;
 
@@ -75,7 +76,9 @@ public class ChangementActiviteService
         else
         {
             ChangementAvecEtudiant(cip,activiteId,autreEtudiantAEchanger);
+            changementActiviteMapper.DiminuerNbChangement(autreEtudiantAEchanger.cip);
         }
+        changementActiviteMapper.DiminuerNbChangement(cip);
     }
 
     @POST

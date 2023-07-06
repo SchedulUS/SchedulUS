@@ -27,6 +27,7 @@ function App()
       const result = await APIRequest<[]>("/getPreferences","GET",true);
       if (result.data)
       {
+        setPreference([]);
         result.data.forEach((element:Preference) => {
           const preference = {preferenceId: element.preferenceId, nom: element.nom}
           setPreference(preferences => [...preferences, preference]);
@@ -34,7 +35,6 @@ function App()
       }
       
       setNom(getKeyCloakObj().tokenParsed.name)
-      setCip(getKeyCloakObj().tokenParsed.preferred_username)
     }
 
     fetchData().catch(console.error);

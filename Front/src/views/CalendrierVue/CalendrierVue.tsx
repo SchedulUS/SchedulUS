@@ -25,12 +25,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
 
             if (result1.data != undefined)
             {
-                console.log(result1.data)
                 setInscription(result1.data)
-            }
-            else
-            {
-                console.log("No data")
             }
         }
         fetchData().catch(console.error);
@@ -102,29 +97,33 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             }); 
             setActivitePropre(tmpActivites);
         }
-    },[activites]);
+    },[activites, idActiviteUsager]);
     async function createGroups(appCourant:number,typeActiviteCourant:number)
     {
         try {
-          const response = await APIRequest<Response>('/groups/possible-groups', 'POST', true, { appCourant, typeActiviteCourant });
-    
-          if (response.data) {
-            const data = response.data;
-            console.log(data);
-          } else {
+            const response = await APIRequest<Response>('/groups/possible-groups', 'POST', true, { appCourant, typeActiviteCourant });
+
+            if (response.data) {
+                location.reload();
+            } else {
             throw new Error('Erreur lors de la requête au backend');
-          }
+            }
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
+    };
     return (
         <div id="calendriervue">
             <div>
+            {
+                (!inscription) ? 
                 <Button onClick={() => createGroups(props.appCourant,props.typeActiviteCourant)} variant="contained" color="primary">
-                    Créer groupes
+                    Créer les groupes
                 </Button>
-        </div>
+                 : <></>
+            }
+                
+            </div>
             <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} idActiviteUsager={idActiviteUsager}/>
             <div id="preferenceAPPDiv">
                 <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />

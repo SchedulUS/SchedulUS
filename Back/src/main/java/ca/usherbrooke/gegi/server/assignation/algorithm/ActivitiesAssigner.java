@@ -98,15 +98,17 @@ public class ActivitiesAssigner
         }
         return peopleToCheck;
     }
-    private void placeIntendents(PreferenceEnum zone)
+    private void placeIntendents(PreferenceEnum zone, boolean placeAleatoireSiAucun)
     {
         List<PeopleInActivity> activitiesInZone = getActivitiesForAZone(zone);
         List<PersonWithRange> peopleWhoWantsToBeIntendentCheck = getPeopleIntendents(zone);
-        float start = 0;
 
         for (PeopleInActivity activity:
              activitiesInZone)
         {
+            if (!activity.isEmpty()){
+                continue;
+            }
             PersonWithRange person;
             //Place people who wants to be intendent
             if (!peopleWhoWantsToBeIntendentCheck.isEmpty())
@@ -114,9 +116,16 @@ public class ActivitiesAssigner
                 person = getRandomPerson(peopleWhoWantsToBeIntendentCheck);
                 removePersonFromList(person,peopleWhoWantsToBeIntendentCheck);
             }
-            //Place people who doesn't want to be intendent
             else{
-                person = getRandomPerson(getRangeByZone(zone));
+                //Place people who doesn't want to be intendent
+                if (placeAleatoireSiAucun)
+                {
+                    person = getRandomPerson(getRangeByZone(zone));
+                    if (person == null) continue;
+                }
+                else{
+                    continue;
+                }
             }
             removePersonFromList(person,rangesAM);
             removePersonFromList(person,rangesPM);
@@ -133,14 +142,17 @@ public class ActivitiesAssigner
     }
     public void createGroupsForActivities()
     {
-        placeIntendents(PreferenceEnum.AM);
-        placeIntendents(PreferenceEnum.PM);
+        placeIntendents(PreferenceEnum.AM,false);
+        placeIntendents(PreferenceEnum.PM,false);
+        placeIntendents(PreferenceEnum.AM,true);
+        placeIntendents(PreferenceEnum.PM,true);
 
         for (PeopleInActivity activty:
              activities) {
             while (!activty.isFull())
             {
                 PersonWithRange person = getRandomPerson(getRangeByZone(activty.getZone()));
+                if (person == null) break;
                 activty.addPerson(person,false);
                 removePersonFromList(person,rangesAM);
                 removePersonFromList(person,rangesPM);

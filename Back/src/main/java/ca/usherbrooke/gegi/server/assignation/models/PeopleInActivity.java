@@ -22,7 +22,7 @@ public class PeopleInActivity
     }
     public void addPerson(PersonWithRange person, boolean isAttendent)
     {
-        if (isFull()) return;
+        if (isFull() && !isAttendent) return;
 
         peopleInActivity.add(new PersonInActivity(person.getCIP(),isAttendent));
     }
@@ -47,4 +47,5 @@ public class PeopleInActivity
     {
         return nombreDeCIPMax;
     }
+    public boolean isEmpty() {return peopleInActivity.isEmpty();}
 }
