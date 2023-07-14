@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
-import { red, green } from '@mui/material/colors';
+import { red as rouge, green as vert } from '@mui/material/colors';
 import { useEffect, useState } from "react";
 import { APIRequest } from "../../../utils/apiUtils";
 import * as React from "react";
@@ -16,11 +16,11 @@ export default function ChangementActivite(props:{activityId:number})
     const [estAttente, setEstAttente] = React.useState<boolean>(false);
     const [reload,setReload] = React.useState(false);
 
-    useEffect(() => {
+    useEffect(() =>
+    {
         async function getDisponibiliteChangement()
         {
             const result = await APIRequest<boolean>(`/getDisponibiliteChangement/${props.activityId}`,"GET",true);
-
 
             setDisponibiliteChangement(result.data == true)
         }
@@ -29,62 +29,80 @@ export default function ChangementActivite(props:{activityId:number})
     },[props.activityId])
 
 
-    const setChangementActivite = async () => {
+    const setChangementActivite = async () =>
+    {
         const result = await APIRequest<number>("/setChangementActivite","POST",true, {"activiteID" : props.activityId});
         if (result.data !== undefined)
         {
-            if (result.data == 1){
+            if (result.data == 1)
+            {
                 setMessage("Vous êtes dans la liste d'attente")
                 setReload(true)
             }
-            else{
+            else
+            {
                 setMessage("Il a eu un problème lors de l'ajout dans la liste d'attente")
             }
-        }else{
+        }
+        else
+        {
             setMessage("Il a eu un problème lors de l'ajout dans la liste d'attente")
         }
         handleClickOpen();
     }
 
-    const setEffectuerChangement = async () =>{
+    const setEffectuerChangement = async () =>
+    {
+        const reponseUsager = confirm("Êtes-vous certain de vouloir changer de groupe?")
+        if (reponseUsager != true) return;
         const result = await APIRequest<number>("/setEffectuerChangement","POST",true, {"activiteID" : props.activityId});
         if (result.data !== undefined)
         {
-            if (result.data == 1){
+            if (result.data == 1)
+            {
                 setMessage("Le changement de groupe a été effectué")
                 setReload(true)
             }
-            else{
+            else
+            {
                 setMessage("Le changement de groupe n'a pas été effectué")
             }
-        }else{
+        }
+        else
+        {
             setMessage("Le changement de groupe n'a pas été effectué")
         }
         handleClickOpen();
     }
 
-    const getChangementActivite = async () =>{
+    const getChangementActivite = async () =>
+    {
         const result = await APIRequest<ChangementActiviteModele[]>("/getChangementActivite","GET",true);
         if (result.data !== undefined && result.data.length > 0)
         {
-            if(result.data[0].activiteID == props.activityId){
+            if(result.data[0].activiteID == props.activityId)
+            {
                 setEstAttente(true)
             }
-            else{
+            else
+            {
                 setEstAttente(false)
             }
         }
-        else{
+        else
+        {
             setEstAttente(false)
         }
     }
 
-    const deleteChangementActivite = async () =>{
+    const deleteChangementActivite = async () =>
+    {
         await APIRequest<number>("/deleteChangmentActivite","DELETE",true);
         buttonDemandeAnnulerChangement();
     }
 
-    const demandeChangement = () => {
+    const demandeChangement = () =>
+    {
         if(!disponibiliteChangement){
             setChangementActivite();
         }
@@ -93,11 +111,13 @@ export default function ChangementActivite(props:{activityId:number})
         }
     };
 
-    const handleClickOpen = () => {
+    const handleClickOpen = () =>
+    {
         setOpen(true);
     };
 
-    const handleClose = () => {
+    const handleClose = () =>
+    {
         setOpen(false);
         if (reload)
         {
@@ -105,14 +125,17 @@ export default function ChangementActivite(props:{activityId:number})
         }
     };
 
-    function buttonDemandeAnnulerChangement() {
+    function buttonDemandeAnnulerChangement()
+    {
         getChangementActivite();
-        if(estAttente){
+        if(estAttente)
+        {
             return(
                 <Button onClick={deleteChangementActivite}>Annuler la demande</Button>
             )
         }
-        else{
+        else
+        {
             return(
                 <Button onClick={demandeChangement}>Demande de changement</Button>
             )
@@ -121,7 +144,7 @@ export default function ChangementActivite(props:{activityId:number})
 
     return (
         <div className="boite">
-            <div className="titre">
+            <div className="titre barre">
                 <span>Changement d'activité</span>
             </div>
             <div className="ligne">
@@ -147,7 +170,7 @@ export default function ChangementActivite(props:{activityId:number})
             </div>
             <div className="ligne">
                 <div className="article">
-                    {disponibiliteChangement ? <EventAvailableIcon sx={{ fontSize: 22, color: green[700] }}/> : <EventBusyIcon sx={{ fontSize: 22, color: red[700] }}/>}
+                    {disponibiliteChangement ? <EventAvailableIcon sx={{ fontSize: 22, color: vert[700] }}/> : <EventBusyIcon sx={{ fontSize: 22, color: rouge[700] }}/>}
                     <span className="texte">Disponibilité</span>
                 </div>
             </div>

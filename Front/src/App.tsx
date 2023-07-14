@@ -7,7 +7,6 @@ import { Preference } from './components/interfaces';
 import Navigateur from "./components/Navigateur.tsx";
 import { CalendrierVue } from './views/CalendrierVue/CalendrierVue';
 
-
 function App()
 {
   const [preferences, setPreference] = useState<Preference[]>([]);
@@ -67,13 +66,13 @@ function App()
         <div className='modules'>
           <Navigateur setAppCourant={setAppCourant} setTypeActiviteCourant={setTypeActiviteCourant}/>
         </div>
-        <h1>SchedulUS</h1>
+        <div className='titre_nav'>SchedulUS</div>
         <div className='modules'>
           <p>{nom}</p>
           <BasicModal preferences={preferences} optionValue={optionValue} setOptionValue={setOptionValue}/>
         </div>
       </nav>
-      <div>
+      <div className='conteneur'>
         <CalendrierVue preferences={preferences} appCourant={appCourant} typeActiviteCourant={typeActiviteCourant} optionValue={optionValueApp} setOptionValue={setOptionValueApp}/>
       </div>
     </>
