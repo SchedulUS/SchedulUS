@@ -1,17 +1,24 @@
+.conteneur_transparent
+{
+    /*Conteneur*/
+    background-color: transparent; !important;
+
+    padding: 8px; !important;
+}
+
 .boite
 {
     /*Conteneur*/
     background-color: #fff59d !important;
-    border-radius: 2px;
+    border-radius: 2px; !important;
+    padding: 15px 24px 24px; !important;
 
     /*Texte*/
     text-align: left;
     line-height: 1.5;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     font-weight: 300;
-    color: rgba(0,0,0,0.87);
-
-    padding: 15px 24px 24px;
+    color: rgba(0,0,0,0.87); !important;
 }
 
 .ombre
@@ -19,11 +26,20 @@
     box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14),0 9px 46px 8px rgba(0,0,0,0.12),0 11px 15px -7px rgba(0,0,0,0.2);
 }
 
+.espace
+{
+    margin-top: 8px;
+}
+
 .titre
 {
     padding-bottom: 8px;
     line-height: 32px;
     font-size: 24px;
+}
+
+.barre
+{
     border-bottom: 1px solid black;
 }
 
@@ -41,6 +57,15 @@
 {
     display: flex;
     align-items: center;
+}
+
+.article2
+{
+    display: flex;
+    align-items: center;
+
+    padding-bottom: 8px;
+    padding-top: 8px;
 }
 
 .texte

@@ -39,7 +39,7 @@
     </select>
 
     <select id="getActiviteUsager" resultType="ca.usherbrooke.gegi.server.business.Activite">
-        SELECT activite.activite_id as activiteId
+        SELECT activite.activite_id as activiteId, g.intendant
         FROM activite
         JOIN type_activite ON type_activite.type_id = activite.type_id
         JOIN app ON app.app_id = activite.app_id

@@ -5,15 +5,16 @@ import { APIRequest } from "../../utils/apiUtils";
 import { ResultatActivite } from "../../types/api/getActivites/resultatActivite";
 import { Activite } from "../../components/Calendrier/Activite";
 import { Preference } from "../../components/interfaces";
-import PreferencesAPP from "../../components/PreferencesAPP/PreferencesAPP";
+import PreferencesAPP from "../../components/PreferencesAPP.tsx";
 import * as React from "react";
 import { Button } from "@mui/material";
+import ChangementActivite from "../../components/Calendrier/ChangementActivite/ChangementActivite.tsx";
 
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
 {
-    const [idActiviteUsager,setIdActiviteUsager] = useState<number>(0);
-    const [inscription, setInscription] = React.useState(false);
+    const [activiteUsager,setActiviteUsager] = useState<ResultatActivite>(undefined);
+    const [inscription, setInscription] = React.useState(true);
     const [activites,setActivites] = useState<Activite[]>([]);
     const [currentDate,setCurrentDate] = useState<Date>(new Date());
     const [activitePropre,setActivitePropre] = useState<Activite[]>([]);
@@ -63,7 +64,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
 
                 if (result2.data && result2.data[0])
                 {
-                    setIdActiviteUsager(result2.data[0].activiteId);
+                    setActiviteUsager(result2.data[0]);
                 }
             }
         }
@@ -73,9 +74,9 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
     },[props.appCourant,props.typeActiviteCourant]);
 
     useEffect(()=>{
-        if(idActiviteUsager > 0){
+        if(activiteUsager != undefined){
             const tmpActivites : Activite[] = activites.map(e => {
-                if(e.id == idActiviteUsager){
+                if(e.id == activiteUsager.activiteId){
                     return {
                         id:e.id,
                         title:e.title,
@@ -97,7 +98,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             }); 
             setActivitePropre(tmpActivites);
         }
-    },[activites, idActiviteUsager]);
+    },[activites, activiteUsager]);
     async function createGroups(appCourant:number,typeActiviteCourant:number)
     {
         try {
@@ -115,19 +116,17 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
     return (
         <div id="calendriervue">
             <div>
+                <Button onClick={() => createGroups(props.appCourant,props.typeActiviteCourant)} variant="contained" color="primary">Créer les groupes</Button>
+            </div>
+            <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} activiteUsager={activiteUsager}/>
             {
-                (!inscription) ? 
-                <Button onClick={() => createGroups(props.appCourant,props.typeActiviteCourant)} variant="contained" color="primary">
-                    Créer les groupes
-                </Button>
-                 : <></>
+                !inscription ?
+                    <div id="preferenceAPPDiv">
+                        <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />
+                    </div>
+                    :
+                    <></>
             }
-                
-            </div>
-            <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} idActiviteUsager={idActiviteUsager}/>
-            <div id="preferenceAPPDiv">
-                <PreferencesAPP preferences={props.preferences} idAPP={props.appCourant} />
-            </div>
         </div>
     )
 }

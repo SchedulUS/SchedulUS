@@ -15,6 +15,7 @@ public class Activite {
     public String appCours;
     public int typeId;
     public String typeNom;
+    public Boolean intendant;
 
     public String toString() {
         return  this.activiteNom;

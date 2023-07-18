@@ -1,15 +1,15 @@
-import '../StylesModal.css'
+import './StylesModal.css'
 import HelpIcon from '@mui/icons-material/Help'
 import EventNoteIcon from '@mui/icons-material/EventNote'
-import ControlledCheckbox from '../Checkbox'
-import SelectSmall from "../Select"
-import { Preference } from '../interfaces'
-import { APIRequest } from '../../utils/apiUtils'
+import ControlledCheckbox from './Checkbox.tsx'
+import SelectSmall from "./Select.tsx"
+import { Preference } from './interfaces.tsx'
+import { APIRequest } from '../utils/apiUtils.ts'
 import {useEffect} from "react"
 import * as React from 'react'
-import { SetPreferenceEtudiantAPP } from '../../types/api/setPreferenceEtudiantAPP/SetPreferenceEtudiantAPP'
+import { SetPreferenceEtudiantAPP } from '../types/api/setPreferenceEtudiantAPP/SetPreferenceEtudiantAPP.ts'
 
-export default function PreferencesAPP(props:{preferences:Preference[],idAPP : number})
+export default function PreferencesAPP(props : { preferences : Preference[], idAPP : number })
 {
     const [intendanceChecked, setIntendanceChecked] = React.useState(false);
     const [valPlageHoraire, setValPlageHoraire] = React.useState(1);
@@ -64,7 +64,7 @@ export default function PreferencesAPP(props:{preferences:Preference[],idAPP : n
 
     return (
         <div className="boite ombre" style={{ width: '260px' }}>
-            <div className="titre">
+            <div className="titre barre">
                 <span>Préférences pour cet APP</span>
             </div>
             <div className="ligne">
