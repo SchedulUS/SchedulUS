@@ -19,16 +19,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
     const [activitePropre,setActivitePropre] = useState<Activite[]>([]);
     useEffect(()=>
     {
-        const fetchData = async () =>
-        {
-            const result1 = await APIRequest<boolean>(`/getInscription/${props.appCourant}`,"GET",true);
-
-            if (result1.data != undefined)
-            {
-                setInscription(result1.data)
-            }
-        }
-        fetchData().catch(console.error);
+        
 
         async function getActivities()
         {
@@ -67,9 +58,22 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
                 }
             }
         }
+        const fetchData = async () =>
+        {
+            if (props.appCourant == 0) return;
 
+            const result1 = await APIRequest<boolean>(`/getInscription/${props.appCourant}`,"GET",true);
+
+            if (result1.data != undefined)
+            {
+                setInscription(result1.data)
+            }
+        }
         getActivities();
-        getActiviteUsager();
+        getActiviteUsager().finally(()=> {
+            fetchData().catch(console.error);
+        })
+        
     },[props.appCourant,props.typeActiviteCourant]);
 
     useEffect(()=>{
@@ -111,11 +115,18 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
         } catch (error) {
             console.error(error);
         }
-    };
+    }
+    console.log(inscription)
     return (
         <div id="calendriervue">
             <div>
-                <Button onClick={() => createGroups(props.appCourant,props.typeActiviteCourant)} variant="contained" color="primary">Créer les groupes</Button>
+                {
+                    !inscription ?
+                    <Button onClick={() => createGroups(props.appCourant,props.typeActiviteCourant)} variant="contained" color="primary">Créer les groupes</Button>
+                    :
+                    <></>
+                }
+                
             </div>
             <Calendrier activities={activitePropre} currentDate={currentDate} inscription={inscription} activiteUsager={activiteUsager}/>
             {
