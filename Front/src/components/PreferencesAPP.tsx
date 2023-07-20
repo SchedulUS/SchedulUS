@@ -78,7 +78,7 @@ export default function PreferencesAPP(props : { preferences : Preference[], idA
                     <HelpIcon sx={{ fontSize: 22 }}/>
                     <span className="texte">Intention d'intendance</span>
                 </div>
-                <ControlledCheckbox appId={props.idAPP} checked={intendanceChecked} setChecked={setIntendanceChecked}/>
+                <ControlledCheckbox appId={props.idAPP} preference_id={valPlageHoraire} checked={intendanceChecked} setChecked={setIntendanceChecked}/>
             </div>
         </div>
     )

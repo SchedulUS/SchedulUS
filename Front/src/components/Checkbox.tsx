@@ -1,9 +1,11 @@
 import * as React from 'react'
 import Checkbox from '@mui/material/Checkbox'
 import {APIRequest} from "../utils/apiUtils.ts";
+import {SetPreferenceEtudiantAPP} from "../types/api/setPreferenceEtudiantAPP/SetPreferenceEtudiantAPP.ts";
 /*import {pink} from "@mui/material/colors"*/
 
-export default function ControlledCheckbox(props:{checked:boolean, setChecked:(boolean)=>void, appId: number})
+
+export default function ControlledCheckbox(props:{checked:boolean, setChecked:(boolean)=>void, appId: number, preference_id:number })
 {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     {
@@ -12,7 +14,12 @@ export default function ControlledCheckbox(props:{checked:boolean, setChecked:(b
         /*console.log(checked)*/
         const fetchData = async () =>
         {
-            await APIRequest<[]>("/setPreferenceIntendance","POST",true,{"idAPP": props.appId/*TODO : app actuel avec Émile*/,"intendance": newValue});
+            const preference : SetPreferenceEtudiantAPP = {
+                appId:props.appId,
+                preference_id:props.preference_id,
+                intendant:newValue
+            }
+            await APIRequest<[]>("/setPreferenceUsagerAPP","POST",true,preference);
         }
 
         fetchData().catch(console.error);
