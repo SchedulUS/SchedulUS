@@ -9,7 +9,7 @@ import {useEffect} from "react"
 import * as React from 'react'
 import { SetPreferenceEtudiantAPP } from '../types/api/setPreferenceEtudiantAPP/SetPreferenceEtudiantAPP.ts'
 
-export default function PreferencesAPP(props : { preferences : Preference[], idAPP : number })
+export default function PreferencesAPP(props : { preferences : Preference[], idAPP : number})
 {
     const [intendanceChecked, setIntendanceChecked] = React.useState(false);
     const [valPlageHoraire, setValPlageHoraire] = React.useState(1);
@@ -49,15 +49,20 @@ export default function PreferencesAPP(props : { preferences : Preference[], idA
         {
             if (props.idAPP === 0) return;
 
+            const result2 = await APIRequest<number>("/getPreferenceUsager","GET",true);
+            if (result2.data !== undefined)
+            {
+                setValPlageHoraire(result2.data);
+            }
+
             const result = await APIRequest<number>(`/getPreferenceUsagerAPP/${props.idAPP}`,"GET",true);
             if (result.data !== undefined)
             {
                 setValPlageHoraire(result.data);
             }
-
         }
         fetchData2().catch(console.error);
-        setValPlageHoraire(1);
+        setValPlageHoraire(0);
         setIntendanceChecked(false);
     }, [props.idAPP])
 

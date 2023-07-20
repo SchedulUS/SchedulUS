@@ -8,7 +8,6 @@ import { Preference } from "../../components/interfaces";
 import PreferencesAPP from "../../components/PreferencesAPP.tsx";
 import * as React from "react";
 import { Button } from "@mui/material";
-import ChangementActivite from "../../components/Calendrier/ChangementActivite/ChangementActivite.tsx";
 
 
 export function CalendrierVue(props:{preferences:Preference[],appCourant:number,typeActiviteCourant:number,optionValue:number,setOptionValue:(string)=>void})
