@@ -22,90 +22,18 @@
         WHERE cip = #{cip}
     </select>
     <insert id="setPreferenceUsagerAPP">
-        UPDATE public.usager_preference SET preference_id = #{preferenceId} WHERE app_id = #{appId} and cip = #{cip};
-        INSERT INTO public.usager_preference (cip, preference_id, app_id, intendant)
-        SELECT #{cip}, #{preferenceId}, #{appId}, #{intendant}
-        WHERE NOT EXISTS (SELECT 1 FROM public.usager_preference WHERE app_id=#{appId} and cip = #{cip});
+        INSERT INTO public.usager_preference (cip,preference_id,app_id,intendant) VALUES (#{cip},#{preferenceId},#{appId},#{intendant});
     </insert>
     <select id="getPreferenceUsagerAPP" resultType="java.lang.Integer">
         SELECT preference_id FROM public.usager_preference
         WHERE cip = #{cip} AND app_id = #{appId}
     </select>
-<!--
-    <select id="select" resultType="ca.usherbrooke.fgen.api.business.Message">
-        select id,
-               trimester_id,
-               profile_id,
-               unit,
-               description,
-               inscription,
-               cip,
-               inscriptor
-        from extern_php.message
-        where (trimester_id,
-               profile_id,
-               unit,
-               id) =
-              (coalesce(#{trimesterId}, trimester_id),
-               coalesce(#{profileId}, profile_id),
-               coalesce(#{unit}, unit),
-               coalesce(#{message.id}, id))
+    <select id="getRowExistPreferenceUsagerAPP" resultType="java.lang.Boolean">
+        SELECT EXISTS(select * from usager_preference WHERE cip = #{cip} AND app_id = #{appId});
     </select>
-
-    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.business.Message">
-        select id,
-               trimester_id,
-               profile_id,
-               unit,
-               description,
-               inscription,
-               cip,
-               inscriptor
-        from extern_php.message
-        where id = #{id}
-    </select>
-
-
-    <select id="allMessages" resultType="ca.usherbrooke.fgen.api.business.Message">
-        select id,
-               trimester_id,
-               profile_id,
-               unit,
-               description,
-               inscription,
-               cip,
-               inscriptor
-        from extern_php.message
-        order by inscription desc;
-
-    </select>
-
-    <delete id="deleteOne">
-        delete
-        from extern_php.message
-        where id = #{id}
-    </delete>
-
-    <select id="getNewId" resultType="Integer">
-        select nextval('extern_php.message_seq'::regclass)
-    </select>
-
-    <insert id="insertMessage">
-        insert into extern_php.message(id,
-                                       trimester_id,
-                                       profile_id,
-                                       unit,
-                                       description,
-                                       cip,
-                                       inscriptor)
-        values (#{message.id},
-                #{message.trimesterId},
-                #{message.profileId},
-                #{message.unit},
-                #{message.description},
-                #{message.cip},
-                #{message.inscriptor})
-        on conflict (id) do update set description = excluded.description;
-    </insert>
--->
+    <update id="updateIntendant">
+        UPDATE public.usager_preference
+        SET intendant = #{intendant},preference_id = #{preferenceId}
+        WHERE cip = #{cip} AND app_id = #{appId}
+    </update>
 </mapper>

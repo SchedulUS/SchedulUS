@@ -116,7 +116,7 @@ export function CalendrierVue(props:{preferences:Preference[],appCourant:number,
             console.error(error);
         }
     }
-    console.log(inscription)
+
     return (
         <div id="calendriervue">
             <div>

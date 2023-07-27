@@ -73,7 +73,6 @@ function getTempsSeance(appointmentData: any): string
 
 function contenuInfoBulle(inscription:boolean, activiteUsager:ResultatActivite)
 {
-    console.log(activiteUsager)
     return (({
                  appointmentData
              }) => (

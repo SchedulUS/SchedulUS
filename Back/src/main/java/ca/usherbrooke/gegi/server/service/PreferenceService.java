@@ -67,7 +67,12 @@ public class PreferenceService
 	public void setPreferenceUsagerAPP(@RequestBody PreferenceAPP preference)
 	{
 		String cip = this.securityContext.getUserPrincipal().getName();
-		preferenceMapper.setPreferenceUsagerAPP(cip,preference.appId,preference.preference_id,preference.intendant);
+		Boolean intendant = preferenceMapper.getRowExistPreferenceUsagerAPP(cip,preference.appId);
+		if(intendant){
+			preferenceMapper.updateIntendant(cip,preference.appId,preference.preference_id,preference.intendant);
+		}else{
+			preferenceMapper.setPreferenceUsagerAPP(cip,preference.appId,preference.preference_id,preference.intendant);
+		}
 	}
 	@GET
 	@Path("/getPreferenceUsagerAPP/{appId}")
@@ -76,72 +81,4 @@ public class PreferenceService
 		String cip = this.securityContext.getUserPrincipal().getName();
 		return preferenceMapper.getPreferenceUsagerAPP(cip,appId);
 	}
-/*
-	@GET
-	@Path("getmessages/{trimester}/{profile}/{unit}")
-
-	public List<Message> getMessages(
-			@PathParam("trimester") String trimesterId,
-			@PathParam("profile") String profileId,
-			@PathParam("unit") String unit
-	) {
-		List<Message> messages = messageMapper.select(trimesterId, profileId, unit, null);
-		return messages;
-	}
-
-
-	@GET
-	@Path("getallmessages")
-	public List<Message> getAllMessages(
-	) {
-		List<Message> messages = messageMapper.allMessages();
-		return this.unescapeEntities(messages);
-	}
-
-	@GET
-	@Path("getmessage/{id}")
-	public Message getMessage(
-			@PathParam("id") Integer id
-	) {
-		Message message = messageMapper.selectOne(id);
-		return unescapeEntities(message);
-	}
-
-	@DELETE
-	@Path("deletemessage/{id}")
-	public void deleteMessage(
-			@PathParam("id") Integer id
-	) {
-		messageMapper.deleteOne(id);
-		return;
-	}
-
-
-	@PUT
-	@Path("putmessage")
-	//@RolesAllowed({Roles.TEACHER})
-	public void insertMessage(Message message) {
-		messageMapper.insertMessage(message);
-	}
-
-	@GET
-	@Path("getnewid")
-	//@RolesAllowed({Roles.TEACHER})
-	public Integer getnewid() {
-		Integer id = messageMapper.getNewId();
-		return id;
-	}
-
-	public static Message unescapeEntities(Message message) {
-		message.description = Parser.unescapeEntities(message.description, true);
-		return message;
-	}
-
-	public List<Message> unescapeEntities(List<Message> messages) {
-		return messages
-				.stream()
-				.map(MessageService::unescapeEntities)
-				.collect(Collectors.toList());
-	}
-*/
 }
